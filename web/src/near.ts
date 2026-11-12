@@ -1,6 +1,6 @@
 import { NearConnector } from "@hot-labs/near-connect";
 import { useEffect, useState } from "react";
-import { NETWORK, RPC } from "./config";
+import { NETWORK, RPCS } from "./config";
 
 const toBase64 = (s: string) => {
   const bytes = new TextEncoder().encode(s);
@@ -11,23 +11,33 @@ const toBase64 = (s: string) => {
 
 /** Read-only contract call straight against the RPC. No wallet needed. */
 export async function view<T>(contract: string, method: string, args: object = {}): Promise<T> {
-  const res = await fetch(RPC, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "query",
-      params: {
-        request_type: "call_function",
-        finality: "optimistic",
-        account_id: contract,
-        method_name: method,
-        args_base64: toBase64(JSON.stringify(args)),
-      },
-    }),
+  const body = JSON.stringify({
+    jsonrpc: "2.0",
+    id: 1,
+    method: "query",
+    params: {
+      request_type: "call_function",
+      finality: "optimistic",
+      account_id: contract,
+      method_name: method,
+      args_base64: toBase64(JSON.stringify(args)),
+    },
   });
-  const json = await res.json();
+  // Public RPCs throttle. A refused or failed request is retried, alternating endpoints.
+  let json: any;
+  let last: unknown;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const res = await fetch(RPCS[attempt % RPCS.length], { method: "POST", headers: { "content-type": "application/json" }, body });
+      if (res.status === 429 || res.status >= 500) throw new Error(`RPC answered ${res.status}`);
+      json = await res.json();
+      break;
+    } catch (e) {
+      last = e;
+      await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
+    }
+  }
+  if (!json) throw last instanceof Error ? last : new Error("RPC unreachable");
   const err = json.error?.data ?? json.error?.message ?? json.result?.error;
   if (err) throw new Error(typeof err === "string" ? err : JSON.stringify(err));
   return JSON.parse(new TextDecoder().decode(new Uint8Array(json.result.result)));

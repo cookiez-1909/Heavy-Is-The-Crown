@@ -370,7 +370,7 @@ export default function TournamentPage({ id, account }: { id: number; account: s
             <span className="pill bell">TIME'S UP</span>
             <span>{t.phase === "Registration" ? "Registration is closed." : "All matches are settled."} Anyone can draw the next round and earns a small bounty.</span>
             <button className="btn big" disabled={!!busy} onClick={advance}>
-              {busy ? "Advancing…" : alive(t).length <= 1 ? "Crown the champion" : "Start the next round"}
+              {busy ? "Advancing…" : alive(t).filter((i) => s.info[i].status !== "Lost").length <= 1 ? "Crown the champion" : "Start the next round"}
             </button>
           </>
         )}
