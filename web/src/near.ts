@@ -38,9 +38,21 @@ export const connector = new NearConnector({
   features: NETWORK === "testnet" ? { testnet: true } : undefined,
 });
 
+/**
+ * Test hook, dev server only (stripped from production builds). A browser
+ * automation script can inject an account and a send function so the real UI
+ * can be driven end to end without a wallet popup (used to record the demo).
+ */
+interface InjectedSigner {
+  accountId: string;
+  send(tx: { receiverId: string; methodName: string; args: object; gas: string; deposit: string }): Promise<string>;
+}
+const injected: InjectedSigner | undefined = import.meta.env.DEV ? (window as unknown as { __tbSigner?: InjectedSigner }).__tbSigner : undefined;
+
 export function useAccount(): string | null {
-  const [account, setAccount] = useState<string | null>(null);
+  const [account, setAccount] = useState<string | null>(injected?.accountId ?? null);
   useEffect(() => {
+    if (injected) return;
     connector
       .getConnectedWallet()
       .then((c) => setAccount(c.accounts[0]?.accountId ?? null))
@@ -65,6 +77,11 @@ export async function call(
   args: object,
   opts: { deposit?: bigint; gas?: bigint } = {},
 ) {
+  if (injected) {
+    const error = await injected.send({ receiverId: contract, methodName: method, args, gas: (opts.gas ?? 30n * TGAS).toString(), deposit: (opts.deposit ?? 0n).toString() });
+    if (error) throw new Error(error);
+    return;
+  }
   const wallet = await connector.wallet();
   return wallet.signAndSendTransaction({
     receiverId: contract,
