@@ -5,7 +5,9 @@ import { countdown, duration, near, parseUnits } from "./fmt";
 import { COLORS, EMOJI, makeIcon } from "./icon";
 import { alive, Coin, ensureWallet, loadTournament, msLeft, roundName, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
 import type { Config, Tournament } from "./types";
-import snapshot from "./radar.json";
+import Radar from "./Radar";
+import Faq from "./Faq";
+import { Reveal } from "./shared";
 
 async function loadHome() {
   const [config, count] = await Promise.all([view<Config>(ARENA, "get_config"), view<number>(ARENA, "tournament_count")]);
@@ -13,47 +15,6 @@ async function loadHome() {
   const list = await view<Tournament[]>(ARENA, "get_tournaments", { from_index: from, limit: 20 });
   const states = await Promise.all(list.reverse().map(loadTournament));
   return { config, states };
-}
-
-// ---------------------------------------------------------------- PVP radar
-
-interface Dup {
-  ticker: string;
-  count: number;
-}
-
-interface Radar {
-  fetchedAt: string;
-  total: number;
-  sharing: number;
-  tickers: number;
-  top: Dup[];
-  live?: boolean;
-}
-
-/**
- * How many meme.cooking launches share each ticker. Ships with a snapshot
- * (scripts/radar.mjs) and replaces it with live data when the API lets this
- * origin call it.
- */
-function useRadar(): Radar {
-  const [data, setData] = useState<Radar>(snapshot);
-  useEffect(() => {
-    fetch("https://api.meme.cooking/meme")
-      .then((r) => r.json())
-      .then((memes: { symbol?: string }[]) => {
-        const counts = new Map<string, number>();
-        for (const m of memes) {
-          const t = (m.symbol ?? "").trim().toUpperCase();
-          if (/^[A-Z0-9]{2,8}$/.test(t)) counts.set(t, (counts.get(t) ?? 0) + 1);
-        }
-        const dups = [...counts].filter(([, n]) => n > 1).map(([ticker, count]) => ({ ticker, count }));
-        dups.sort((x, y) => y.count - x.count);
-        setData({ fetchedAt: "", live: true, total: memes.length, sharing: dups.reduce((n, d) => n + d.count, 0), tickers: dups.length, top: dups.slice(0, 14) });
-      })
-      .catch(() => {});
-  }, []);
-  return data;
 }
 
 // --------------------------------------------------------------- launch form
@@ -226,8 +187,11 @@ export function TournamentCard({ s, now }: { s: TState; now: number }) {
 export default function Home({ account }: { account: string | null }) {
   const { data, error, refresh } = usePoll(loadHome, [], 8000);
   const now = useNow();
-  const radar = useRadar();
   const [ticker, setTicker] = useState("");
+  const ready = !!data;
+  useEffect(() => {
+    if (ready && window.location.hash === "#/faq") document.getElementById("faq")?.scrollIntoView();
+  }, [ready]);
   const pick = (t: string) => {
     setTicker(t);
     document.getElementById("launch")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -237,9 +201,9 @@ export default function Home({ account }: { account: string | null }) {
     <>
       <section className="hero">
         <h1>
-          One ticker.
+          <span className="rise">One ticker.</span>
           <br />
-          One <em>survivor.</em>
+          <span className="rise d1">One</span> <em className="rise d2">survivor.</em>
         </h1>
         <p>
           A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one, until a single coin holds all of it.
@@ -257,21 +221,10 @@ export default function Home({ account }: { account: string | null }) {
         </ol>
       </section>
 
-      {(
-        <section className="radar">
-          <h2>The problem, in meme.cooking's own data</h2>
-          <p>
-            <b>{radar.sharing.toLocaleString("en-US")}</b> of {radar.total.toLocaleString("en-US")} coins launched on meme.cooking share their ticker with at least one other coin ({radar.tickers} tickers). Same joke, split buyers. Pick one to open its bracket here: <span className="asof">{radar.live ? "live from api.meme.cooking" : `api.meme.cooking, snapshot of ${radar.fetchedAt}`}</span>
-          </p>
-          <div className="dups">
-            {radar.top.map((d) => (
-              <button key={d.ticker} onClick={() => pick(d.ticker)}>
-                ${d.ticker} <span>×{d.count}</span>
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
+      <Reveal>
+        <h2>The problem, in meme.cooking's own data</h2>
+        <Radar pick={pick} />
+      </Reveal>
 
       {error && !data && <p className="error">Could not reach the arena: {error}</p>}
 
@@ -292,6 +245,10 @@ export default function Home({ account }: { account: string | null }) {
           <div className="card">{data ? <LaunchForm config={data.config} account={account} ticker={ticker} setTicker={setTicker} done={refresh} /> : <p className="muted">Loading…</p>}</div>
         </aside>
       </div>
+
+      <Reveal>
+        <Faq config={data?.config ?? null} />
+      </Reveal>
     </>
   );
 }

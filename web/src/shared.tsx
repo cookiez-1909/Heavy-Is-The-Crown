@@ -176,3 +176,31 @@ export function ScoreBar({ a, b, label }: { a: string; b: string; label: string 
     </div>
   );
 }
+
+// ------------------------------------------------------------------ motion
+
+/** Fades its children up the first time they scroll into view. */
+export function Reveal({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(typeof IntersectionObserver === "undefined");
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || seen) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [seen]);
+  return (
+    <div ref={ref} className={`reveal ${seen ? "in" : ""}`}>
+      {children}
+    </div>
+  );
+}

@@ -8,7 +8,20 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track.
 
 Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
 
-meme.cooking's public API shows how common it is. On 2026-11-12, **1,044 of the 2,320 coins** launched there shared their ticker with at least one other coin (327 tickers; LULZ 53 times, KEK 27, CHILL 20). `node scripts/radar.mjs` reproduces the count, and the home page shows it with a button to open a bracket for each ticker.
+meme.cooking shows it happening on NEAR. On 2026-11-12, **31 tickers there had been listed by two or more different accounts: 80 of the 591 listings the site displays (14%)**. HOT was listed by 5 accounts, COOKED by 4, and SHIT, BATMAN, CHILL, MNGA, MINIROOT, SOON and HIJACK by 3 each.
+
+Every one of those numbers can be checked by hand:
+
+- `node scripts/radar.mjs` prints each contested ticker with a `meme.cooking/meme/<id>` link per listing.
+- On the home page each dot is one listing and links to its page on meme.cooking.
+- Or type a ticker into meme.cooking's search and count the cards with that `$TICKER` (the search also matches names and descriptions, so read the ticker on the card).
+
+What the count includes and leaves out:
+
+- It counts only what meme.cooking displays, which is listings that hold a deposit: 591 of the 2,321 its API returns. The other 1,730 are empty listings the site hides; 572 of them come from one account.
+- Most displayed listings never reached their soft cap. Of the 267 that launched, 37 share a ticker with another launched coin.
+- A ticker listed several times by a single account is not counted.
+- This is one launchpad on one chain, and 14% is a modest share. We have no verified figures for other launchpads and do not quote any.
 
 ## The mechanic
 
@@ -48,7 +61,7 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 
 **NEAR's role, concretely:** NEP-141/145/148 tokens; global contracts (NEP-591) so every coin runs the same code pinned by hash and a launch costs 0.25 NEAR instead of ~2.3 NEAR of code storage; named sub-accounts (`pepe-0.<arena>`); cross-contract promises with callbacks and rollback for settle → absorb → claim → transfer; an account with no access keys as the "no admin" guarantee.
 
-**Partner tech:** meme.cooking's API for the duplicate-ticker data; HOT's `@hot-labs/near-connect` for wallets.
+**Partner tech:** meme.cooking's API for the contested-ticker data; HOT's `@hot-labs/near-connect` for wallets.
 
 ## Live on testnet
 

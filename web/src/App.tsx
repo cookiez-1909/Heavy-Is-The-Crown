@@ -38,6 +38,10 @@ export default function App() {
           <a href="#/rules" className={route === "rules" ? "on" : ""}>
             Rules
           </a>
+          <a href="#/faq" onClick={(e) => { if (route === "") { e.preventDefault(); document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" }); } }}>
+            FAQ
+          </a>
+          <a href="pitch/">Pitch</a>
         </nav>
         <span className="net">{NETWORK}</span>
         {account ? (

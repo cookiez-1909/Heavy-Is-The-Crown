@@ -1,64 +1,327 @@
 {
   "fetchedAt": "2026-11-12",
-  "total": 2320,
-  "sharing": 1044,
-  "tickers": 327,
+  "visible": 591,
+  "total": 2321,
+  "sharing": 80,
+  "tickers": 31,
   "top": [
     {
-      "ticker": "LULZ",
-      "count": 53
+      "ticker": "HOT",
+      "creators": 5,
+      "listings": [
+        {
+          "id": 559,
+          "name": "HOT",
+          "owner": "mob.near",
+          "launched": true
+        },
+        {
+          "id": 1621,
+          "name": "VO$HOT",
+          "owner": "danseyka.near",
+          "launched": false
+        },
+        {
+          "id": 2108,
+          "name": "HOT",
+          "owner": "diegito10.tg",
+          "launched": false
+        },
+        {
+          "id": 2149,
+          "name": "HOTnear",
+          "owner": "javad17karimiyan.tg",
+          "launched": false
+        },
+        {
+          "id": 2217,
+          "name": "Hot",
+          "owner": "ali_modarresi.tg",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "KEK",
-      "count": 27
-    },
-    {
-      "ticker": "CHILL",
-      "count": 20
-    },
-    {
-      "ticker": "MOON",
-      "count": 14
+      "ticker": "COOKED",
+      "creators": 4,
+      "listings": [
+        {
+          "id": 372,
+          "name": "COOKED on NEAR",
+          "owner": "cooked_dev.near",
+          "launched": true
+        },
+        {
+          "id": 612,
+          "name": "COOKED",
+          "owner": "cookedtoken.near",
+          "launched": true
+        },
+        {
+          "id": 1920,
+          "name": "cooked business",
+          "owner": "cooked-business.near",
+          "launched": true
+        },
+        {
+          "id": 607,
+          "name": "$COOKED on NEAR",
+          "owner": "cookedtekon.near",
+          "launched": false
+        }
+      ]
     },
     {
       "ticker": "SHIT",
-      "count": 13
+      "creators": 3,
+      "listings": [
+        {
+          "id": 361,
+          "name": "10000xAIcatshit",
+          "owner": "shitcan.near",
+          "launched": true
+        },
+        {
+          "id": 565,
+          "name": "SHiTCOiN",
+          "owner": "tigbitties.near",
+          "launched": true
+        },
+        {
+          "id": 1170,
+          "name": "$SHIT by Huggies",
+          "owner": "huggies.near",
+          "launched": true
+        },
+        {
+          "id": 220,
+          "name": "SHiTCOiN",
+          "owner": "tigbitties.near",
+          "launched": false
+        },
+        {
+          "id": 1117,
+          "name": "$SHIT by Huggies",
+          "owner": "huggies.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "NEARDOG",
-      "count": 12
+      "ticker": "BATMAN",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 2170,
+          "name": "BATMAN",
+          "owner": "purecity6929.near",
+          "launched": true
+        },
+        {
+          "id": 1984,
+          "name": "Batman",
+          "owner": "9aa8db17b5d6b4b5e168eb27625c0efd56dc215b1208991a3382587c7c50109d",
+          "launched": false
+        },
+        {
+          "id": 2001,
+          "name": "BATMAN",
+          "owner": "medioo.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "TEST",
-      "count": 12
+      "ticker": "CHILL",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 129,
+          "name": "Chill Coin",
+          "owner": "chillcoin_launch.near",
+          "launched": true
+        },
+        {
+          "id": 1035,
+          "name": "Just Chill Shard Guy",
+          "owner": "e640a02bb8aebbb3b8938df901ae2cafda75c76f7cb86f64116ed23ee33448ed",
+          "launched": false
+        },
+        {
+          "id": 2047,
+          "name": "Chill",
+          "owner": "i7027349934.tg",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "LOLZ",
-      "count": 11
+      "ticker": "HIJACK",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 251,
+          "name": "HiJack",
+          "owner": "hijack_deploy.near",
+          "launched": true
+        },
+        {
+          "id": 252,
+          "name": "HiJack Community",
+          "owner": "hotquarry5590.near",
+          "launched": true
+        },
+        {
+          "id": 136,
+          "name": "HiJack",
+          "owner": "fiatisabubble.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "FROG",
-      "count": 10
+      "ticker": "MINIROOT",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 1778,
+          "name": "Mini Root",
+          "owner": "miniroot.near",
+          "launched": true
+        },
+        {
+          "id": 1779,
+          "name": "miniROOT",
+          "owner": "maiye.near",
+          "launched": true
+        },
+        {
+          "id": 1780,
+          "name": "MINIROOT",
+          "owner": "danseyka.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "MOODENG",
-      "count": 10
+      "ticker": "MNGA",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 376,
+          "name": "Make Near Great Again",
+          "owner": "mnga.near",
+          "launched": true
+        },
+        {
+          "id": 1861,
+          "name": "Make Near Great Again",
+          "owner": "make_near_great_again.near",
+          "launched": true
+        },
+        {
+          "id": 1972,
+          "name": "Make Near Great Again",
+          "owner": "80289da0a50f047709e793f24f0693ad95dac34e9ef4b29ce25d1b1ce54d6989",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "MI",
-      "count": 9
+      "ticker": "SOON",
+      "creators": 3,
+      "listings": [
+        {
+          "id": 1758,
+          "name": "SoonMOON",
+          "owner": "crpfreedom.tg",
+          "launched": true
+        },
+        {
+          "id": 268,
+          "name": "S̶̃O̵̽O̸̕N̶̈́™",
+          "owner": "followhatibuy.near",
+          "launched": false
+        },
+        {
+          "id": 1625,
+          "name": "SoonMOON",
+          "owner": "bobreggaebr.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "NEAR",
-      "count": 9
+      "ticker": "ABG",
+      "creators": 2,
+      "listings": [
+        {
+          "id": 966,
+          "name": "Asian Girl Boss",
+          "owner": "ericakang.near",
+          "launched": true
+        },
+        {
+          "id": 1431,
+          "name": "Asianbabygirl",
+          "owner": "asianbabygirl.near",
+          "launched": false
+        },
+        {
+          "id": 1436,
+          "name": "Asianbabygirl",
+          "owner": "asianbabygirl.near",
+          "launched": false
+        }
+      ]
     },
     {
-      "ticker": "NEARCAT",
-      "count": 9
+      "ticker": "DONE",
+      "creators": 2,
+      "listings": [
+        {
+          "id": 1212,
+          "name": "D.O.N.E",
+          "owner": "realalexdev.near",
+          "launched": true
+        },
+        {
+          "id": 1213,
+          "name": "D. O. N. E.",
+          "owner": "a22s.near",
+          "launched": true
+        },
+        {
+          "id": 1226,
+          "name": "D.O.N.E",
+          "owner": "a22s.near",
+          "launched": true
+        }
+      ]
     },
     {
-      "ticker": "NDOG",
-      "count": 8
+      "ticker": "MEME",
+      "creators": 2,
+      "listings": [
+        {
+          "id": 774,
+          "name": "MemeMind",
+          "owner": "memecoinscash.near",
+          "launched": false
+        },
+        {
+          "id": 775,
+          "name": "MemeMaster",
+          "owner": "memecoinscash.near",
+          "launched": false
+        },
+        {
+          "id": 2031,
+          "name": "Meme",
+          "owner": "i6092736029.tg",
+          "launched": false
+        }
+      ]
     }
   ]
 }
