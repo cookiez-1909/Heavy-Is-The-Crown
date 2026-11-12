@@ -1,0 +1,148 @@
+# Ticker Bracket
+
+**A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one, until a single coin holds all of it.**
+
+Built at NEAR HACKATHON for the **Memecoins With Mechanics** track.
+
+## The problem
+
+Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
+
+meme.cooking's public API shows how common it is. On 2026-11-12, **1,044 of the 2,320 coins** launched there shared their ticker with at least one other coin (327 tickers; LULZ 53 times, KEK 27, CHILL 20). `node scripts/radar.mjs` reproduces the count, and the home page shows it with a button to open a bracket for each ticker.
+
+## The mechanic
+
+1. **One bracket per ticker.** The first coin launched with a ticker opens its bracket and a registration window. Every coin launched with that ticker during registration joins it (up to 8). After registration the ticker is locked.
+2. **Creators post a seed.** The seed buys the creator's first tokens from the coin's own bonding curve, so it is at stake like everyone else's money.
+3. **Seeding by score.** When a round closes, the arena ranks the survivors by score and pairs best against worst. With an odd number the top seed gets a bye.
+4. **Score = new NEAR × time.** Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Net outflow scores negative.
+5. **Selling is taxed and the tax stays in the curve.** It ramps from 0 to the penalty over the round. After a win it restarts at the penalty and decays.
+6. **At the bell trading freezes.** Anyone settles a match and is paid 1% of the loser's reserve (at most 0.05 NEAR). The two tokens compare scores themselves.
+7. **The loser is absorbed.** 15% of its reserve enters the winner's curve with no tokens minted (spoils). The other 85% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
+8. **The champion defends.** A later coin with the same ticker opens a new season, and the reigning champion is entered in it automatically. There is never a second living coin with that ticker here.
+
+Each coin is its own NEP-141 token with its own constant-product curve: buying mints, selling burns.
+
+## Exploits considered, and what the contracts do about them
+
+| Attack | Counter | Where |
+|---|---|---|
+| Run before the bell to dodge the loser's penalty | Sell tax ramps to exactly the penalty at the bell; the tax stays in the curve and moves to the winner | `sell_tax_bps` in the token |
+| Winners dump on holders who were just converted in | Sell tax restarts at the penalty at the moment of the win and decays over the cooldown | `book_win`, `sell_tax_bps` |
+| Snowball: win round 2 on liquidity absorbed in round 1 | Score counts only inflow since the round started | `round_base`, `score_now` |
+| Sell in the break, buy back after the start to fake inflow | The round base never goes below the reserve at the previous bell | `floor_reserve` |
+| Last-minute whale | Inflow is weighted by how long it stayed | `touch_score` |
+| Stuff the bracket with empty copies | Launch fee plus a bonded seed per coin; pairing is computed by the contract from scores | `enter`, `on_results` in the arena |
+| Open a second bracket for the same ticker | Ticker is normalised and maps to one live tournament | `by_ticker` in the arena |
+| Nobody settles, bracket stalls | Settle and advance are open to anyone and pay a bounty | `settle`, `advance` |
+| Deployer swaps the arena code | The arena has no owner, and the deploy script deletes its only access key | `scripts/deploy.sh` |
+
+None of these is a complete defence; see Known limits.
+
+## Where the rules live
+
+- `contracts/token`: the NEP-141. Curve, mint, burn, score, sell tax, freeze, settle, absorb, claim.
+- `contracts/arena`: launch, one-bracket-per-ticker, seeding, round clock.
+
+There is no owner, no admin method and no upgrade path in either contract. All parameters are fixed in the arena's `new` and readable through `get_config` (arena) and `get_info` (token). The only thing the arena can tell a token is who its next opponent is. The web app has no backend: it reads the RPC and sends wallet transactions.
+
+**NEAR's role, concretely:** NEP-141/145/148 tokens; global contracts (NEP-591) so every coin runs the same code pinned by hash and a launch costs 0.25 NEAR instead of ~2.3 NEAR of code storage; named sub-accounts (`pepe-0.<arena>`); cross-contract promises with callbacks and rollback for settle → absorb → claim → transfer; an account with no access keys as the "no admin" guarantee.
+
+**Partner tech:** meme.cooking's API for the duplicate-ticker data; HOT's `@hot-labs/near-connect` for wallets.
+
+## Live on testnet
+
+| | Account |
+|---|---|
+| Arena (demo timings: 6 min registration, 9 min rounds) | `arena-82872.memeduel-4a2d2e.testnet` |
+| Token code (global contract hash) | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
+
+15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket. The arena account has no access keys.
+
+## Simulation
+
+One 24-hour match between coin A and coin B, with the contract's formulas (`sim/duel-sim.ts`). 15% penalty, 50 NEAR virtual liquidity:
+
+| Scenario | Reserve at start (A / B) | Net inflow at bell (A / B) | Score, NEAR-hours (A / B) | Winner | Total-reserve rule would pick | Loser's reserve moved | of which sell tax | Spoils | Winner price bump |
+|---|---|---|---|---|---|---|---|---|---|
+| Even match | 5 / 5 | 26.3 / 26.9 | 292 / 319 | **B** | B | 31.3 NEAR | 0.1 | 4.7 | +5.7% |
+| Rich incumbent, live newcomer | 150 / 5 | 2.6 / 28.6 | 29 / 339 | **B** | A ⚠ | 152.6 NEAR | 0.0 | 22.9 | +27.4% |
+| Last-minute whale | 5 / 5 | 26.3 / 186.9 | 292 / 141 | **A** | B ⚠ | 191.9 NEAR | 0.0 | 28.8 | +35.4% |
+| Run for the exit | 20 / 20 | 30.0 / -17.5 | 355 / -93 | **A** | A | 2.5 NEAR | 2.5 | 0.4 | +0.4% |
+| Sell in the break, buy back | 5 / 5 | 6.1 / 15.5 | 98 / 179 | **B** | A ⚠ | 31.1 NEAR | 0.0 | 4.7 | +6.6% |
+
+What is left of a stake that keeps landing on the losing side:
+
+| Penalty per round | lost 1 round | lost 2 rounds | lost 3 rounds |
+|---|---|---|---|
+| 10% | 90% | 81% | 73% |
+| 15% | 85% | 72% | 61% |
+| 30% | 70% | 49% | 34% |
+
+15% was chosen because a bracket of 8 has three rounds: at 30% a holder who is converted three times keeps a third.
+
+```bash
+node sim/run.ts --sweep
+```
+
+prints the tables for 10%, 15% and 30%, and the 15% case without the sell tax (Node 24). The Rules page draws each scenario.
+
+## Run it
+
+Requirements: Rust with the `wasm32-unknown-unknown` target, `cargo-near`, Node 24, pnpm.
+
+```bash
+scripts/build.sh
+```
+
+```bash
+cargo test
+```
+
+`cargo test` runs 15 unit tests on the token and 3 end-to-end tests on a local NEAR sandbox (`tests/tests/duel.rs`): a 4-coin bracket through semi-finals and final, chained conversion of a holder through two lost coins, a second season against the champion, a 3-coin bracket with a bye, and the limits and access-control paths. The first run downloads the sandbox binary.
+
+To look at the UI against real contract state without any testnet funds:
+
+```bash
+cargo run -p duel-tests --example localnet
+```
+
+It starts a local chain, deploys everything, plays a PEPE bracket into its final, finishes a KEK bracket and opens a DOGE registration, then prints two lines to put in `web/.env.local`. Then:
+
+```bash
+cd web && pnpm install && pnpm dev
+```
+
+Wallets cannot sign on a sandbox, so the local chain is read-only from the browser. `web/.env.example` shows how to point the app at the testnet arena above. To deploy your own:
+
+```bash
+scripts/deploy.sh <your-account.testnet> 12 24 6
+```
+
+(registration, round and cooldown in hours; further arguments are penalty in bps, virtual NEAR, minimum seed, bracket size).
+
+## Known limits
+
+- **Only coins launched here are in the bracket.** Copies on other launchpads are out of reach.
+- **Score counts NEAR, not people.** A wallet with enough NEAR can carry a coin through a round alone. Splitting across wallets changes nothing, so there is nothing for a sybil check to do, and no "one person, one vote" either.
+- **The sell tax does not force anyone to stay.** It makes leaving before the bell no cheaper than losing. In "Run for the exit" nearly all of the loser's liquidity still leaves and the winner receives only the tax.
+- **Spoils are locked liquidity, not a payout.** They lift the winner's price, but holders can withdraw only part of them; the rest stays in the curve as a floor.
+- **Bracket slots are finite.** Filling the remaining slots with seeded copies to shut a rival out costs one fee and one seed per slot, and is not prevented.
+- **The first coin of a ticker picks the timing.** Registration starts when it launches.
+- **A lost `start_round` message stalls a token** until anyone calls `resync` on the arena. Covered by a guard in `advance`, not by a sandbox test.
+- **Not audited.** Hackathon code.
+- Each trade pays a flat 0.002 NEAR that stays in the token contract to pay for the on-chain log; a first-time buyer also pays 0.00125 NEAR of NEP-145 storage.
+- `storage_unregister(force=true)` is disabled, because burning outside the curve would break claim accounting.
+- Publishing a new token code version as a global contract burns about 23 NEAR.
+
+## Layout
+
+```
+contracts/token      NEP-141 with the bracket mechanic
+contracts/arena      launchpad: one bracket per ticker, seeding, round clock
+contracts/publisher  helper that publishes a wasm as a global contract (tests only)
+tests                sandbox end-to-end tests and the localnet example
+sim                  parameter simulation
+web                  Vite + React front end
+scripts              build, deploy, meme.cooking snapshot
+```

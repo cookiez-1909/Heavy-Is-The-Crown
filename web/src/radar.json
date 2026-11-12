@@ -1,0 +1,64 @@
+{
+  "fetchedAt": "2026-11-12",
+  "total": 2320,
+  "sharing": 1044,
+  "tickers": 327,
+  "top": [
+    {
+      "ticker": "LULZ",
+      "count": 53
+    },
+    {
+      "ticker": "KEK",
+      "count": 27
+    },
+    {
+      "ticker": "CHILL",
+      "count": 20
+    },
+    {
+      "ticker": "MOON",
+      "count": 14
+    },
+    {
+      "ticker": "SHIT",
+      "count": 13
+    },
+    {
+      "ticker": "NEARDOG",
+      "count": 12
+    },
+    {
+      "ticker": "TEST",
+      "count": 12
+    },
+    {
+      "ticker": "LOLZ",
+      "count": 11
+    },
+    {
+      "ticker": "FROG",
+      "count": 10
+    },
+    {
+      "ticker": "MOODENG",
+      "count": 10
+    },
+    {
+      "ticker": "MI",
+      "count": 9
+    },
+    {
+      "ticker": "NEAR",
+      "count": 9
+    },
+    {
+      "ticker": "NEARCAT",
+      "count": 9
+    },
+    {
+      "ticker": "NDOG",
+      "count": 8
+    }
+  ]
+}
