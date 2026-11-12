@@ -6,7 +6,7 @@ import { COLORS, EMOJI, makeIcon } from "./icon";
 import { alive, Coin, ensureWallet, loadTournament, msLeft, roundName, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
 import type { Config, Tournament } from "./types";
 import Radar from "./Radar";
-import DexSection from "./Dex";
+import DexSection, { LiquiditySplit } from "./Dex";
 import Faq from "./Faq";
 import { Reveal } from "./shared";
 
@@ -156,7 +156,7 @@ export function TournamentCard({ s, now }: { s: TState; now: number }) {
       <div className="faces">
         {t.entrants.map((e, i) => (
           <span key={e.token} className={e.eliminated_in !== null ? "out" : t.champion === i ? "champ" : ""} title={e.name}>
-            <Coin token={e.token} symbol={t.ticker} size={40} />
+            <Coin token={e.token} symbol={t.ticker} size={40} crown={t.champion === i} />
           </span>
         ))}
       </div>
@@ -223,7 +223,11 @@ export default function Home({ account }: { account: string | null }) {
       </section>
 
       <Reveal>
-        <h2>The problem, measured</h2>
+        <LiquiditySplit />
+      </Reveal>
+
+      <Reveal>
+        <h2>How common it is</h2>
         <DexSection pick={pick} />
       </Reveal>
       <Reveal>

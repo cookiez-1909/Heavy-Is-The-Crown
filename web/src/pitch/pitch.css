@@ -66,6 +66,9 @@ body { overflow: hidden; }
 @keyframes n3 { 0%, 53% { opacity: 0; transform: scale(0); } 58% { opacity: 1; transform: scale(1.2); } 62%, 94% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
 @keyframes halo { 0%, 58% { opacity: 0; transform: scale(0.6); } 64% { opacity: 1; transform: scale(1); } 76% { opacity: 0.5; transform: scale(1.18); } 88% { opacity: 1; transform: scale(1); } 94% { opacity: 1; } 100% { opacity: 0; } }
 
+.svgcrown { transform-origin: 380px 118px; animation: svgcrown 9s infinite both; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5)); }
+@keyframes svgcrown { 0%, 62% { opacity: 0; transform: translateY(-150px) rotate(-50deg); } 68% { opacity: 1; transform: translateY(6px) rotate(4deg); } 71% { transform: translateY(-10px) rotate(-14deg); } 74%, 94% { opacity: 1; transform: translateY(0) rotate(-8deg); } 100% { opacity: 0; transform: translateY(0) rotate(-8deg); } }
+
 /* slide 2: swarm of same-ticker tokens */
 .swarm { display: flex; flex-wrap: wrap; gap: 7px; align-content: center; }
 .swarm a { display: inline-flex; align-items: baseline; gap: 6px; text-decoration: none; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); animation: pop 0.4s cubic-bezier(0.3, 1.5, 0.5, 1) both, bob 4s ease-in-out infinite; transition: border-color 0.12s ease, transform 0.12s ease; }

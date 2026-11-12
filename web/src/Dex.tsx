@@ -82,6 +82,65 @@ export function DexRows({ data = dex, rows = 10, pick }: { data?: DexData; rows?
   );
 }
 
+const usd = (n: number) => (n >= 1e6 ? `$${(n / 1e6).toFixed(2)}M` : n >= 1e3 ? `$${Math.round(n / 1e3)}K` : `$${Math.round(n)}`);
+
+/**
+ * Problem and solution side by side, on a real ticker: the liquidity of the
+ * same-ticker tokens as separate pools, then as the one pool a bracket ends with.
+ */
+export function LiquiditySplit({ row = dex.rows[0] }: { row?: DexRow }) {
+  const ticker = row.symbol.toUpperCase();
+  const pools = row.tokens.filter((t) => t.liquidity > 0);
+  const total = pools.reduce((n, t) => n + t.liquidity, 0);
+  const top = pools[0];
+  const empty = row.tokens.length - pools.length;
+  const topPct = Math.round((top.liquidity / total) * 100);
+  return (
+    <section className="liq">
+      <div className="liqside problem">
+        <p className="eyebrow">The problem</p>
+        <h2>
+          {usd(total)} of liquidity, in <em>{pools.length} separate pools.</em>
+        </h2>
+        <div className="liqbar" role="img" aria-label={`${pools.length} pools holding ${usd(total)} between them`}>
+          {pools.map((t, i) => (
+            <a
+              key={t.chain + t.address}
+              href={t.url}
+              target="_blank"
+              rel="noreferrer"
+              style={{ flexGrow: t.liquidity, animationDelay: `${i * 35}ms` }}
+              title={`${t.name} · ${t.chain} · ${usd(t.liquidity)}`}
+              aria-label={`${t.name} on ${t.chain}: ${usd(t.liquidity)}`}
+            />
+          ))}
+        </div>
+        <p>
+          That is ${ticker} on DexScreener: {row.tokens.length} tokens with the same ticker. The deepest pool holds <b>{topPct}%</b> of the money ({usd(top.liquidity)}), so every buyer trades against a fraction of the depth that exists
+          {empty > 0 ? `, and ${empty} of the tokens have no liquidity left at all` : ""}. Each block is one token: click to open it.
+        </p>
+      </div>
+      <div className="liqside solution">
+        <p className="eyebrow">What a bracket does</p>
+        <h2>
+          Same money, <em>one pool.</em>
+        </h2>
+        <div className="liqbar merged" aria-hidden>
+          {pools.map((t) => (
+            <i key={t.chain + t.address} style={{ flexGrow: t.liquidity }} />
+          ))}
+        </div>
+        <p>
+          Copies launched here with the same ticker are paired off round by round. Each round the loser's whole reserve moves into the winner's curve and its holders are converted, so the bracket ends with <b>one coin holding the liquidity of all of them</b>.
+        </p>
+      </div>
+      <p className="asof">
+        ${ticker} figures: liquidity of the pairs DexScreener returned on {when(dex)} (at most 30, so a lower bound). Those tokens live on other chains and are shown to size the problem; a bracket only merges coins launched on this launchpad.
+      </p>
+    </section>
+  );
+}
+
 export default function DexSection({ pick }: { pick: (ticker: string) => void }) {
   const pct = Math.round((dex.shared / dex.promoted) * 100);
   return (

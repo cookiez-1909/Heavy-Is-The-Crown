@@ -156,7 +156,7 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
   return (
     <section className={`panel ${p.side} ${info.status.toLowerCase()}`}>
       <header>
-        <Coin token={e.token} symbol={info.symbol} size={64} />
+        <Coin token={e.token} symbol={info.symbol} size={64} crown={champion} />
         <div>
           <h2>{info.name}</h2>
           <a href={`${EXPLORER}/address/${e.token}`} target="_blank" rel="noreferrer">
@@ -224,12 +224,12 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
 
 // ------------------------------------------------------------------ bracket
 
-function Slot({ s, idx, sc, won, lost }: { s: TState; idx: number | null; sc: string | null; won: boolean; lost: boolean }) {
+function Slot({ s, idx, sc, won, lost, crown }: { s: TState; idx: number | null; sc: string | null; won: boolean; lost: boolean; crown?: boolean }) {
   if (idx === null) return <div className="slot bye">bye</div>;
   const e = s.t.entrants[idx];
   return (
     <div className={`slot ${won ? "won" : ""} ${lost ? "lost" : ""}`}>
-      <Coin token={e.token} symbol={s.t.ticker} size={28} />
+      <Coin token={e.token} symbol={s.t.ticker} size={crown ? 34 : 28} crown={crown} />
       <span className="nm">{e.name}</span>
       <span className="sc mono">{sc !== null ? score(sc) : ""}</span>
     </div>
@@ -272,7 +272,7 @@ function Bracket({ s, selected, select }: { s: TState; selected: number[]; selec
         <div className="bcol" role="listitem">
           <h4>Champion</h4>
           <button className={`match ${isSel([t.champion]) ? "sel" : ""}`} onClick={() => select([t.champion!])}>
-            <Slot s={s} idx={t.champion} sc={null} won lost={false} />
+            <Slot s={s} idx={t.champion} sc={null} won lost={false} crown />
           </button>
         </div>
       )}

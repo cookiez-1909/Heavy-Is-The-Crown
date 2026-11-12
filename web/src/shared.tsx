@@ -107,18 +107,41 @@ function iconOf(token: string) {
   return icons.get(token)!;
 }
 
-export function Coin({ token, icon, symbol, size = 56 }: { token?: string; icon?: string | null; symbol: string; size?: number }) {
+/** Drops onto the overall winner of a bracket. */
+export function Crown({ size }: { size: number }) {
+  return (
+    <svg className="crown" viewBox="0 0 64 42" width={size} height={(size * 42) / 64} aria-hidden>
+      <path d="M5 33 L8 11 L22 25 L32 5 L42 25 L56 11 L59 33 Z" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="4" y="31" width="56" height="8" rx="2.5" fill="#f2b705" stroke="#7a5c00" strokeWidth="2.5" />
+      <circle cx="8" cy="10" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
+      <circle cx="32" cy="5" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
+      <circle cx="56" cy="10" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
+      <circle cx="19" cy="35" r="2.4" fill="#f0473c" />
+      <circle cx="32" cy="35" r="2.4" fill="#45c486" />
+      <circle cx="45" cy="35" r="2.4" fill="#f0473c" />
+    </svg>
+  );
+}
+
+export function Coin({ token, icon, symbol, size = 56, crown }: { token?: string; icon?: string | null; symbol: string; size?: number; crown?: boolean }) {
   const [src, setSrc] = useState<string | null>(icon ?? null);
   useEffect(() => {
     if (icon !== undefined) return setSrc(icon);
     if (token) iconOf(token).then(setSrc);
   }, [token, icon]);
   const style = { width: size, height: size, fontSize: size * 0.36 };
-  return src ? (
+  const coin = src ? (
     <img className="coin" src={src} alt="" style={style} />
   ) : (
     <span className="coin placeholder" style={style} aria-hidden>
       {symbol.slice(0, 2)}
+    </span>
+  );
+  if (!crown) return coin;
+  return (
+    <span className="crowned" title="Champion">
+      {coin}
+      <Crown size={size * 0.82} />
     </span>
   );
 }

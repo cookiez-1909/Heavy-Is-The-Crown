@@ -1,6 +1,7 @@
 import { Fragment, StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "../styles.css";
+import "../extras.css";
 import "./pitch.css";
 import { DupRows, radarSnapshot as radar } from "../Radar";
 import { dex, DexRows, isSelf, when } from "../Dex";
@@ -102,6 +103,13 @@ function HeroBracket() {
       {coin(210, 220, 28, COPIES[3], "l2")}
       <circle className="halo" cx="380" cy="150" r="44" />
       {coin(380, 150, 36, COPIES[3], "l3")}
+      <g className="svgcrown">
+        <path d="M353 112 L356 90 L370 104 L380 84 L390 104 L404 90 L407 112 Z" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2.5" strokeLinejoin="round" />
+        <rect x="352" y="110" width="56" height="8" rx="2.5" fill="#f2b705" stroke="#7a5c00" strokeWidth="2.5" />
+        <circle cx="367" cy="114" r="2.4" fill="#f0473c" />
+        <circle cx="380" cy="114" r="2.4" fill="#45c486" />
+        <circle cx="393" cy="114" r="2.4" fill="#f0473c" />
+      </g>
     </svg>
   );
 }

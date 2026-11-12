@@ -1,0 +1,48 @@
+/* The stat no longer overlaps its caption; the call to action is gold. */
+.bigstat { max-width: none; }
+.bigstat strong { white-space: nowrap; flex: none; min-width: 0; }
+.bigstat span { min-width: 0; max-width: 26ch; }
+.radarlead b { color: var(--gold); }
+
+/* Crown on the overall winner. */
+.crowned { position: relative; display: inline-flex; }
+.crown { position: absolute; left: 50%; bottom: 74%; transform: translateX(-50%) rotate(-10deg); transform-origin: 50% 100%; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5)); animation: crowndrop 1.1s cubic-bezier(0.3, 1.4, 0.5, 1) 0.4s both; pointer-events: none; z-index: 2; }
+@keyframes crowndrop {
+  0% { opacity: 0; transform: translate(-50%, -340%) rotate(-55deg) scale(1.5); }
+  55% { opacity: 1; transform: translate(-50%, 12%) rotate(4deg) scale(1); }
+  72% { transform: translate(-50%, -22%) rotate(-16deg); }
+  86% { transform: translate(-50%, 4%) rotate(-7deg); }
+  100% { opacity: 1; transform: translateX(-50%) rotate(-10deg); }
+}
+.faces { padding-top: 16px; }
+.faces .champ { outline: none; }
+.slot .crowned { margin-top: 12px; }
+.panel header .crowned { margin-top: 16px; }
+
+/* Problem / solution: split liquidity. */
+.liq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 36px; }
+.liqside { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: clamp(18px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 14px; }
+.liqside.solution { border-color: var(--gold); box-shadow: 0 0 60px rgba(255, 210, 63, 0.07); }
+.eyebrow { font: 600 12px var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--a); margin: 0; }
+.solution .eyebrow { color: var(--gold); }
+.liqside h2 { margin: 0; font-size: clamp(24px, 3vw, 38px); line-height: 1; }
+.liqside h2 em { font-style: normal; color: var(--a); }
+.solution h2 em { color: var(--gold); }
+.liqside p { margin: 0; color: var(--ink-2); font-size: 15px; }
+.liqside p b { color: var(--ink); }
+.liqbar { display: flex; gap: 3px; height: 46px; margin: 6px 0; }
+.liqbar a, .liqbar i { min-width: 3px; border-radius: 4px; background: var(--a); opacity: 0.85; animation: pop 0.4s ease both; }
+.liqbar a:nth-child(even) { opacity: 0.6; }
+.liqbar a:hover { opacity: 1; outline: 2px solid var(--ink); }
+.reveal.in .liqbar.merged { animation: closegap 1.4s cubic-bezier(0.6, 0, 0.2, 1) 0.9s both; }
+.reveal.in .liqbar.merged i { animation: gild 1.4s ease 0.9s both; border-radius: 0; }
+.reveal.in .liqbar.merged i:first-child { border-radius: 6px 0 0 6px; }
+.reveal.in .liqbar.merged i:last-child { border-radius: 0 6px 6px 0; }
+@keyframes closegap { from { gap: 3px; } to { gap: 0; filter: drop-shadow(0 0 14px rgba(255, 210, 63, 0.45)); } }
+@keyframes gild { from { background: var(--a); opacity: 0.85; } to { background: var(--gold); opacity: 1; } }
+.liq > .asof { grid-column: 1 / -1; margin: 0; }
+@media (max-width: 860px) { .liq { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) {
+  .liqbar.merged { gap: 0; }
+  .liqbar.merged i { background: var(--gold); opacity: 1; border-radius: 0; }
+}
