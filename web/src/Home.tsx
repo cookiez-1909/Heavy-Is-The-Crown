@@ -6,6 +6,7 @@ import { COLORS, EMOJI, makeIcon } from "./icon";
 import { alive, Coin, ensureWallet, loadTournament, msLeft, roundName, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
 import type { Config, Tournament } from "./types";
 import Radar from "./Radar";
+import DexSection from "./Dex";
 import Faq from "./Faq";
 import { Reveal } from "./shared";
 
@@ -222,7 +223,11 @@ export default function Home({ account }: { account: string | null }) {
       </section>
 
       <Reveal>
-        <h2>The problem, in meme.cooking's own data</h2>
+        <h2>The problem, measured</h2>
+        <DexSection pick={pick} />
+      </Reveal>
+      <Reveal>
+        <h2>And on NEAR, in meme.cooking's own data</h2>
         <Radar pick={pick} />
       </Reveal>
 

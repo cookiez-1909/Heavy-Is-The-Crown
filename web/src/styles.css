@@ -401,3 +401,12 @@ button.tk:hover { color: var(--gold); text-decoration: underline; }
   .duprow .ct { grid-column: 1 / -1; text-align: left; font-size: 12px; }
   .duprow .dots a { width: 14px; height: 14px; }
 }
+
+/* DexScreener rows */
+.bigstat strong small { font-size: 0.45em; color: var(--ink-3); letter-spacing: -0.02em; }
+.dexrows .dots { gap: 4px; }
+.dexrows .dots a { width: 13px; height: 13px; }
+a.ct { text-decoration: none; text-align: right; white-space: nowrap; color: var(--ink-3); font-size: 13px; }
+a.ct:hover { color: var(--gold); }
+a.ct b { color: var(--ink); font: 700 14px var(--mono); }
+@media (max-width: 520px) { .dexrows .dots a { width: 11px; height: 11px; } a.ct { grid-column: 1 / -1; text-align: left; } }

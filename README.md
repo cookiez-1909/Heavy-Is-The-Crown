@@ -8,7 +8,16 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track.
 
 Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
 
-meme.cooking shows it happening on NEAR. On 2026-11-12, **31 tickers there had been listed by two or more different accounts: 80 of the 591 listings the site displays (14%)**. HOT was listed by 5 accounts, COOKED by 4, and SHIT, BATMAN, CHILL, MNGA, MINIROOT, SOON and HIJACK by 3 each.
+**Across chains (DexScreener).** We took DexScreener's own "top boosts" list, the tokens being promoted the most, and searched each ticker. On 2026-11-12 17:36 UTC, **23 of the 29 promoted tokens shared their ticker with at least one other token, 13 of them with nine or more others**: at least 331 distinct token contracts on 29 tickers (175 on Solana, 46 on Robinhood Chain, 12 on BNB Chain). HUANG alone returned 28 different tokens.
+
+- `node scripts/dexscreener.mjs` reruns it and prints, for each ticker, the search URL that returns those tokens. No API key.
+- On the home page and in the pitch deck each dot is one token contract and links to it on DexScreener.
+- The tickers are not hand-picked: the list is whatever DexScreener is promoting when the script runs, so the numbers move during the day.
+- A search returns at most 30 pairs, so the counts are lower bounds (14 of the 29 searches hit the cap).
+- Sharing a ticker does not prove a token is a copy. Short generic tickers such as MAX or ZEN include unrelated projects.
+- Promoted tokens are not a random sample of all tokens.
+
+**On NEAR (meme.cooking).** meme.cooking shows it happening on NEAR. On 2026-11-12, **31 tickers there had been listed by two or more different accounts: 80 of the 591 listings the site displays (14%)**. HOT was listed by 5 accounts, COOKED by 4, and SHIT, BATMAN, CHILL, MNGA, MINIROOT, SOON and HIJACK by 3 each.
 
 Every one of those numbers can be checked by hand:
 
@@ -21,7 +30,7 @@ What the count includes and leaves out:
 - It counts only what meme.cooking displays, which is listings that hold a deposit: 591 of the 2,321 its API returns. The other 1,730 are empty listings the site hides; 572 of them come from one account.
 - Most displayed listings never reached their soft cap. Of the 267 that launched, 37 share a ticker with another launched coin.
 - A ticker listed several times by a single account is not counted.
-- This is one launchpad on one chain, and 14% is a modest share. We have no verified figures for other launchpads and do not quote any.
+- This is one launchpad on one chain, and 14% is a modest share. The cross-chain picture is the DexScreener count above.
 
 ## The mechanic
 

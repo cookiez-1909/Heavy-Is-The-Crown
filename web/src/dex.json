@@ -1,0 +1,2631 @@
+{
+ "fetchedAt": "2026-11-12T17:36Z",
+ "source": "https://api.dexscreener.com/token-boosts/top/v1",
+ "promoted": 29,
+ "shared": 23,
+ "five": 19,
+ "ten": 13,
+ "totalTokens": 331,
+ "capped": 14,
+ "chains": {
+  "solana": 175,
+  "elysium": 49,
+  "robinhood": 46,
+  "arc": 23,
+  "bsc": 12,
+  "ethereum": 11,
+  "base": 9,
+  "pulsechain": 3,
+  "sui": 2,
+  "ton": 1
+ },
+ "rows": [
+  {
+   "symbol": "Huang",
+   "chain": "solana",
+   "address": "4FP2GRQS3WYPsZSE2dwaVzqkajrBpHcXyVSTVt83pump",
+   "url": "https://dexscreener.com/solana/4fp2grqs3wypszse2dwavzqkajrbphcxyvstvt83pump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=Huang",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "D6agQVTSvDfQhz5bLxuz9L87X9zRBpAfX7fLz9CDQgtS",
+     "name": "Jensen Huang",
+     "liquidity": 163582,
+     "url": "https://dexscreener.com/solana/uudov5xxmjwbcasnxhsleuom56rjm2dogyugktebksh"
+    },
+    {
+     "chain": "solana",
+     "address": "3sP7Ee2q1BhPfZTgLeLuyKMVHz2S7Z6MJT4FPxKMh7ic",
+     "name": "Jensen Huang",
+     "liquidity": 144793,
+     "url": "https://dexscreener.com/solana/5ffhc56svtzq7oam81bbd9ncjmd4yuo2ox3e3djrz7gp"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x9eB8dF92Cab9FD55D776bD4bC80741eEf94F073F",
+     "name": "Jensen Huang",
+     "liquidity": 105503,
+     "url": "https://dexscreener.com/robinhood/0x10471c6d55255294b3c1fc4db517a07d60eabf3fe0983881dfc5557f615e9f85"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xd07966d8FF4Ab74B77e870b9F753CafeCd3431E6",
+     "name": "Jensen Huang",
+     "liquidity": 82213,
+     "url": "https://dexscreener.com/robinhood/0x2bb93ea6e1a7cec341a2e53a269c41223b5aeca601350b53b8e8a9191f7ed1ab"
+    },
+    {
+     "chain": "solana",
+     "address": "4FP2GRQS3WYPsZSE2dwaVzqkajrBpHcXyVSTVt83pump",
+     "name": "Jensen Huang",
+     "liquidity": 42090,
+     "url": "https://dexscreener.com/solana/fj1y3drk5z715mj8hk512ekk3rqhtahgrv6hmhnpcn2u"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xb1e89874A8032bB8d6DD874E4D2cCF7DCB707777",
+     "name": "Jensen Huang",
+     "liquidity": 38240,
+     "url": "https://dexscreener.com/robinhood/0x5e78039ac53da7fff6cfc8fca00d0590acfa7290c5528fa0060d8b7c3a626042"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x3B22bb4944B890482637a7F22aC780B3ba38591d",
+     "name": "Jensen Huang",
+     "liquidity": 37962,
+     "url": "https://dexscreener.com/robinhood/0xdcb80dbef7f24540167fd724b9040b2e6d2f1fa58fcccd0dff4d59f19815b072"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x373C1B47cc4Cc11695EEd1cCE78A6E21db5c7777",
+     "name": "Jensen Huang",
+     "liquidity": 37514,
+     "url": "https://dexscreener.com/robinhood/0x9a6ceb9fa9bc79954284bc8704ef7f53a4b35f9a01ed9912bc6cb99842169c05"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x8F7C0c22F500959c20bf237006C3a6E60f757777",
+     "name": "Jensen Huang",
+     "liquidity": 35429,
+     "url": "https://dexscreener.com/robinhood/0x0be769e7f7ef7d2a617b49b45f3694cc46858c338f78e8a403e2cf591343eb2e"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x7F7df2160ff61D25Fca595908Cdc5FE1441E6e4a",
+     "name": "Jensen Huang",
+     "liquidity": 34371,
+     "url": "https://dexscreener.com/robinhood/0x04aca957b4eeefeceb399c91b896dc379e66d09640e048dc3d9a1005730eb712"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xFFA8171DdbFd93C774470B399aE46BBa9c9df6C5",
+     "name": "Jensen Huang",
+     "liquidity": 33258,
+     "url": "https://dexscreener.com/robinhood/0xec1e0206bc7804726e62b97aa2764656a2f987f396f03e452f67d26ddcb069df"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x6FF8F3ad3ec74e88a68f40aCd659f211fb1027D5",
+     "name": "Jensen Huang",
+     "liquidity": 32138,
+     "url": "https://dexscreener.com/robinhood/0x4d37aac7fdef52cbdcb0ce4f87768710cb4efaeff412aa88c26ba0667871e764"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xc6B7B00ff3DB7bc22F21e61957e04047649198f7",
+     "name": "Jensen Huang",
+     "liquidity": 31931,
+     "url": "https://dexscreener.com/robinhood/0xc7bf8d8355a0476b7f640d9fb46e131258c469c4c6a6d8854946542193c49351"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x5c86b5328461A7FA65E2Ea60C0f648C981293A62",
+     "name": "Jensen Huang",
+     "liquidity": 31330,
+     "url": "https://dexscreener.com/robinhood/0xf6844ff727bd2c929943003f806d0399500ee6061dcd0e3043d9f93229da6440"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x7658F04013e8636AeD42144A95C7afE8723Ce55f",
+     "name": "Jensen Huang",
+     "liquidity": 29812,
+     "url": "https://dexscreener.com/robinhood/0x870b38a3c436722246bc2646e46a8ac087cfaa8ccdce36310b152b089cb14f39"
+    },
+    {
+     "chain": "arc",
+     "address": "0x295F6FC283719217B62A0BB38832b311B6bF7777",
+     "name": "Jensen Huang",
+     "liquidity": 25797,
+     "url": "https://dexscreener.com/arc/0xc6a9342d3f189dfbd5d3168b4431e53236b5756c2505477d7bf1acc17060f441"
+    },
+    {
+     "chain": "arc",
+     "address": "0x5f9f386449Ae54Ae0eD46d11B3E2995819A1F777",
+     "name": "Jensen Huang",
+     "liquidity": 25746,
+     "url": "https://dexscreener.com/arc/0x06cccef91187999d92021cdde01d389c342e3b518e648d7a0ae1ced2449bff01"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x821Cc768D4fe1637b048D3E334a3eD8250877777",
+     "name": "Jensen Huang",
+     "liquidity": 23002,
+     "url": "https://dexscreener.com/robinhood/0x1e768480a5531b7509253afc14643fe2172a01dba77729524fb4c10d677b7f59"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x4f25069d7b211DBd67200Db8EE0fc3C033B21b47",
+     "name": "Jensen Huang",
+     "liquidity": 22846,
+     "url": "https://dexscreener.com/robinhood/0xa9a73a23a670d1e5164fcb8b0f641267bd5b218e42959b314b5883e7e1bb62ca"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xe145c1a1D816BeC9c70208A6C9E3141E5D0d8D93",
+     "name": "Jensen Huang",
+     "liquidity": 21278,
+     "url": "https://dexscreener.com/robinhood/0x240e176e4f265cd0b394e6c0bb4b078eb5c443209c0be1e12e08f3ac8876cd0c"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xD02cf5dA637097edD10e302d29DB5ce6f8Ee1E18",
+     "name": "Jensen Huang",
+     "liquidity": 19778,
+     "url": "https://dexscreener.com/robinhood/0x30d004c9bde6231a25ca1b8ca063de3c0a5d8c5f1dae6a56c2e195bde2214936"
+    },
+    {
+     "chain": "solana",
+     "address": "8pMUc522qUPHeSyCFw4MHR8mk2xhX7YMjcG7KbS7BAGS",
+     "name": "Jensen Huang",
+     "liquidity": 16042,
+     "url": "https://dexscreener.com/solana/7eumypamey7nlwngz1vb5odrmcuaqa7crppuwrhp4flz"
+    },
+    {
+     "chain": "solana",
+     "address": "7z3QB6D8xge7GzKZCsajvnLt8zqT1SvFonY9vZZmpump",
+     "name": "Jensen Huang",
+     "liquidity": 1805,
+     "url": "https://dexscreener.com/solana/5nxngjpfuljth6o3qseupt9wxdfahnftg3lrh8ru96kr"
+    },
+    {
+     "chain": "solana",
+     "address": "GMP53gwqzk3EnEqYjo8RhYe4jnQ2X7feZwkRXR1yBAGS",
+     "name": "Jensen Huang",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/dtmvqfvxuuhbwdstp6czkcunwpkrqt3ghbqksemvyvdq"
+    },
+    {
+     "chain": "solana",
+     "address": "DzA6eN7ptGG9QAyXVnq3DphsWHSmpAiX7Lkmdvc1pump",
+     "name": "Double Trouble ",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/vxt3jhnnvcdttyxtulp3eak5adtzkkvfxolxtrz8sct"
+    },
+    {
+     "chain": "solana",
+     "address": "2rdNezcZh4yN6ktPTwvgRK7YUq65sSXen29XyC65pump",
+     "name": "Chin Jenspy",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/budjpzwfjjsifa5stwauxf26edbaq6cyeepdhefgmkw8"
+    },
+    {
+     "chain": "solana",
+     "address": "C84q1kzGERna6VHUSdNKnG9kv7WY5hDddXKYVHynpump",
+     "name": "FUANF HUANG",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gjctujmwjllvzbjrnsxjrky1xzex6ycz5jhkiytyfnkm"
+    },
+    {
+     "chain": "solana",
+     "address": "AH689Vi1vxJqqcfhHaLEVGpTqRMEHkoDnr1wBQCapump",
+     "name": "JEFFERY HUANG",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/5ebibkpod7xnjndxwl8gx3nqh36vukprsqgfvqdptrdr"
+    }
+   ]
+  },
+  {
+   "symbol": "MAX",
+   "chain": "solana",
+   "address": "8Gug6wcw7FacmrSNBGcquKi84ZrAvzJRzap9WuBqbkwA",
+   "url": "https://dexscreener.com/solana/8gug6wcw7facmrsnbgcquki84zravzjrzap9wubqbkwa",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=MAX",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "5qaP7oKUqKffwwo5DaEqDoTtsBLMpdbQTxEkCDaTpump",
+     "name": "Max coin",
+     "liquidity": 272086,
+     "url": "https://dexscreener.com/solana/eoe22hdca9rhtbwkl6nnzmzxfuzf35xkxobcvfaf1vwq"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xe9Bc5C6A86caA44fD7b469bf3cc7c563E4F77777",
+     "name": "Giggle Mascot",
+     "liquidity": 160582,
+     "url": "https://dexscreener.com/bsc/0xa2b1926cb477e92445cf70602f1a7200361f761d"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x1A631F5eBaC9Bc6CEF8026909C4D630df2841f12",
+     "name": "Max coin",
+     "liquidity": 122055,
+     "url": "https://dexscreener.com/robinhood/0x19ba52511ee5aa0469d38081cd315e0c8a24ee5cae1f26597f0020f6181cf84a"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xDf6d698f427C754077339ADF3dA82Bab5410a786",
+     "name": "Max coin",
+     "liquidity": 82757,
+     "url": "https://dexscreener.com/robinhood/0xd87f8dfdb98644e58b7ec7c8640152c4ca563727dac6a3163425b57cefc3e866"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xdE51CAd5cFBC3c4293F91A5BA37451fBF894cd89",
+     "name": "Max coin",
+     "liquidity": 54799,
+     "url": "https://dexscreener.com/elysium/0x025fd39e1a78f1b907ba14aabaac832e86b2f9fa"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xCD0eAE89A11c69A175100C1B1D03Fc37f78Cef64",
+     "name": "Max coin",
+     "liquidity": 43014,
+     "url": "https://dexscreener.com/robinhood/0x7f0a3cc4583e2e8285e78aad74a1c7e22b89396f395d0bfd3e0973f6f58abe59"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xD8f529528Ad57110D03a83797aC7A8b06617748B",
+     "name": "Max coin",
+     "liquidity": 36972,
+     "url": "https://dexscreener.com/robinhood/0x6202586e292f56440ff69f5a5f02e843423f99240f28d3744c1555c4af98b891"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x67f1C55Be734Bf34C6ae696a9921154aDC3829FE",
+     "name": "Max coin",
+     "liquidity": 36453,
+     "url": "https://dexscreener.com/robinhood/0xbade94e363b2744a483ee0f114b17c5b0fdd7b586684ea094f37f9aa5a525b18"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x849eE364198f0e51086fC62bDFE9E4dFE446F7A7",
+     "name": "Max coin",
+     "liquidity": 36014,
+     "url": "https://dexscreener.com/robinhood/0xd78cb0be81c57a97770350c87a031f5becb4b55e9dae93c811d73700aa6a28a5"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x0780CE1bE159803ebcB5e81FD3D212173f44E61b",
+     "name": "Max coin",
+     "liquidity": 35433,
+     "url": "https://dexscreener.com/robinhood/0xaca93fc2bdb447ea946dba1c00e5fa465157f4ee54e329f14d855cc8bc2c1c10"
+    },
+    {
+     "chain": "arc",
+     "address": "0x70c63d972e430d567DE4408309f14f98Cd91c777",
+     "name": "Max coin",
+     "liquidity": 30521,
+     "url": "https://dexscreener.com/arc/0x7f8855db6dbdfa24430278b10b77d8a64c8ebc2b3c56d7f086a334cd10a9dd2c"
+    },
+    {
+     "chain": "arc",
+     "address": "0xc931C6D4Fb5Da444Ea697e6F39D735B08f966777",
+     "name": "Max coin",
+     "liquidity": 30406,
+     "url": "https://dexscreener.com/arc/0x0655dbff16db514dee260cea40acfe66b37d28041be83cac999c3ddefebd424a"
+    },
+    {
+     "chain": "arc",
+     "address": "0x9e6D05EFD4F63a1eF0B85368fB0358f725EFc777",
+     "name": "Max coin",
+     "liquidity": 30315,
+     "url": "https://dexscreener.com/arc/0x99bb5f14adbd32302090f12c8c034c55bb8c8ef0bd1fd3420174843c95f78be5"
+    },
+    {
+     "chain": "arc",
+     "address": "0xcBA1F783278B465D6457F90B6a128C4791C15777",
+     "name": "Max coin",
+     "liquidity": 30034,
+     "url": "https://dexscreener.com/arc/0xcd7a9c036244bd81772c720a7f898ccd12dcd9e6d269e017a183a72adfcf4f51"
+    },
+    {
+     "chain": "arc",
+     "address": "0x23710cb0e02FcD89EbAd0054864413DE0A66A777",
+     "name": "Max coin",
+     "liquidity": 30015,
+     "url": "https://dexscreener.com/arc/0x7cbbbf7561c7e09f722b45dfe4986d9b8c7c380a5a03b8e305dd70427d366591"
+    },
+    {
+     "chain": "arc",
+     "address": "0x7690C042653A812580552a5724B5626Dc5C01777",
+     "name": "Max",
+     "liquidity": 29637,
+     "url": "https://dexscreener.com/arc/0x987db4ae2639afa3cf4c25d0f48654f83117cf6adce0fc8547d8195716d8ca7b"
+    },
+    {
+     "chain": "arc",
+     "address": "0x0085cA59ef133bA706A1398D37D23733a208A777",
+     "name": "Max",
+     "liquidity": 29437,
+     "url": "https://dexscreener.com/arc/0x85ce2acbacae24afb969619d8bdea3157976e93b1a7c827841740a3e00124831"
+    },
+    {
+     "chain": "arc",
+     "address": "0x23BCba5A365b3E4721bc39fB196213EfEC2CC777",
+     "name": "Max coin",
+     "liquidity": 29373,
+     "url": "https://dexscreener.com/arc/0x79a64db9de462a9718fdf63ba309c0f6784a6c96936c32eb7a358d246b8a5e2a"
+    },
+    {
+     "chain": "arc",
+     "address": "0x099691264939E4Da3ecde92E7dA288ebC891C777",
+     "name": "Max",
+     "liquidity": 29126,
+     "url": "https://dexscreener.com/arc/0xa27bee13847063b11f32d47dbdfb0f6d55f4863b18d7f9650aa5024fb8b041a1"
+    },
+    {
+     "chain": "arc",
+     "address": "0xb26C65000652615a04e2499f98b568e1314B7777",
+     "name": "Max coin",
+     "liquidity": 28682,
+     "url": "https://dexscreener.com/arc/0x6d5b641abdc21520c6e65a9a8e7addc251996a6d73080f1f9838b17b44e73d54"
+    },
+    {
+     "chain": "arc",
+     "address": "0xDf2d07FC7f3Bd165Ef593e0e6c49BCbe2cb55777",
+     "name": "Max",
+     "liquidity": 28605,
+     "url": "https://dexscreener.com/arc/0x928827af5a2a3a39274ce0cea90bd8127e3befecafc62d9f0875eff9208f5578"
+    },
+    {
+     "chain": "arc",
+     "address": "0x0178071fCc248e65Aa2146974F65c1E4a089A777",
+     "name": "Max coin",
+     "liquidity": 27946,
+     "url": "https://dexscreener.com/arc/0x34012412a7f4febf4000b2a9e3b6e7e82f882f3c42e8ff0a4ee6c5d29ae12407"
+    },
+    {
+     "chain": "arc",
+     "address": "0x01Db119256D13832Fc4771866ADEE21e00887777",
+     "name": "Max coin",
+     "liquidity": 27266,
+     "url": "https://dexscreener.com/arc/0x552bdd13ce4d0b101221e201a9276e25bab1d6c549690bf498efea98d0d07c37"
+    },
+    {
+     "chain": "arc",
+     "address": "0xBB2F43bDE7fa291275e4aa6d4390b9E7345D7777",
+     "name": "Max coin",
+     "liquidity": 26753,
+     "url": "https://dexscreener.com/arc/0xaeffdad708a9dcfd03bd1963e641cbde612eca0f0c9e71dde37ab6af3ec1765c"
+    },
+    {
+     "chain": "arc",
+     "address": "0x4C7E34010db49A9e3Cd11366495c842EDEB87777",
+     "name": "Max coin",
+     "liquidity": 24730,
+     "url": "https://dexscreener.com/arc/0x8c2019ed7c73a8a35b438d5b57fbf63ede3a14f5140993da8269615016ddde7e"
+    },
+    {
+     "chain": "solana",
+     "address": "HPSpaNgQxqZRwzoW8E9hecgMq4cDoV1CMCfteyu5h53z",
+     "name": "Max",
+     "liquidity": 18943,
+     "url": "https://dexscreener.com/solana/723hi42zhg8ypdpupfscbnvpxubguvgrss7nr6nfxazx"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xCd1fd11B75C565941f1b38b3cDb6BBa4eAF64444",
+     "name": "Max coin",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/bsc/0xcd1fd11b75c565941f1b38b3cdb6bba4eaf64444:4meme"
+    }
+   ]
+  },
+  {
+   "symbol": "NOBUSHIBA",
+   "chain": "solana",
+   "address": "8AAVuQpJcqpvCuutxyBTVvgBEXZJSkZoNv1sExpBpump",
+   "url": "https://dexscreener.com/solana/8aavuqpjcqpvcuutxybtvvgbexzjskzonv1sexpbpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=NOBUSHIBA",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "8AAVuQpJcqpvCuutxyBTVvgBEXZJSkZoNv1sExpBpump",
+     "name": "Shiba Nobunaga",
+     "liquidity": 67592,
+     "url": "https://dexscreener.com/solana/dagau7g32pmkjf8ng2372xo2hygfgenx5yn7mwmkhfgf"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xa1eCE54Bc4Df88eB3B2C2293B8C3a928349Ab966",
+     "name": "NOBUSHIBA",
+     "liquidity": 7384,
+     "url": "https://dexscreener.com/elysium/0x6181d110951332cb753d65a36f811cc6e61dc3b9450d8c417eb850f691400e5a"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xb4865122F57D8Bb5A1bAE5aA6204e661f9a4cbF5",
+     "name": "NOBUSHIBA",
+     "liquidity": 2194,
+     "url": "https://dexscreener.com/elysium/0xce254a73941d48d6fd73d9f82fc7c192fae17ebd86ca90a23f6726b1318dbd17"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x4B58c052214C1597e9d1D1482909aeB498502940",
+     "name": "NOBUSHIBA",
+     "liquidity": 2185,
+     "url": "https://dexscreener.com/elysium/0x6a0bd073a99fbf481a435f0027fd3162a3053fbe1cf566bf031ea9250a0231e3"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xD6632164459a6321309ea6cc6b179BFFCCf5d423",
+     "name": "NOBUSHIBA",
+     "liquidity": 2158,
+     "url": "https://dexscreener.com/elysium/0xaba5b5ea7b5eb31fbbff0fa9eb90f603a11a3b3e52a1fc7f276e4d6cb5024685"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xE832147bD97582167122beae880C562234329326",
+     "name": "NOBUSHIBA",
+     "liquidity": 2156,
+     "url": "https://dexscreener.com/elysium/0x158592fbfc30145d4d98d25eb8b6a672847efb0b3eb64dc74b7f5adacfcbf3d5"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x106A9e0A94FD15691C08844Eb42441722BC709A6",
+     "name": "NOBUSHIBA",
+     "liquidity": 2156,
+     "url": "https://dexscreener.com/elysium/0x5076895827cb24e75679e81e21487e4cbaaadd7e046b2302e85f852b9f3d5f1e"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x17f448b55AA338B8a7E3CBc760611621E63aD246",
+     "name": "NOBUSHIBA",
+     "liquidity": 2155,
+     "url": "https://dexscreener.com/elysium/0x6217cc062184300478fab115dcbabe9ac5d8ee65a9d660ba03399807e24e9522"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x8A02B917fABAB4516B59627ebCE264DCd91815ab",
+     "name": "NOBUSHIBA",
+     "liquidity": 2150,
+     "url": "https://dexscreener.com/elysium/0x5fb65cf06ea73608e50f71b91956f32b110e1ac532239ebb90cee440260a7c26"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x1ea934CC53245f22c947942C9fE935204473670c",
+     "name": "NOBUSHIBA",
+     "liquidity": 2149,
+     "url": "https://dexscreener.com/elysium/0x1f59e9834d71e78343b143379ff1804910df90341ed394558e69cffbd12da934"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xC4Be0f1d256bDDA5df899950AA0E09e499B14750",
+     "name": "NOBUSHIBA",
+     "liquidity": 2149,
+     "url": "https://dexscreener.com/elysium/0xe13c548a4933d115c6b1e10bd1658e84e9c9d8c13e0ecb961515edc3e14e54ac"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x6EDB3e76786785527FFAd6C49B6302306d19b611",
+     "name": "NOBUSHIBA",
+     "liquidity": 2149,
+     "url": "https://dexscreener.com/elysium/0x0d2063d8c7be7343c76e5d9d575e3c174269fc80ab2775856c6779dc0e5fefbc"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xCF5559b6543A8C22861fC7E6EaBc318d82E6aE70",
+     "name": "NOBUSHIBA",
+     "liquidity": 2148,
+     "url": "https://dexscreener.com/elysium/0x3d8ecf8757cd0c703eb12abb001de1f5f6c4e58857fbea4634e206a92197bab3"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xa02cb930267A45D5b0d5321Ed3f91191E80F6FB0",
+     "name": "NOBUSHIBA",
+     "liquidity": 2147,
+     "url": "https://dexscreener.com/elysium/0x79e5c922f50685feefc6d0fcc35fa0ab7bcfe7bd32eb8b6c5e996ffec7fb4475"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xe77b8e7AE5a7DC1e1827bF67e9186028Ae2A2B9a",
+     "name": "NOBUSHIBA",
+     "liquidity": 2146,
+     "url": "https://dexscreener.com/elysium/0x55ff6dfe57aeced8775da3ef70f3b0b5918baf544109a828f1b86ec42c41d6ee"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x9dBe6cB4dE46799611c92ca685D0af1EA766bf66",
+     "name": "NOBUSHIBA",
+     "liquidity": 2145,
+     "url": "https://dexscreener.com/elysium/0x1ba6ac649f15cf799db40b23aa797341d728deaab7cbda735ff136ba86a6f3c8"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x4b5bfa61551943A9496f050B3134201369b0f3b5",
+     "name": "NOBUSHIBA",
+     "liquidity": 2145,
+     "url": "https://dexscreener.com/elysium/0xe3854200f623fbd455952ac7cc759bed08246addb54ebeed0af0babffd9ae01f"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x3411433D04E9D0A429006F7688B34D8B1De24725",
+     "name": "NOBUSHIBA",
+     "liquidity": 2143,
+     "url": "https://dexscreener.com/elysium/0x1154a7d43144fd4a96b948c1150d417d8dc96e751402b02c7caae9b483b9e52c"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x34F514EFA6B10803A1EEE1AFFAA27Df867C6Bd51",
+     "name": "NOBUSHIBA",
+     "liquidity": 2143,
+     "url": "https://dexscreener.com/elysium/0x8fffa82d5e5210de93b0ab4e54561349a97e5ee7ce3d5149311ac48131f92533"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x50Cd445271ec21F8FF1aAe67Db4d54De8c6fe406",
+     "name": "NOBUSHIBA",
+     "liquidity": 2131,
+     "url": "https://dexscreener.com/elysium/0x375162703c4e642f4d8f5fdcab7a24822eac39b05d40a12c866bf68904883fc5"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xaA91A70aB65F53Fefc42cC6b594F9cE475af5c0D",
+     "name": "NOBUSHIBA",
+     "liquidity": 2131,
+     "url": "https://dexscreener.com/elysium/0x681cc7f03627854fcc1ffb02edf3186812dc4bb7f3274d20209f9f2ddadde538"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x0BC05BC8d57178B51F6E8C426Ee29f0d887D894B",
+     "name": "NOBUSHIBA",
+     "liquidity": 2127,
+     "url": "https://dexscreener.com/elysium/0xedcb7a91bb3c3e05ce6daa9af3cea286eb5ee4a557d133c4d82a6218979ee794"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xDD3C84Fb2654628E2BD540787BF908433546d052",
+     "name": "NOBUSHIBA",
+     "liquidity": 2121,
+     "url": "https://dexscreener.com/elysium/0x40bd5dba45af5355875690278879f3b110265f0c7f219099b3ab86558da8ef05"
+    },
+    {
+     "chain": "solana",
+     "address": "EMQXFRfSZnQzZoPH78hCqR4tvvZxAfZyuYNtGoqLLP65",
+     "name": "Shiba Nobunaga",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fdmvxtb3qajztt3vqforkzmr1wav9qso5njmqsilqdq2"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xb3eE23B1d5b906138fd3B358DB162aB9104d19b5",
+     "name": "NOBUSHIBA Unlocked",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0x104481174f2ea1085c5ab129d9dc8b7b031df7a1492fcaf169e5831e9ff9dc30"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xfcAFE7CAA631e4931967b903EA8aac6DE851804a",
+     "name": "NOBUSHIBA Unlocked",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xf4289b8d1200abe9229207d45c2f9c6b2649ab05af8f92b97276aaf7e2d66e0c"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x0870900900b56e533511D83F3C529CF8637A25Fb",
+     "name": "NOBUSHIBA Unlocked",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xb23e137315b0949e3c43281991344604aa1c4115f0715c4c79a483021b09d676"
+    }
+   ]
+  },
+  {
+   "symbol": "AIB",
+   "chain": "solana",
+   "address": "AJFnmpiF4VTKeqEWtwBUarib5zKKbXcs594UyrMHpump",
+   "url": "https://dexscreener.com/solana/ajfnmpif4vtkeqewtwbuarib5zkkbxcs594uyrmhpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=AIB",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "base",
+     "address": "0x0E0e6C24E758C3e5714Cb84c62D68809B7AcE24c",
+     "name": "America Is Back",
+     "liquidity": 30551,
+     "url": "https://dexscreener.com/base/0x3202a414d1d9e9bc5ff9af8ba290e64b368e1f4be7ed31a9fc7d024f90616383"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0xB3A0F70c913Aa04404BD177BE9E20B47613830B6",
+     "name": "America is Back",
+     "liquidity": 30319,
+     "url": "https://dexscreener.com/ethereum/0x62eae8645b51146d262dca962e3ec00e84946475"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xc9fE92CcDD1EBA028c4B35E876c7216ADAdfC2AF",
+     "name": "AIB",
+     "liquidity": 25568,
+     "url": "https://dexscreener.com/bsc/0x96ab8794107ee376631a9540544bb3d0289c5e01"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x61471eC9dE3BE4F4E4D6ADe28DAe2235f22Df3c6",
+     "name": "Ansem is Back",
+     "liquidity": 20472,
+     "url": "https://dexscreener.com/robinhood/0x76b66836eb6f84c6b9b2382df38f3b80d80106ad4aebd013b5ce4064590a1371"
+    },
+    {
+     "chain": "solana",
+     "address": "2EqXwLbVHe83FUbnpNcyxXR4QtKKiPiVe3tXSGp9pump",
+     "name": "AMERICA IS BACK",
+     "liquidity": 6500,
+     "url": "https://dexscreener.com/solana/arbqxp9xynaoa8tfnrrw2hlnyblufsnn7wzhfmlhkrcd"
+    },
+    {
+     "chain": "solana",
+     "address": "GgieLnjHjwYwSvscVNc2xB2qN1K3YhjYPngzY9c2bonk",
+     "name": "AMERICA IS BACK",
+     "liquidity": 6408,
+     "url": "https://dexscreener.com/solana/az8xg4yvr7s4reylx6bjdqhgrtx1ucawsebkgvs2b25q"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x73cc9Da0C9984982c638D14b43021b990c4Ec76e",
+     "name": "Ansem is Back",
+     "liquidity": 5431,
+     "url": "https://dexscreener.com/elysium/0xb4a584b7b74ff23b91e42794b504b236a1e01f39b8c556340a09494d0d10090f"
+    },
+    {
+     "chain": "solana",
+     "address": "AJFnmpiF4VTKeqEWtwBUarib5zKKbXcs594UyrMHpump",
+     "name": "Ansem is Back",
+     "liquidity": 3029,
+     "url": "https://dexscreener.com/solana/5jn7yxkhncgwi3njp5z8m6yybkkuhl7p2axllg2dagk3"
+    },
+    {
+     "chain": "base",
+     "address": "0x2bf4342eFA6DE63371D1DBB5984FFBf74F9A7884",
+     "name": "Ansem is Back",
+     "liquidity": 2386,
+     "url": "https://dexscreener.com/base/0xe135c3f983838243154e4c1238edbb018ca9f622d3d984d0da6dccfc8b9aadd7"
+    },
+    {
+     "chain": "solana",
+     "address": "EwHV6XfuMmBirGSiDVSypVkHcw7jD7Mho1s5xGwjpump",
+     "name": "America is Back",
+     "liquidity": 2383,
+     "url": "https://dexscreener.com/solana/2f2dvuzegs2dumqdaaehwf6cdwrx4gtljhlwvojkyvzw"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x8FED381B76DC1977294B76ae446A6FF5d285eC65",
+     "name": "Ansem is Back",
+     "liquidity": 2379,
+     "url": "https://dexscreener.com/robinhood/0x1b6c55dc5ea443b06b31f6b0895d8f7c9873ca829ec1d2b492450140c558119c"
+    },
+    {
+     "chain": "solana",
+     "address": "4TZWYdr6XL3esjPQMDrFEswLmXh61wSbfgHfU7v2pump",
+     "name": "America Is Back",
+     "liquidity": 2198,
+     "url": "https://dexscreener.com/solana/aqzqgmjpeb7qphw8u3fzr6dk7javnrkofgyvwm3s11th"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xB7D7732c34CC67D89d4Cb5b165b508C1747a8Bf3",
+     "name": "Ansem is Back",
+     "liquidity": 2134,
+     "url": "https://dexscreener.com/elysium/0x13c13956b1868e683017ee15f191e54826b5bddef3b83cc1acf68f828a8dd280"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xCcDe31013bB747a5Bc08C49Cb932f6975DEa015A",
+     "name": "AIB",
+     "liquidity": 2129,
+     "url": "https://dexscreener.com/elysium/0x31ebca56164b9bd00f8833a2c6398c24f2711c60f4fe307be497f8b23e6ca73d"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xE7Ef84566ee61ec451aa29AaD47473acF80d6443",
+     "name": "Ansem is Back",
+     "liquidity": 2128,
+     "url": "https://dexscreener.com/elysium/0x20d3dc87a2f6bd30925b1929c118fd7d5d76b7f04614a79a6f0f75a10d3c79da"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xe37931373aca8A6F4321f175943b442FAC7E512C",
+     "name": "Ansem is Back",
+     "liquidity": 2119,
+     "url": "https://dexscreener.com/elysium/0x718f33a84e181d3085e63e1090ce25bdfbc3ea3a6959a6a89bdce339b5915507"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x536Ec36A94b13Fdbae4F5AEc3D7B95BFdA9758aB",
+     "name": "Ansem is Back",
+     "liquidity": 2118,
+     "url": "https://dexscreener.com/elysium/0x8110320024034f4bade5a013551bbe3d56d8e965e61636828f133e5627a45009"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xed3921472d849E0Fe89e589F6F823a99dE539836",
+     "name": "AIB",
+     "liquidity": 2118,
+     "url": "https://dexscreener.com/elysium/0x9e71b6b3061d8f0a85af8dd26d8f0f901808731d887afb2b8bcfa27ded2a4cd4"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xeFF584F2a883951bCdC2ED40f1e795f59D929913",
+     "name": "Ansem is Back",
+     "liquidity": 2118,
+     "url": "https://dexscreener.com/elysium/0x5aecdf1ddf55daf56e0439dedcf1055a9a9c758dc53c2a337a81c036d288c716"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x4E58229916230B0C5C100f84C1d4a13755704582",
+     "name": "AIB",
+     "liquidity": 2114,
+     "url": "https://dexscreener.com/elysium/0x1e727925d58edcb1cf7dbd760e36f33bd78dac81e5a5e3baa56166575cb414e3"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xF539fbd69636cA5E382Ef975C4172e2446906AE1",
+     "name": "AIB",
+     "liquidity": 2114,
+     "url": "https://dexscreener.com/elysium/0x99acec9c7a3cbfe65d1df9acb4c70a0659bd5bcb56f1fac361ad61338c7e58fb"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x08ED3700B7CFE7dA39DD5f5909fCd76E7e7E9330",
+     "name": "Ansem is Back",
+     "liquidity": 2106,
+     "url": "https://dexscreener.com/elysium/0xad69e2c2579700d465c7655a0149ca31b2554237dc9460a23d20048c091ad9a1"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xd5358D127dEA999C57d8F43DC8c7a50156e01469",
+     "name": "Ansem is Back",
+     "liquidity": 2099,
+     "url": "https://dexscreener.com/elysium/0xbdf7521badf498ff9ea33cd9da8d5fcadd1dfe7c1999536906791f0a0f831dae"
+    },
+    {
+     "chain": "solana",
+     "address": "7fNYfFkDefatZugpcgaHqGxQuwm6JzcRYDQrdajqpump",
+     "name": "Ansem is Back",
+     "liquidity": 1676,
+     "url": "https://dexscreener.com/solana/fkxes2lfjx1sb8dkxnpppnoxmd3khruvmteb7e11kimx"
+    },
+    {
+     "chain": "solana",
+     "address": "FtBmsuEgZHAo972PaEQrDdpEeMXSrUmnPavNpfBepump",
+     "name": "Ansem is Back",
+     "liquidity": 1555,
+     "url": "https://dexscreener.com/solana/3nnewjlkaftmmw9sph9jekudh182g8zcqkbbdia6yt1e"
+    },
+    {
+     "chain": "solana",
+     "address": "ELyxrm5UKJb1M3zHhGqRE7mFqVyMyiYQvph4aHB4yg5x",
+     "name": "Ansem is Back",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/cn4t6mwwg19a7j7dab8hzhsyxrqak47cqre3jtp6krj3"
+    }
+   ]
+  },
+  {
+   "symbol": "Leonida",
+   "chain": "solana",
+   "address": "BWJfBNeXpapG7uoqByp5KSwWgCQba8QcDmA2DQiEpump",
+   "url": "https://dexscreener.com/solana/bwjfbnexpapg7uoqbyp5kswwgcqba8qcdma2dqiepump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=Leonida",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "BWJfBNeXpapG7uoqByp5KSwWgCQba8QcDmA2DQiEpump",
+     "name": "State of Leonida",
+     "liquidity": 62327,
+     "url": "https://dexscreener.com/solana/5gxdopck2lj6qycj3uvtc37tgsfhma55ulfkuftye49r"
+    },
+    {
+     "chain": "arc",
+     "address": "0x356Fee318af8103a500F9b03c6408A620cB8A777",
+     "name": "State of Leonida",
+     "liquidity": 30366,
+     "url": "https://dexscreener.com/arc/0x179288e5fd9c167b49ce760c17c0cbd6b13da4837f2506ee9157d35ba4f1e77b"
+    },
+    {
+     "chain": "bsc",
+     "address": "0x8e546D26b93Ef41Af5c9f76765F5dD5aB1C57777",
+     "name": "Leonida",
+     "liquidity": 9562,
+     "url": "https://dexscreener.com/bsc/0x59128375c7b7ef16e6b76e74cfac63ecd6eb813b"
+    },
+    {
+     "chain": "solana",
+     "address": "EPccnp9LtKviTtiWgmF5PVNhb421GF8pt3mqtnB3pump",
+     "name": "Leonida The Land of GTA 6",
+     "liquidity": 8113,
+     "url": "https://dexscreener.com/solana/az7glmdji2iqlqpdgoxdgzty3yskwje2bswhh2hbceqa"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x0664C4433c20D3F6EA34f9688feE2d8d76B32475",
+     "name": "State of Leonida",
+     "liquidity": 2042,
+     "url": "https://dexscreener.com/ethereum/0xab5909f4ba7de46667c13d02f63d3a659c793ae34c98f029e19278bcbb46d16c"
+    },
+    {
+     "chain": "solana",
+     "address": "3WUfWQADbhWwogJk7Y37o5PUUVEy7KK1xsxB3YTvpump",
+     "name": "Leonida The ViceCity",
+     "liquidity": 1931,
+     "url": "https://dexscreener.com/solana/4vt3cntmyf2pxxnxl8g1reufmjtvkwfk1jy4m4ff4qjj"
+    },
+    {
+     "chain": "solana",
+     "address": "2uQw2gvnhYYQ5T5jJf3MvLPyUquQ54VFHbMHBTtCpump",
+     "name": "Leonida",
+     "liquidity": 1896,
+     "url": "https://dexscreener.com/solana/febntxmdn6iasfqh9qx2fbd7e1kqdszjjmqfeyb9pep7"
+    },
+    {
+     "chain": "solana",
+     "address": "5YY5qcnh5F3JaAybXqr5wLvb2GXZcE34GgE7DPyzpump",
+     "name": "Leonida",
+     "liquidity": 1758,
+     "url": "https://dexscreener.com/solana/8slz3av6zzukevinsk39g15kr1ryfep31xgzt3euovgh"
+    },
+    {
+     "chain": "solana",
+     "address": "7eKYffRe4ovuKBn79QuZcxFjW7XhnJ5qujABGBp3GFik",
+     "name": "Leonida",
+     "liquidity": 23,
+     "url": "https://dexscreener.com/solana/dhmd69hfmjkdjryymuyw3mtmccnu1zsp2cdc31ne687t"
+    },
+    {
+     "chain": "solana",
+     "address": "GdaE4o9utfnfxMbK7qiuaVHdJxToQwFpwMPFUUAGpump",
+     "name": "See you in Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7aa3mnwpbtlhqvsumzyuerasm3jgez2qgbxvx4awnexi"
+    },
+    {
+     "chain": "solana",
+     "address": "HqcomVqu6E8JUVAGe6sok9EpPoXxmDhdYsBELjMepLby",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/cbutzp4ygseqxuxijsgmhpj41bgarbne3j4rhjh4awpi"
+    },
+    {
+     "chain": "solana",
+     "address": "DtSMzpR4enXJMCpT5sYRn62b3kgowEoeQSVNPfKCJKGE",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/c4jdbbv17ugeyqtycy8fhwlkasfkdn6gffpag4yubpgd"
+    },
+    {
+     "chain": "solana",
+     "address": "571RaGfJW5zywbKvqynV1UmStDSJ6YP1Lx3At6zufYc5",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/2ynjq97wo7bmqimzyywgnk8hvwnpn5gvhcaqi6hzvusu"
+    },
+    {
+     "chain": "solana",
+     "address": "5hRJBXK2C3d7wyyT1RxuU8DeetcTrdQJ1yZKeJmi2t4Q",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/syvrxiqhgygxe39u6t1c8q5lssau1fj4bwk6hddkukp"
+    },
+    {
+     "chain": "solana",
+     "address": "DBU6ShT8hgfzHZusrc6RjL2AuTCympnoiRNKUnWY31gM",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/idaznr1bx6rugsmemam5ncnuausgx7ua9ugqah3sstr"
+    },
+    {
+     "chain": "solana",
+     "address": "ymVku5eeBWFu2KTkTQCRykgqMWW2rSeNh7GKjmopump",
+     "name": "Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/8uiqwrqjv1ovxjchv8erh73eda86yqzhxeu1pipysaic"
+    },
+    {
+     "chain": "solana",
+     "address": "DcBrrAhw5mREJU3sVUx5GdocG4DkZvdc8V5MxUbacZZ7",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7fzckmsali18mfcgdo4rc58kbcjqtmjd17y6xneeba1e"
+    },
+    {
+     "chain": "solana",
+     "address": "7dMa29343Y1gvdmYSyBp4P99gPnF88VQduciEGDzkhTy",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/uuqh1afvenxcfev9rnroeth6swfnv518wqayxggs7rh"
+    },
+    {
+     "chain": "solana",
+     "address": "281E4qqXHDVBNxzrDTyGfeRmnNUjWBN7C3Q3aajsnLSe",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9apnkfdx7udtphdmzsguajvss9jptp4kpmqwwhxgibfe"
+    },
+    {
+     "chain": "solana",
+     "address": "EZRXwhLmcN6yZwTG2GBtFSZKHS84PzcNVSYWzAvuWsY9",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/26jvutjxszv1d5rvdnd6ep2lomac3u3pyjn8mtdjneru"
+    },
+    {
+     "chain": "solana",
+     "address": "2PvSc1oFahiijzmi2ir4DXd2s2i1NQJs7kWnxhEfmutS",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/c5vuggrghsqhet762aypdeycokxp7tapm9n2cxebbdz"
+    },
+    {
+     "chain": "solana",
+     "address": "9KYohfjX7nbQDCCBLx63eTDEprcQce4cMLPecspxqu5o",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9lt3linjqvetvj5hacadqw6oyxk9yzvewmd8neltw9y7"
+    },
+    {
+     "chain": "solana",
+     "address": "A1cWfmvRE2m7wqyUvkjcUwtXEjXfZUgVTaa2sHa9ZBbt",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/ahkxdg7bf7ksaaxap2p78yfxnx8cfsf89ds4db2446xn"
+    },
+    {
+     "chain": "solana",
+     "address": "2Gnaxt3boPqmYCCpYh8UjqZevw6QiyRmayz183N9pR1p",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/amkzcmec75udxen2d2d8rmvndjcuzjdbk2rzrqfv1th"
+    },
+    {
+     "chain": "solana",
+     "address": "6ryYNaXokNPokCMyPwH9mGb1Qv2L1HyBK8MhDNv18jpv",
+     "name": "State of Leonida",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/28szjgyljrskz96vnqk9zamtupa6hkks5gzipsryfbir"
+    }
+   ]
+  },
+  {
+   "symbol": "LuckyCoin",
+   "chain": "solana",
+   "address": "89iRVoDVPd8tuRrMyhgPfe58eDneasPsdEVu5AUMpump",
+   "url": "https://dexscreener.com/solana/89irvodvpd8turrmyhgpfe58edneaspsdevu5aumpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=LuckyCoin",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "base",
+     "address": "0xfb8c61910544Fe55ABC75Fa1912D5BA28a230b59",
+     "name": "祝你好运",
+     "liquidity": 320018,
+     "url": "https://dexscreener.com/base/0xcbe798e23fd7b0c4a5a4e20b2713ccae93b7fb48fe0bccf862b134efb54ee6ca"
+    },
+    {
+     "chain": "solana",
+     "address": "89iRVoDVPd8tuRrMyhgPfe58eDneasPsdEVu5AUMpump",
+     "name": "祝你好运",
+     "liquidity": 39217,
+     "url": "https://dexscreener.com/solana/7yxjoirdtvkhvjtnfocizkh6ro1bturtezsh2hewu1je"
+    },
+    {
+     "chain": "solana",
+     "address": "3BtunCQ3KdpsYtXQU9SmkGopnDkaQHuEgG14Dy1Lbonk",
+     "name": "祝你好运",
+     "liquidity": 14849,
+     "url": "https://dexscreener.com/solana/e7qywjhjznas5bncgfsatedmv9usxr72uavfewpjtf4d"
+    },
+    {
+     "chain": "solana",
+     "address": "9aCHVRfLuKV6R5yBnuEjHQjs166yu6y2St8rp5pKpump",
+     "name": "LuckyCoin",
+     "liquidity": 3578,
+     "url": "https://dexscreener.com/solana/39x1nm1s6dzuxvvgck5fkra1s7uirkjn48nz72392biv"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xe7fC5EF999ca979D64CCCC1e521565f7B9C3F7fd",
+     "name": "幸运币",
+     "liquidity": 2150,
+     "url": "https://dexscreener.com/elysium/0xd2e1be76247683e36e6d9fbf4ccff54117737d135bc85c6201400d824f6e9b91"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xd65AaE11e4157CbC1ba3cd1F8431432cdB630d75",
+     "name": "幸运币",
+     "liquidity": 2149,
+     "url": "https://dexscreener.com/elysium/0xed8400054ac271d8b256893112a86f9fa1829326f58985cabb14f704d6bccd2c"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x4e77d2e11264e57F5D54661234D01e195091B492",
+     "name": "幸运币",
+     "liquidity": 2134,
+     "url": "https://dexscreener.com/elysium/0xfc5efa76108a4431fa8b33fe6b47ccbd53170d7cb650b3e398338fce915ab81a"
+    },
+    {
+     "chain": "solana",
+     "address": "4WLSGyjehwyNYUZYGfbCYJGKY9y5xuDZYWdRFgYvpump",
+     "name": "祝你好运",
+     "liquidity": 1293,
+     "url": "https://dexscreener.com/solana/2zktnvv7tndhqfcotccrkj5fuyyxnuzh5k7mnxymzpd2"
+    },
+    {
+     "chain": "solana",
+     "address": "DHQKT8j9JnC3cb2eVhJjWJDz3ze5wNmaw6ELzBSHpump",
+     "name": "祝你好运",
+     "liquidity": 3,
+     "url": "https://dexscreener.com/solana/cjdkxextw9nsvqbgnaettdk5w6bfi1rmveqepdz1v7re"
+    },
+    {
+     "chain": "solana",
+     "address": "6V8imNhPQmXYid7YwazaqmmRKxQNRDbzR14NMm9wu1A6",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/gmxu8wqisxmvr4qmjgxtskebfp1suqmlo8nfmgtgaoc1"
+    },
+    {
+     "chain": "solana",
+     "address": "4y6B5NqHoEkf5R4bznjPoR62UjAS7BEd3WZRsnLaaPCz",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/9kkrh2tchgygd9pcw2vtgwjjbaj6vtfdr6nr8ufvzm9r"
+    },
+    {
+     "chain": "solana",
+     "address": "J4qGkre9R8BZkzonWFhPCvTGgETwsfmobAbKqpJ3SiYQ",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/cytvuyulpps73ddr9ayqybmmhic2qkuwffxorynlujfk"
+    },
+    {
+     "chain": "solana",
+     "address": "EkpjM1Cj5uWoiF1gJr16AHrS3HEFGBWF5V933Lf3qKR8",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/9uukffb3mxb6jqxz6efkg5qwe4cfrwnnretzxdaduz9x"
+    },
+    {
+     "chain": "solana",
+     "address": "EpGgCHkh5LTHivckZBwe1uVfUXq1D5g5FiZfKd5uwmfB",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/39jam4txkxqvbbzonk95bkmt5ks9dd6nv4sfcgafrb7y"
+    },
+    {
+     "chain": "solana",
+     "address": "bzn569YnzrNLyWr4g7trhAnSm5GJZ9qPignJ6DLZ3U5",
+     "name": "祝你好运",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/er1qjz14jq7qyxxleweocfsdpxwjqdgzacnn7ndpxgxv"
+    },
+    {
+     "chain": "solana",
+     "address": "NCKskMqbTrcCzMsu6vQQjud4z19im1tADcjoepGpump",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/bpdvjnby28ryjizhiim2j1nve7efyhvpgdevmxmlbzyv"
+    },
+    {
+     "chain": "solana",
+     "address": "FQRt8coRMy7uJ84qhuDCYrxy4Qh1R2JAqsxbCu1U6Xqk",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7if2synar81bv3xsaxzauawaxhkw5s9aou8icpcvsnbf"
+    },
+    {
+     "chain": "solana",
+     "address": "5kLBim4PU4Rhd2RPzrGcACGMNtzmcf2kcsUY9aXipump",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9mv65a4zsyi2bdfamennwtjkfuzzbezgvly86pvmcj7a"
+    },
+    {
+     "chain": "solana",
+     "address": "uhm1TuY2griAwCeuoXemY4wGCJRPfKFCy51CbJ7BVq5",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/grbycfkvovkqzt7nzcvcp2boia68ywoknhgzrpxjp83v"
+    },
+    {
+     "chain": "solana",
+     "address": "DwcbPeuXGXTJ4W9tDqW5rnP226EyH9H95feT8zFJosf3",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/6xzxfqiblahazybbugr5h4r57yi8khkkqsxmajmzpkyj"
+    },
+    {
+     "chain": "arc",
+     "address": "0x98b639EB1EB5628B44b693a157927f75A6087777",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/arc/0x9140657b0aa68c2f960c07219eddbc95604783ede274d2460736330b42a0c082"
+    },
+    {
+     "chain": "arc",
+     "address": "0x9C5b4183fb44Adf63f07cBAe3Ff1F48e5c77d777",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/arc/0xb32468b4eb88701e440e7ec56e8d220265af23fa366dfb3b402e1a52996aaf45"
+    },
+    {
+     "chain": "solana",
+     "address": "EdToTfWbGsxN5bSjJRNeBRCutkSrK3mwrT7WHvoppump",
+     "name": "LuckyCoin",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/bbpntv6is2of5odphf9movkt5djnhq3h3b95zhadarw2"
+    },
+    {
+     "chain": "solana",
+     "address": "8YRJf55HKJUo5sxAhm7TLrDWGbuNwPBpJGvJod3Rpump",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gxhqs7au7gv9jemnqrggtm7zugezkp8sj8b8mgplv5ks"
+    },
+    {
+     "chain": "solana",
+     "address": "6GBo7tn9ozinQG7pLVhc4YUSNxMpbKSahtBG6GCe8Hun",
+     "name": "祝你好运",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fkoctjy8cnyzkvfunqs6gxazgnu9ie43zzncr7a1lntg"
+    }
+   ]
+  },
+  {
+   "symbol": "POPVAX",
+   "chain": "solana",
+   "address": "7TmeeJxBF3PFsbgzuy23XpWJzQsqVXjvgLTb8S2zpump",
+   "url": "https://dexscreener.com/solana/7tmeejxbf3pfsbgzuy23xpwjzqsqvxjvgltb8s2zpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=POPVAX",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "robinhood",
+     "address": "0x54802F2c4697778334D144a694041cC2dAf84b3C",
+     "name": "The Cure For Cancer",
+     "liquidity": 33979,
+     "url": "https://dexscreener.com/robinhood/0x99dec41a7a5cab1a6bcaeb38f2aaa4a80cdf84fdd646f7e275705dd902dbd695"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x885cE96290f39A7E0537F637927914dCEDB7CeB5",
+     "name": "POPVAX",
+     "liquidity": 33749,
+     "url": "https://dexscreener.com/ethereum/0x422e5f896985c9ad6d38db93eea48cf592df88356e3a19e6415bbc3c4cf678c1"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x9c023C8Db99518F48A3Bd210B63a90031cDFcf0a",
+     "name": "The Cure For Cancer",
+     "liquidity": 20540,
+     "url": "https://dexscreener.com/robinhood/0x3e57541d193c26ade1e66a40464938eb300ab894bd03188ba31b8eb5e2ad6ec7"
+    },
+    {
+     "chain": "solana",
+     "address": "7TmeeJxBF3PFsbgzuy23XpWJzQsqVXjvgLTb8S2zpump",
+     "name": "The Cure For Cancer",
+     "liquidity": 5681,
+     "url": "https://dexscreener.com/solana/47jgmbx897vdorkuetgjqzef9dxx8ggrkxbdom3sk9ai"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x049dA6b70B5f9EC75bc18151037b5D21128206Cb",
+     "name": "PopVax⁠",
+     "liquidity": 3436,
+     "url": "https://dexscreener.com/ethereum/0xf77e8fb4b86fbc57f9714c75811685b7b2d8a96c0507b62a81f576fb9cbaa2fa"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0xa96394d94fdb9fA044d94aA58D2084a284185E36",
+     "name": "POPVAX",
+     "liquidity": 2046,
+     "url": "https://dexscreener.com/ethereum/0x1630f83d7a7fdc81e023b3c5c311777e132641dc276532a2a9e988c18cdd1b81"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x69DbB6f46236CFfA5A2701f1D1ad71dBD8eA45C6",
+     "name": "PopVax",
+     "liquidity": 2027,
+     "url": "https://dexscreener.com/ethereum/0x5cb0ec7e5d680da8dccfdf3d9279cc5a559cd7fc"
+    },
+    {
+     "chain": "solana",
+     "address": "ABvfgtfQDFnrj1Ejx74KZLdnnV6aoURJKsXMpX5q98UZ",
+     "name": "The Cure For Cancer",
+     "liquidity": 14,
+     "url": "https://dexscreener.com/solana/6s6wn7awg4vatdqtbfhvxa574orzohmkbfb7uvd96zhk"
+    },
+    {
+     "chain": "solana",
+     "address": "C4ntafXg1RZBfgKKTUeBxsUznHSUeJyhv65kzbHd9V84",
+     "name": "Popvax",
+     "liquidity": 14,
+     "url": "https://dexscreener.com/solana/95eur5hpejug7jazher8z2lrsz4drqsj6ypht44j7pe2"
+    },
+    {
+     "chain": "solana",
+     "address": "8CyiPrrti7WDBnCb7jaLwtv6iT14oK2KA73yWZfsRYuM",
+     "name": "The Cure For Cancer",
+     "liquidity": 4,
+     "url": "https://dexscreener.com/solana/dj3pbhtzvkxdwfqhymbdxtfvcgsesg3gu3lh5ilornnd"
+    },
+    {
+     "chain": "solana",
+     "address": "B12cmxPrdworWc8v27LbXWR8bjpvh2reug1RZzAQzpwu",
+     "name": "The Cure For Cancer",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/9jwyf6d2ssvb4rff4t72uf7prjq43hpd1gvwdy9tmo3u"
+    },
+    {
+     "chain": "solana",
+     "address": "4bPc9xau5tzPrFaAiFQ7Xt6cN552LjtKzajJJRZDBAGS",
+     "name": "Popvax",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/afdkaydx4fedozunwzjshvsdmcov7r5vedqupi23ydhv"
+    },
+    {
+     "chain": "solana",
+     "address": "HpJiYQZreNxBnqjWjmEWYxxFADJfuTKD5X1UNQC3pump",
+     "name": "POPVAX",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/32agkmcdt5nfckczi4fw9rykgednmp4xc44ct4wpte95"
+    },
+    {
+     "chain": "solana",
+     "address": "FwybcgiYiVtkvRdGkS48tYTH7vnV4zNd1dawg6t9pump",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/f8efsw5qoqzggjy6z8ra2uxhccaumpknn93scgdadrjq"
+    },
+    {
+     "chain": "solana",
+     "address": "EJGkALcsZ2npKf1cceMHbZP1wAgRYJx2uPnVJrVFpump",
+     "name": "Popvax",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7pcgtou4w4f7zlgp5uvurbzg1zq2bcynvaowabvlrdo"
+    },
+    {
+     "chain": "solana",
+     "address": "B4Ppy7cYdy5gojcZ2GCkRehc1uzVMAo6NBtD7Lfcpump",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9vidfw3b5vjfkctutv1g7nimgkdwajspngyudbkgs71u"
+    },
+    {
+     "chain": "solana",
+     "address": "J5UV3fpRfdi1gVSMRWGSNcJLEhqJKDNNBhYZ1GRkLfDT",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/utkhlmwnfhreekktat6nm7ndadv5i5tmgtpszihfwac"
+    },
+    {
+     "chain": "solana",
+     "address": "7oC2GdnP7goT7W18DLLK4vzdGay9RuZaLKYYsfi7pump",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/67vyzgdccgjvfea4taucgnz5hdu1qkmwe5vwmbynj1uc"
+    },
+    {
+     "chain": "solana",
+     "address": "BE2EPZJeqBrAYRuciQpSu45WwXdF24WqBPXtaowypump",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/6t9tirhvvtsgrshntdefuk9zgxvvf2te7foqnscompkc"
+    },
+    {
+     "chain": "solana",
+     "address": "Ciwn3gRLUA5Mzb77iYZNKkp6tYGGv93B2YzBrcToBAGS",
+     "name": "popvax",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9rgtdc97quaekko6knzukp71brj8fhhywfc1rwtcgmjf"
+    },
+    {
+     "chain": "solana",
+     "address": "GQdtftBPwxeqJdEq7wfQBveQktRZE6Uh3XHMtvSKDuDo",
+     "name": "The Cure For Cancer",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fq3zfks5vcjpqhokoebbmqdo4tt6panscoabnutl9hdi"
+    }
+   ]
+  },
+  {
+   "symbol": "GATO",
+   "chain": "solana",
+   "address": "HsprHxBRgiVaQdRf3TnKNuZZtaX9JUSPgMFdAkk6pump",
+   "url": "https://dexscreener.com/solana/hsprhxbrgivaqdrf3tnknuzztax9juspgmfdakk6pump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=GATO",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "HsprHxBRgiVaQdRf3TnKNuZZtaX9JUSPgMFdAkk6pump",
+     "name": "GTA6CAT",
+     "liquidity": 406617,
+     "url": "https://dexscreener.com/solana/5e3dxlxgwmtdcoka51wyyakttjfzbwqcoyuhbui5gt2m"
+    },
+    {
+     "chain": "solana",
+     "address": "55A3VxMBfzw6uSe64zms5iMPw9k6kx9WzzusbCU6pump",
+     "name": "El Gato",
+     "liquidity": 37315,
+     "url": "https://dexscreener.com/solana/h4wp14qgkt3yextgrqxdqf1c3epzvmxufggcuhxsrjn4"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xba5F42040B60d910bBE1e4F7848dB1A162107777",
+     "name": "el gato",
+     "liquidity": 7999,
+     "url": "https://dexscreener.com/robinhood/0x9c9a8f2bfd5f61db96eca4b9d5ede203b0b94851"
+    },
+    {
+     "chain": "solana",
+     "address": "36CvCWVMgSgpZNFu2JVuaaJVEcKtqySpS9hD2kxUpump",
+     "name": "el gato",
+     "liquidity": 7959,
+     "url": "https://dexscreener.com/solana/7hel7yfs6s1bjeshnd65ytao2gtifyrzxka8gvbcct91"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x045E5651557Baf9bc0F5B0466453100F1D8A6db7",
+     "name": "Gato",
+     "liquidity": 4953,
+     "url": "https://dexscreener.com/ethereum/0x8062d3ba422edcf3c2e302dda7994baf3e0f42fd"
+    },
+    {
+     "chain": "solana",
+     "address": "5Tfw4Wek4XUJfgkLqfVmmZyPPivAoTbXXYDVRNicpump",
+     "name": "el gato",
+     "liquidity": 3172,
+     "url": "https://dexscreener.com/solana/6439fmdvzcvg2bgcqvcum9j3jeddtzyriw2swpcbuxs"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x36FaCc683CdD723f005ed8dCE5b490c99b652B52",
+     "name": "Gato",
+     "liquidity": 3171,
+     "url": "https://dexscreener.com/elysium/0x5f7a99268d08889579cea11528e0864c9138c38bdb945fa8bc5789b8d112c280"
+    },
+    {
+     "chain": "base",
+     "address": "0x67F88c56981312358D4f6F53218217b5fA43Fd54",
+     "name": "Gato",
+     "liquidity": 2279,
+     "url": "https://dexscreener.com/base/0x76270bdb72fc7db2270a5a2146e79283b2934241"
+    },
+    {
+     "chain": "solana",
+     "address": "i2DfpzYrBHiS7sSypVSoBc1oevPqujaf4MikKZJxfun",
+     "name": "PincheGato",
+     "liquidity": 1672,
+     "url": "https://dexscreener.com/solana/3hd4mmcnxnlponqc2ozajmko6kc2y8zvgsuwh7nar4l3"
+    },
+    {
+     "chain": "solana",
+     "address": "EZvCgqd5QLeaCW1vK7tp7oZob1WS9H9hH4XHimZSq3Ed",
+     "name": "GTA6CAT",
+     "liquidity": 16,
+     "url": "https://dexscreener.com/solana/gskkf8hhgfv9ncl4ny32kg3cdk7wirzzdrqpobojpvse"
+    },
+    {
+     "chain": "solana",
+     "address": "5wXgHHbDEiRCZF4PRBXEs5TbubyCpmzHn4Mwf2Bybonk",
+     "name": "GTA6CAT",
+     "liquidity": 15,
+     "url": "https://dexscreener.com/solana/8i66zji1ccpjthjlcxmyuyjpabmdk7guv22e2d4fkafd"
+    },
+    {
+     "chain": "solana",
+     "address": "3wzqqstQq6vAhmKC6XGCQKskk7mkDq9dwTZ18bGmcETC",
+     "name": "El Gato",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/4m7fmapcxnerorfsguznxtu4xpga1kufqempyqkvetze"
+    },
+    {
+     "chain": "solana",
+     "address": "3493Xp9AuVB9Gih6XiSD2a8BcEFarHwQqcfgs7Nvpump",
+     "name": "GTA6CAT",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/8ssbpvyno26btwmizt1vedhr6ibkrvy8sryeexsmqtj9"
+    },
+    {
+     "chain": "solana",
+     "address": "3imqL5RRwPWiDN1coufZiMTtswV1yTWr7Ub9s7Rrpump",
+     "name": "GTA6CAT",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/2nwqcnx6sf1g9wvngc1pryw6rnsxy8ofup5zmmv58v5h"
+    },
+    {
+     "chain": "solana",
+     "address": "HutF7XMP7tnbJc1QPbomq1F5Srx9xy61TPW3Ak7Fpump",
+     "name": "el gato",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/dnlydkrknz6haztctogncuk8uwgziijhmnfkgh5cyc7u"
+    },
+    {
+     "chain": "solana",
+     "address": "G67n8xLxnzt31muXK4s3dsbF2kVhW77HZSXPoCuYc77L",
+     "name": "Gato boxeador",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/8puzcev3udjajkkwue67qnbb1bcnp9jkdulovflydcai"
+    },
+    {
+     "chain": "solana",
+     "address": "EJCMfnVx4g8uFfyEMAtbgjryzXtBhTNzBNxsyRCdpump",
+     "name": "GTA6CAT",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/dk7smfr5egojqpnvvgixzlvgapnnyhzzqso6cdveshcx"
+    },
+    {
+     "chain": "solana",
+     "address": "2tMHrWwVajRKpjx1brP3fbct2YxiXHxY4PB3N59Dpump",
+     "name": "GATO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/haxja8pr8s33boerhky8eanzvmbqy3qjtyulbg4htgkz"
+    },
+    {
+     "chain": "solana",
+     "address": "E5CkW6eQeZLvzn3c7X8Xim3mLmmWYcvCTwAFXmT2FdDW",
+     "name": "Gato boxeador",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fbvvymihxtwn9sjddf78errbqgvnwpqhxutmcmhntrki"
+    },
+    {
+     "chain": "solana",
+     "address": "5zpiFt6rEXdpML5xVBCF2WaBDsGAfduVnZiWhwEepump",
+     "name": "el gato",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/drpod6aeezfagub5acwcjcdkh4v1qagvrwvh9nneaihc"
+    }
+   ]
+  },
+  {
+   "symbol": "WSB",
+   "chain": "solana",
+   "address": "B82PFKmT4aM38EUUqVoZs6sZdAfxDHHrB6DSXxCKpump",
+   "url": "https://dexscreener.com/solana/b82pfkmt4am38euuqvozs6szdafxdhhrb6dsxxckpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=WSB",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "ethereum",
+     "address": "0x15F20f9DFDf96CCf6AC96653b7C0aBfe4A9C9f0f",
+     "name": "WALL STREET BABY",
+     "liquidity": 132881,
+     "url": "https://dexscreener.com/ethereum/0x4360658e680026e4c636e8be0f7d0b9f976c46f0"
+    },
+    {
+     "chain": "bsc",
+     "address": "0x22168882276e5D5e1da694343b41DD7726eeb288",
+     "name": "WSB Token",
+     "liquidity": 74345,
+     "url": "https://dexscreener.com/bsc/0xe66783ef2e2bc51958c032f04a37b6f060581fb9"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x8000e44986A7892Caba486349E7291da388E7BA3",
+     "name": "WallStreetBets",
+     "liquidity": 21025,
+     "url": "https://dexscreener.com/robinhood/0xa52eed541c3aaf7bcdd65eaec9b18b495789cbd135a32b4c30bc5cdbb3fbc442"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xdba76f1cf96dBeF90E5E1083b70d15Ce6E87b76a",
+     "name": "Wall St Brett",
+     "liquidity": 17671,
+     "url": "https://dexscreener.com/robinhood/0x9ed32ff70ec119cc0fe608ea2f2e9fd853179410"
+    },
+    {
+     "chain": "solana",
+     "address": "B82PFKmT4aM38EUUqVoZs6sZdAfxDHHrB6DSXxCKpump",
+     "name": "We’re So Back",
+     "liquidity": 9750,
+     "url": "https://dexscreener.com/solana/2tej7gsf35mwucdqm3rgv1886xaijjzza64xqen1odro"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x7aAC4Ab2483ACe79A298CF4fAbCBBb19B9a06BA3",
+     "name": "WallStreetBets",
+     "liquidity": 8480,
+     "url": "https://dexscreener.com/robinhood/0x7c4911463e02e4b38df00d7889f283a3a2f2e4406037bf8a2ab68ce3563b8eb6"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0x8DF586aa346c3d9d1c99A21316A2735d71355eC8",
+     "name": "Wallstreetbets",
+     "liquidity": 8365,
+     "url": "https://dexscreener.com/ethereum/0xf4df413f0c18bd83cdf77da50794a8f854e36f41"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x6CD681568C43d92bd0F7eD34E42D389f42cFcBa3",
+     "name": "WallStreetBets",
+     "liquidity": 7882,
+     "url": "https://dexscreener.com/robinhood/0x0e6cb1d09367a0c19a74f51f25c80344f63b554f8bba4422032152f2f6cc45db"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x10BA9f48A0CAA7420309Df8b535996ae52D7abA3",
+     "name": "Wall Street Bets",
+     "liquidity": 7283,
+     "url": "https://dexscreener.com/robinhood/0x62a20e5a1665d53116340fd413bf662bbf0bb2f1de712fc769e5ca9125f2f04a"
+    },
+    {
+     "chain": "solana",
+     "address": "CSwrPvw6urUC1G3JaxnrkG1BN8uErMQjWD9vjugQBAGS",
+     "name": "WALLSTREETBETS",
+     "liquidity": 4514,
+     "url": "https://dexscreener.com/solana/46ifokrsjdsdgl9wypz5begkgvt7fkwjhdveakmmp87z"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xDB34d9dfe9ED1f2a6E2cCD171E341f0F1df6C92D",
+     "name": "Wall Street Bots",
+     "liquidity": 2265,
+     "url": "https://dexscreener.com/robinhood/0xa8c9e33e02de16ddf49326181a33868c9926f237e71b15ec20dd95bf6aafcce7"
+    },
+    {
+     "chain": "solana",
+     "address": "CDQ5mky5fWsiRNNHnpepm6agm4EBk3WFVDFh23rXpump",
+     "name": "Wall Street Bets",
+     "liquidity": 1721,
+     "url": "https://dexscreener.com/solana/86eqt6cn7tk4hdghhp7mungsapn9mubt7j7cv3s67vq9"
+    },
+    {
+     "chain": "pulsechain",
+     "address": "0x8DF586aa346c3d9d1c99A21316A2735d71355eC8",
+     "name": "Wallstreetbets",
+     "liquidity": 46,
+     "url": "https://dexscreener.com/pulsechain/0xf4df413f0c18bd83cdf77da50794a8f854e36f41"
+    },
+    {
+     "chain": "sui",
+     "address": "0x4db126eac4fa99207e98db61d968477021fdeae153de3b244bcfbdc468ef0722::wsb::WSB",
+     "name": "xWSB on SUI",
+     "liquidity": 14,
+     "url": "https://dexscreener.com/sui/0x1eccdcfe454e66c14cb2a8d4e53c7ac2d57a9cff56fc49efca17d8a14a4357c4"
+    },
+    {
+     "chain": "solana",
+     "address": "65fymcRoXhUaiY1fSLRB2FQpBSgcFtQxfD85npGtq2SW",
+     "name": "Wall Street Bets",
+     "liquidity": 13,
+     "url": "https://dexscreener.com/solana/hhzkdyrzrbcauyr6txwudqnxgz8gx5feezeeumwzhtes"
+    },
+    {
+     "chain": "solana",
+     "address": "6j1bMwPbqKbMT8zRtxyRgVngtUdPZvuvSGWeffFrJhq4",
+     "name": "We’re So Back",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/8tfknydap81qszrk6hxt9zpmc9yyps4h6t69jtxflpcq"
+    },
+    {
+     "chain": "solana",
+     "address": "AkbXpPJUorEfseQa6j3MRmNQJdEQodTez4AhKJE6pump",
+     "name": "WALLSTREETBULL",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/4qvj828z1uvs656ybsyperajdefr2ossc82cmxkwhsil"
+    },
+    {
+     "chain": "solana",
+     "address": "BTn5nRSK4q3ZmoyjVD7w5UAatA5K176V5CQyPCYCBAGS",
+     "name": "WallStreetBags",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/jcbg3lhrzdetsbyqk1tmw5kikp5qhjtsjhklmrqnehxj"
+    },
+    {
+     "chain": "solana",
+     "address": "9GjY3Rz12EW59kF6pY7otQVh2QM1vy3rgXtwKFZVBAGS",
+     "name": "WallStreetBags",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gmkfhsja6dk55ced7bpcpbt7siqog2ouo4tdhwr4ddse"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xa9fd3bf07f3093E5A4645E666A61030c1e4D4ba3",
+     "name": "WallStreetBets",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/robinhood/0xc318f82c623afeabead0868dfe3661563545e5810795e0af99d6d0a7765fd208"
+    }
+   ]
+  },
+  {
+   "symbol": "RAMBO",
+   "chain": "solana",
+   "address": "KMifrkYmDdAKtVXAVBEPEQxJ7qP2iLgUcfZjUZipump",
+   "url": "https://dexscreener.com/solana/kmifrkymddaktvxavbepeqxj7qp2ilgucfzjuzipump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=RAMBO",
+   "pairsReturned": 24,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "KMifrkYmDdAKtVXAVBEPEQxJ7qP2iLgUcfZjUZipump",
+     "name": "RAMBO",
+     "liquidity": 303154,
+     "url": "https://dexscreener.com/solana/gz15vwspy9kfynkrmpkokp2h9yygvbovoxjsgwsjcvfk"
+    },
+    {
+     "chain": "solana",
+     "address": "A5wChr2P1rRVGq7HbnPrG4174z4VJoN9DqUNtPgGUwJD",
+     "name": "RAMBO",
+     "liquidity": 33,
+     "url": "https://dexscreener.com/solana/9endgyjw1etk11hvo1jovwixl8m8rdovvegjoqvnxcq9"
+    },
+    {
+     "chain": "solana",
+     "address": "GEYvwwp8nyNjLi8LnrFZ4TBMiGRWPHBDy9DyZ9cZ7tAK",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/dvslcxvsg2raafspyjz2psx5bfuk2znzavazpp2j6s5g"
+    },
+    {
+     "chain": "solana",
+     "address": "7NXLP8emRugpKxSnTWdqiA1UYBD6c8cPGFPrg6kWwkFT",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/4yprcdxmjd6cwq7r1p56h7ziiufzzwzjrjx7xawr9yma"
+    },
+    {
+     "chain": "solana",
+     "address": "G6fveV3aWjRnLXWKBQDQe3GQLZWTLwagTidCDCc6toa6",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/cd1rkj4ekbh2zgz2a5iy3x81u5tb3p7g73a4dus8s8yk"
+    },
+    {
+     "chain": "solana",
+     "address": "AQNmPfUb5C3zRZzPAwhQcqT9H5iWk7dbXh4a3fnzaVoN",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/4wjcziyebtgjckaktlzq74acyyemtgq9dlam1bdujh5i"
+    },
+    {
+     "chain": "solana",
+     "address": "KSHQSvrNSxRV8S7LGySx2RUfPqyVbXhLp3fRaJBQraQ",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/ha6gjd4rwm5pc1ddgns5zajddte3ekdqce8x6tfhpvri"
+    },
+    {
+     "chain": "solana",
+     "address": "DXGAbdGnN8U4QUGPeeXChV4s1QqMMopwpfUitzjXgzFQ",
+     "name": "RAMBO",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/b4mzoakzuvr7djbtsyuvgn7jjzssktpxehy1clzgrgog"
+    },
+    {
+     "chain": "elysium",
+     "address": "0xCfF30256252F0047daCE0Fea8085bde61BA507Cd",
+     "name": "RAMBO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xf1ff31557b6a6e6124a0990d8ea20330650ff1b6e3d54b766f07bcf1696f6fe2"
+    },
+    {
+     "chain": "solana",
+     "address": "8qN1nUCr7hksx86d5Hwg6fTHDTHqHViJiupB3Dzipump",
+     "name": "RAM",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/9sgyexzujgocoqbpyccepn9ssyfppnzcmxp3r6mg56sd"
+    },
+    {
+     "chain": "ethereum",
+     "address": "0xdb782b2ffE2e4F5872f6705f6d1B6100C58586Ce",
+     "name": "RAMBO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/ethereum/0x397214f4dc9716390b65505ed7cd26ae85233801"
+    },
+    {
+     "chain": "solana",
+     "address": "FYS4AYPmQGJzBKRzedo7Bw8vXgybeGDRH2SyA2ZQkyLp",
+     "name": "RAMBO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/8b7jf9vyiribgy2fdwk96fbfxwmjwgasyu4dbhcc373d"
+    },
+    {
+     "chain": "solana",
+     "address": "5FYExhQxarpBVehvcv6NuomiQvgdFzeNMkBrELxduXVa",
+     "name": "RAMBO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/dnjcekyvqbtascpb6oqsjl58639xjb9uvzcatrmxsdkz"
+    },
+    {
+     "chain": "solana",
+     "address": "D2kN57XGuNVgGBZCxQBK2gfA36Thu6QK5aiDPvDjkDhB",
+     "name": "RAMBO",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/elaepjvmdyq9zsfjb3nta9w5jjzusnsrmkgkdygpjt2"
+    }
+   ]
+  },
+  {
+   "symbol": "Shitcoin",
+   "chain": "solana",
+   "address": "8p7GCo3fWJ55LFQbhkBd8hCpw3ACk98PgK7Lsd6Upump",
+   "url": "https://dexscreener.com/solana/8p7gco3fwj55lfqbhkbd8hcpw3ack98pgk7lsd6upump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=Shitcoin",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "ethereum",
+     "address": "0xd03528A3D71a484aEbEE674dBa822ad3e57Cb312",
+     "name": "SHITCOIN",
+     "liquidity": 42448,
+     "url": "https://dexscreener.com/ethereum/0xf02f20e59202d49b3a6bae58296c9cd239b04924"
+    },
+    {
+     "chain": "solana",
+     "address": "42PZx7bPF1EMnP9L7vcjihTx7Nryxh81GG9Xs6fdpump",
+     "name": "SHITCOIN",
+     "liquidity": 39921,
+     "url": "https://dexscreener.com/solana/67zsvecuht9vkwwwgylhmdx1vms1h9xhnhnuk8uqdnzf"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xF3c0CcbC3236EC5c28104D03d6068B90108727B2",
+     "name": "Shitcoin",
+     "liquidity": 34646,
+     "url": "https://dexscreener.com/robinhood/0x3b087a24d8d7d9af8f6596bc8b340c3bef386463e98a63382aa56f698bb08a89"
+    },
+    {
+     "chain": "arc",
+     "address": "0x3eb1a63268161F7D0c1264b05D3c718C499CC777",
+     "name": "Shitcoin",
+     "liquidity": 31966,
+     "url": "https://dexscreener.com/arc/0xb52846efbc389df815f23edc3b6630b93b398cb7ba732855e9acd7da46b51f16"
+    },
+    {
+     "chain": "arc",
+     "address": "0x78a4CcA4D6B1DE4099CE02C3166f7Aa3f5de7777",
+     "name": "Shitcoin",
+     "liquidity": 25503,
+     "url": "https://dexscreener.com/arc/0x6731ad18c2405bd822e828c2c67197f031c457913b8495892da207c9cdeca1a6"
+    },
+    {
+     "chain": "solana",
+     "address": "GaPbGp23pPuY9QBLPUjUEBn2MKEroTe9Q3M3f2Xpump",
+     "name": "just a shitcoin",
+     "liquidity": 24012,
+     "url": "https://dexscreener.com/solana/8oopi6gvfh4fa1ml5jj35yretfpmwiudtfhcv31gka3v"
+    },
+    {
+     "chain": "solana",
+     "address": "JVtVUduUFx3HL3fA87YA77YDGn5iQoYDeDaLFNopump",
+     "name": "Shitcoin",
+     "liquidity": 19559,
+     "url": "https://dexscreener.com/solana/9kahpmrriblcujm9jhwnmwcz6qvwjuyylcxeuspwxd9w"
+    },
+    {
+     "chain": "solana",
+     "address": "8p7GCo3fWJ55LFQbhkBd8hCpw3ACk98PgK7Lsd6Upump",
+     "name": "Shitcoin",
+     "liquidity": 16385,
+     "url": "https://dexscreener.com/solana/9ovadmtnzr164fjvbpypehiq9a5fzmlacattaprm8xxj"
+    },
+    {
+     "chain": "solana",
+     "address": "G2dJVAF27n4xBGjftmrpTydiUGb5eCjferW3KDRubonk",
+     "name": "Shitcoin",
+     "liquidity": 15881,
+     "url": "https://dexscreener.com/solana/bz24orw27d2caxsagp2szzixhwvsrjp2d1ssrypshwq7"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x49e34dBB35023D51F981558F54e5523FA9C44b03",
+     "name": "shitcoin",
+     "liquidity": 9837,
+     "url": "https://dexscreener.com/robinhood/0xe3cb6f12f7c905c949723ebaa7d5af5ea0f9349c"
+    },
+    {
+     "chain": "solana",
+     "address": "DD1Nxg9KZ9C2rBk96iMLkfJryttzK9U4wV936C4Qpump",
+     "name": "The Final Bitcoin",
+     "liquidity": 8844,
+     "url": "https://dexscreener.com/solana/2geaot6hngaxqet9cwvm1o1tvckbkaivejvx2az446kc"
+    },
+    {
+     "chain": "solana",
+     "address": "9yWFUKC2TNzZs6e1PzGg4kLx9yYrqiTfoT1qcsNNpump",
+     "name": "shitcoin",
+     "liquidity": 8590,
+     "url": "https://dexscreener.com/solana/gslf2gbqpnhqmmmyzbg2v9qayhzlrwcpxxsw9w1nrm4c"
+    },
+    {
+     "chain": "solana",
+     "address": "Ah1GGTZCWk37Ko4Zc34xf3fgZsMnib4kM5Nwv1pHpump",
+     "name": "SHITCOIN",
+     "liquidity": 7968,
+     "url": "https://dexscreener.com/solana/b7fkxpjnewa7jhtdalhwpxjqx9lywhc7bcdswzyssezn"
+    },
+    {
+     "chain": "solana",
+     "address": "JA2X5qArgCXtrUujgorV4TSdinPJZFNAJHH6EEcpQBK9",
+     "name": "SHITCOIN",
+     "liquidity": 2441,
+     "url": "https://dexscreener.com/solana/cjxkgjmlblfe62gqfojptonjctsm1fnfnpvzrpbdc6u1"
+    }
+   ]
+  },
+  {
+   "symbol": "JAMAL",
+   "chain": "solana",
+   "address": "BmAt6895v6PczX3g8jguJheWCj4hYQK5MmnBYr8Yc948",
+   "url": "https://dexscreener.com/solana/bmat6895v6pczx3g8jgujhewcj4hyqk5mmnbyr8yc948",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=JAMAL",
+   "pairsReturned": 15,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "BmAt6895v6PczX3g8jguJheWCj4hYQK5MmnBYr8Yc948",
+     "name": "Jamal",
+     "liquidity": 1306,
+     "url": "https://dexscreener.com/solana/5115gfezf4jktbulbphd5cxakx5ydgdzvl41ttyd2zly"
+    },
+    {
+     "chain": "solana",
+     "address": "Gzt5uo2D2bTcVdekgBM48n5W8aMrqL9dHTKLNVGSpump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/grsx5t4kzgdjxxbettndhvhxqfcmwwnudy5jj6zjpkun"
+    },
+    {
+     "chain": "solana",
+     "address": "DpFJC7PCdWYahcfRKhhUaKe7vMJQUXL6Lu6HqRJBpump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/2stbr5qturmrn47t9gzxxwfjqajrune1zgfc3mlpjhsa"
+    },
+    {
+     "chain": "solana",
+     "address": "84Rosg8fsZpueAcQFJfSoNh1qct8sgWN4ueMhuLvjn8H",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gvp2zeexd8d1jkdv921csnlezovwh7jw78xcdek8vmjg"
+    },
+    {
+     "chain": "solana",
+     "address": "B6zPYJaxDKSMaTrvwFvsZ2pSN88vWNj1n3pRJT6fpump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/61dupdjsogzdjczekkxd7ttvx6gpnukgz2qp8tjdnv4q"
+    },
+    {
+     "chain": "solana",
+     "address": "L4yGiu7cvRb2AUrmkjxyyTEyYPUMeirNDLD4ajBvxx7",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/2zlvah1ptucpwypczhzwssmhcmgzwj7um6yg6cnfpnh6"
+    },
+    {
+     "chain": "solana",
+     "address": "HJVJpjAXHFNLo6xUQSuoiTMCsyZqZ9rcNQyduVcspump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/6xrsd6pguesptgqdknxfeset7uv3oyhmbffrcuuya1dr"
+    },
+    {
+     "chain": "solana",
+     "address": "Ay7HcwabwGAmY2CjA1ARGDQwGQd2p5jrf5PRyDAwpump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/6ma2jjoyzopej8z3efvuwmyvvtpjeemaznmok61hrdye"
+    },
+    {
+     "chain": "solana",
+     "address": "EHmTBSsc3MtJyZY5jeyaYdEWASE3Y3WRsGmck36tpump",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7r19z5ml4r82ypucmvder6v4amhbw75cmacg8nhx2aga"
+    },
+    {
+     "chain": "solana",
+     "address": "951yohVREKY6qFiuoJGPeLNZPhMLYp2NdYY96rwFpump",
+     "name": "JAMAL",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/qd8yf5ldqfkrwbgpr9mphxercaetukm6p39fssn19r5"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xD1e0C89434a2E72D03f0C22aF195929Dc488FffF",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/bsc/0xd1e0c89434a2e72d03f0c22af195929dc488ffff:4meme"
+    },
+    {
+     "chain": "solana",
+     "address": "9S9B9zta4x9YoFSd383X5NUVCeHy1q9LkSWc5KW1SzSx",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/ehth3azkbhhouu7ycpjkhfucc2wcpyjti4jwsfsji1ap"
+    },
+    {
+     "chain": "solana",
+     "address": "7NdqDigYS9vj6ypNN4qf9jnmnyoN8CnW7geGNWx4jS1f",
+     "name": "jamal the watermelon",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/czttxy9rfvzczjkfjess6t4makrayb64ewjx8jtextzm"
+    }
+   ]
+  },
+  {
+   "symbol": "ZEN",
+   "chain": "solana",
+   "address": "2hyMwC4c11L32VsJwWznCmvfERBhaz19CFpGQyHMpump",
+   "url": "https://dexscreener.com/solana/2hymwc4c11l32vsjwwzncmvferbhaz19cfpgqyhmpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=ZEN",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "base",
+     "address": "0xf43eB8De897Fbc7F2502483B2Bef7Bb9EA179229",
+     "name": "Horizen",
+     "liquidity": 3219287,
+     "url": "https://dexscreener.com/base/0x0392b12a1ceb0cd13af5ea448cf5586ea609852d"
+    },
+    {
+     "chain": "base",
+     "address": "0x805af0065A11CaDb73dafa47B4234E0685C56EcF",
+     "name": "Horizen Network (ZEN)",
+     "liquidity": 108502,
+     "url": "https://dexscreener.com/base/0xb6c813e99eb3051f149e3a7c91a61f59aa70ca83aabe2643d8b2fed06dae0306"
+    },
+    {
+     "chain": "base",
+     "address": "0xfaD7BA1fC556ec99618Cf03BFDEC4FC04E612bEd",
+     "name": "Horizen DeFi (ZEN)",
+     "liquidity": 101296,
+     "url": "https://dexscreener.com/base/0x524e5308d277496bff4fb42f60bf89776b4aad1b39192f37490bd1f61d3ba1ad"
+    },
+    {
+     "chain": "base",
+     "address": "0x2e018Ba163f7D7930307272CAc84B8A5Fb305F0b",
+     "name": "Horizen Network (ZEN)",
+     "liquidity": 93514,
+     "url": "https://dexscreener.com/base/0xf4ca0072d58e5ce1aba9685c09170fe7d0050d4e3061dbe790da291452e6068c"
+    },
+    {
+     "chain": "pulsechain",
+     "address": "0xebeCbffA46Eaee7CB3B3305cCE9283cf05CfD1BB",
+     "name": "ZENDAWG",
+     "liquidity": 63261,
+     "url": "https://dexscreener.com/pulsechain/0x0086a16e688627d76a11722c90671eaa98f595e8"
+    },
+    {
+     "chain": "base",
+     "address": "0xB276475Cad3b2669395115e66CAa1c44d6094D69",
+     "name": "Horizen",
+     "liquidity": 32618,
+     "url": "https://dexscreener.com/base/0x32c36921eb98424d6e48314d3cee2bcfe5b6d7f82db6ec8bcfdf24e20ce40fb2"
+    },
+    {
+     "chain": "solana",
+     "address": "2hyMwC4c11L32VsJwWznCmvfERBhaz19CFpGQyHMpump",
+     "name": "ZENTRO",
+     "liquidity": 9495,
+     "url": "https://dexscreener.com/solana/crmvh64oys2gylbu2hswbahjiiwhhfdhehul3uma5yap"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xAE6b67F396B437ECc19C6E1F95b9F51B563605b9",
+     "name": "ZEN",
+     "liquidity": 9318,
+     "url": "https://dexscreener.com/robinhood/0x029aa87f007b9a27d5aed577eaaa8a9fd706530c4c06d5937b9d238514aeef86"
+    },
+    {
+     "chain": "bsc",
+     "address": "0x466aB3ff0480b7d2FAddf0F34D564cBBbc318888",
+     "name": "禅",
+     "liquidity": 7448,
+     "url": "https://dexscreener.com/bsc/0xcf1fd2f6b04de782642f5673ddefa7bd64f1f9d5"
+    },
+    {
+     "chain": "sui",
+     "address": "0x2665dc784c7ff17fddba2442b36cb8b2bbc8adfa9fe08794fd941d80ef2758ec::zen::ZEN",
+     "name": "ZenFrogs",
+     "liquidity": 6629,
+     "url": "https://dexscreener.com/sui/0x743ec55da4c6429a0d9a84e142350f52a87e599bcc36becc135c580113a2cdab"
+    },
+    {
+     "chain": "solana",
+     "address": "DV1HbCMP6GbNUidkAkAAhm989PS8FwdzxhWXtiuhpump",
+     "name": "zen cat",
+     "liquidity": 3641,
+     "url": "https://dexscreener.com/solana/fcmbiqvofay6dsmmszyrxtw7qb5xwsdwmpbspsxkmfvd"
+    },
+    {
+     "chain": "solana",
+     "address": "B6Y6djecaZNeiqmyJ5ADvi8ANB4pPsp3DSpRWGMHpump",
+     "name": "NZD-99 Project",
+     "liquidity": 3351,
+     "url": "https://dexscreener.com/solana/13x3cbf4pnqvj3z3yf6ut95snwvvbfemfud8am79gdhb"
+    },
+    {
+     "chain": "solana",
+     "address": "9rj8gESodSHTT6hS65RsBNqrKcCyL8m1ehSNxY2spump",
+     "name": "Zpay",
+     "liquidity": 2277,
+     "url": "https://dexscreener.com/solana/aiexfg4noynhzubznwqhgvfa2pd1j67tbgbukeridmrh"
+    }
+   ]
+  },
+  {
+   "symbol": "LOCKRA",
+   "chain": "robinhood",
+   "address": "0x2Fc6dE9C65a620f918cA7d1191D3AFA495ca2898",
+   "url": "https://dexscreener.com/robinhood/0x2fc6de9c65a620f918ca7d1191d3afa495ca2898",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=LOCKRA",
+   "pairsReturned": 23,
+   "tokens": [
+    {
+     "chain": "robinhood",
+     "address": "0x2Fc6dE9C65a620f918cA7d1191D3AFA495ca2898",
+     "name": "Lockra Protocol",
+     "liquidity": 121446,
+     "url": "https://dexscreener.com/robinhood/0x0d925d5a995410cbfaa175a41bacba60413cfd27f4b2bb6e4b50535af1b3dd1b"
+    },
+    {
+     "chain": "solana",
+     "address": "EvyZ6T73wx1SHrFNuTsP8jKLMkg7Lix4ifioNLPvEmKf",
+     "name": "Lockra Protocol",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/egf9bnncyjcdqkjlcvb58wdue425ks95gtkwruohyfam"
+    },
+    {
+     "chain": "solana",
+     "address": "4gYoaFk4dUM1YLrtgdywEUFpbrrXFd1awdyavA487Ppf",
+     "name": "Lockra Protocol",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/ftvrdnlyuml2cv3s9kgkk4gdpyqtpimjrnmuwxydtcbn"
+    },
+    {
+     "chain": "solana",
+     "address": "Fe7nha7o4LSqp8kFexsYBM6A3U46vvH7m4mhyDKLR2FL",
+     "name": "Lockra Protocol",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/ewebxv4wkpdmhsq6fwjysodtjgofseoap7m9fgqhnhbt"
+    },
+    {
+     "chain": "solana",
+     "address": "ESNgMp5dfVxBshHsL3XPmU36juP2FLFDeZ4Y8yCR4hnb",
+     "name": "Lockra Protocol",
+     "liquidity": 1,
+     "url": "https://dexscreener.com/solana/a9b6d92whxj11ofji2kk5erzusb8af6pvkepacms6rxq"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x2E88749F1E97c2A2168Cd766ea7A168A2695a01D",
+     "name": "Lockra Protocol",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/robinhood/0x6452e61c38726b9ae3c8c954afce3d31857b4fd0318dfdd69e19db66c1d7b5c4"
+    },
+    {
+     "chain": "solana",
+     "address": "Bu1EwvoXLJLsdhXtuwkKDK9J46zZ7bMrK3cKEsAuy3qo",
+     "name": "Lockra Protocol",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/ckkqstazcux2lbcjtgsxzk3fqjvebfc4jhhjxmosmlrp"
+    },
+    {
+     "chain": "solana",
+     "address": "FWU96wSK455W8rFfF6j3gpTiYQzJSV8cFND89ujgdUWN",
+     "name": "Lockra Protocol",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/96tnsnpwfb6t19cscqyofzfqieipfusfn4s2djtwrtcl"
+    },
+    {
+     "chain": "solana",
+     "address": "HZwwDSXoDp7J58zMMaCfKm6pQfYtSytnzpM6VcT4GRnZ",
+     "name": "Lockra Protocol",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/8acbsun2xrpcxukqsjh88kdcsucx2lk9zgrijredbvyp"
+    }
+   ]
+  },
+  {
+   "symbol": "OAK",
+   "chain": "robinhood",
+   "address": "0x6511c233790Ec10f7d673c64DC82C3F941D57828",
+   "url": "https://dexscreener.com/robinhood/0x6511c233790ec10f7d673c64dc82c3f941d57828",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=OAK",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "robinhood",
+     "address": "0x8c374D97B757E97FA64495169D26068b7e08D0d5",
+     "name": "Oak",
+     "liquidity": 394593,
+     "url": "https://dexscreener.com/robinhood/0xda4bef74694538b9e39df7dce494fcb2cfc46141"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x8a04CdBdbE76063a8E5669B1beB06af583D266b7",
+     "name": "Oak",
+     "liquidity": 259317,
+     "url": "https://dexscreener.com/robinhood/0xca5ba6d178500107432e9b8f1f3dedd51dfb2070"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x6511c233790Ec10f7d673c64DC82C3F941D57828",
+     "name": "Oak",
+     "liquidity": 73522,
+     "url": "https://dexscreener.com/robinhood/0xdb324dde34ef01debe23f8f8ab4bb6053154b5dea8646dec9d8ea65e414fad59"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xc09699e8802b21dAB15615b3C926960871147777",
+     "name": "Oak",
+     "liquidity": 8248,
+     "url": "https://dexscreener.com/bsc/0x1c86b3d96b895df85801691ca47df9bfba8ce0d8"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0xEe0cdd6E754461AD83FE39a43Dbd0Eb1f8B41982",
+     "name": "Oak Agent Kit",
+     "liquidity": 5680,
+     "url": "https://dexscreener.com/robinhood/0xa878d9aedfdec76e3974696d90a80440d17ccfdec2cd993732bec010110f46e9"
+    },
+    {
+     "chain": "pulsechain",
+     "address": "0xd030716c0a4A8E345Ea4AeB74EE19659A60799E9",
+     "name": "OAK ISLAND",
+     "liquidity": 507,
+     "url": "https://dexscreener.com/pulsechain/0x747cf118be8a3168b10bbae0ef28c783d2288731"
+    },
+    {
+     "chain": "robinhood",
+     "address": "0x0bFE70932f057E1BC9EDE2109692e522E474174f",
+     "name": "Oak",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/robinhood/0xa95cc883042ed0ac4589dddd459c4ffe521264e6"
+    },
+    {
+     "chain": "solana",
+     "address": "A1zLotdj4LZzLjSN2u2Kz113ma3BvjciCMn4WD5epump",
+     "name": "Operation Acoustic Kitty",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fxvo1wgzqz3h1gfa6cmhmbwrekqvsxegp9rjzdsntmby"
+    }
+   ]
+  },
+  {
+   "symbol": "COINSIDE",
+   "chain": "solana",
+   "address": "9ry9Dx1sygydxypdrkrjwhPASjokePeo5Lyo8QYopump",
+   "url": "https://dexscreener.com/solana/9ry9dx1sygydxypdrkrjwhpasjokepeo5lyo8qyopump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=COINSIDE",
+   "pairsReturned": 12,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "FPmD41CzoS2oa74EsL9z3AeDRMDFpXA9mJMcABgupump",
+     "name": "CoinSide",
+     "liquidity": 9934,
+     "url": "https://dexscreener.com/solana/apbjfolpvmevppitk2ggeabu7cftvyswsd8zxwhhwu82"
+    },
+    {
+     "chain": "solana",
+     "address": "9ry9Dx1sygydxypdrkrjwhPASjokePeo5Lyo8QYopump",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/4x5sqz7qas5eux95whgvdf3r1mfcphro6yfm2w2zs9tc"
+    },
+    {
+     "chain": "solana",
+     "address": "ArskTMBHEadnbemcATw4zjipyXYkLksCtju3i41qpump",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/fxnmwqc7ynebgwm1lxtyyiz87swadn3tyggxy3nktvzs"
+    },
+    {
+     "chain": "solana",
+     "address": "Bn1B4M3UFaM4jrzmruR3XP1z1b9eRUfQ1qJKdLwNpump",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gu61gwgqcihqjctq6na2pcnu5pacxmpesf1wcsbuocrc"
+    },
+    {
+     "chain": "solana",
+     "address": "3MkxLkZTuSTjrcf5VSLXrGCguwJLGFTMNan7thAtK9JF",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/eegshgekfx44vl8h2hk3crzrckltqvfm9oaziw7pxmeb"
+    },
+    {
+     "chain": "arc",
+     "address": "0x142B189305FcAFC7f84808f2cbC95bcd8B598777",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/arc/0x1391531528502288b746e2b48fb44f2b1e8cf2af22a64edf6d93f56d9951bf63"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x39A698bF661d02F8D6db34ee9D659b9EAC5A6E69",
+     "name": "CoinSide",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xa749f08d97bc9dc07e0ecbbd9b565ecee34a17952d84cb5525ae10f14f4ec5c6"
+    }
+   ]
+  },
+  {
+   "symbol": "CBUCKS",
+   "chain": "solana",
+   "address": "DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
+   "url": "https://dexscreener.com/solana/dtcicpcktkeah7tdeztym3hxeohaomibdyjhmyxzpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=CBUCKS",
+   "pairsReturned": 6,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "DtcicPCKTKeAh7TDEzTym3hXeoHAoMiBdYJhMYxZpump",
+     "name": "Cartoon Money",
+     "liquidity": 211713,
+     "url": "https://dexscreener.com/solana/b4cp45pgifvm5faxfh6aev8qz3eunqnqgbw7kuc7mhnb"
+    },
+    {
+     "chain": "solana",
+     "address": "2n7qXGStDvDB6uzyKSqoym8nQCBkCWk6StK8uwkqqray",
+     "name": "cartoon bucks",
+     "liquidity": 3737,
+     "url": "https://dexscreener.com/solana/8tmrpf4kajg9uxj4oqtqcjj8wr1k4xp4jyc3pczch6oi"
+    },
+    {
+     "chain": "solana",
+     "address": "DKjgGTw7h6Dj8iDfPM8QMLF2WhTGNMDivUExe2BPufEh",
+     "name": "Cartoon Money",
+     "liquidity": 35,
+     "url": "https://dexscreener.com/solana/6mzsdf4k7x5zudoa7nerwmgxfznz31mfs23p6norrgag"
+    },
+    {
+     "chain": "solana",
+     "address": "BpwbzKNYKGMpwHH7i29thNUGSDcExpQk9av5ndQZMtzg",
+     "name": "Cartoon Money",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gar6wyy6zr93gweuqh51k5ccfruymer6xhsdvbjbpkde"
+    },
+    {
+     "chain": "solana",
+     "address": "42xfQcpvGRosM5qZy5oj5eMWn4RLpsaM2Vt9vLoDpump",
+     "name": "Cartoon Money",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/a6qjvzah2ua3pakwm1hptpartmecfxxtf1r6ec7us9ch"
+    },
+    {
+     "chain": "solana",
+     "address": "3bUgEvaZgSn1ny7Eks4k9nNRFDsb4y9GDFTVo5MwHEHt",
+     "name": "Cartoon Money",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/gtqiwnn2xzfgmxyrpobdbv8rzvztvwwhqiguw68vmtv2"
+    }
+   ]
+  },
+  {
+   "symbol": "SKUNK",
+   "chain": "solana",
+   "address": "BetzJU2X9UEgG2qdo8UKbJ6q1iiFGs23axh8vRqEpump",
+   "url": "https://dexscreener.com/solana/betzju2x9uegg2qdo8ukbj6q1iifgs23axh8vrqepump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=SKUNK",
+   "pairsReturned": 8,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "BetzJU2X9UEgG2qdo8UKbJ6q1iiFGs23axh8vRqEpump",
+     "name": "SKUNK APE",
+     "liquidity": 19879,
+     "url": "https://dexscreener.com/solana/auswefi1py2oxthrwygh86qcuynh9jbutcqb6vszbqaq"
+    },
+    {
+     "chain": "solana",
+     "address": "AwQhM1Nb3m8U1KvpEqm61mEgDsRXMCeXtnBTqLhDpump",
+     "name": "SKUNK APE",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/2ghtmmvurwejbwrdb916ekp5zcanvzqbtzpvqtbdf7wh"
+    },
+    {
+     "chain": "solana",
+     "address": "CRHHVXYYo4WD8rUMjJ6gey2meQd3vyvainGiaY7Epump",
+     "name": "Lockheed Martin Skunk",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/heqhurxvsuebycnbsvkz9kykper7f9wurcxn1573zyqu"
+    },
+    {
+     "chain": "solana",
+     "address": "Axf2rsTNJi4kjn3xkNFEUg4Bdm4xuruhQ5LwNufYpump",
+     "name": "SKUNK APE",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/qkrxeo6q7md7j2dysrj1jrdsnghlkxbwzabxgu7yeh3"
+    },
+    {
+     "chain": "solana",
+     "address": "FAuKuVJn7Dn76yJSvJLHTyPVHsZaa2JV1GzcBciW1xDs",
+     "name": "SKUNK APE",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/epj5r4epjnsopskudslfermhwt1zy1dhwjjvfxt4vrvo"
+    },
+    {
+     "chain": "solana",
+     "address": "5pKeHT6PW7yUdnGVN5RxSbusUmtMp1TDPTdeVcuyqDQw",
+     "name": "SKUNK APE",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7rvqhkbr6gjez15kpfod6m2fpuuv8fxaseshn6cds6zc"
+    }
+   ]
+  },
+  {
+   "symbol": "GACHAZ",
+   "chain": "solana",
+   "address": "bn5DhJnkB8EVDoAgV9qCV3Kbv7XmEEp7mxW4npDpump",
+   "url": "https://dexscreener.com/solana/bn5dhjnkb8evdoagv9qcv3kbv7xmeep7mxw4npdpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=GACHAZ",
+   "pairsReturned": 9,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "bn5DhJnkB8EVDoAgV9qCV3Kbv7XmEEp7mxW4npDpump",
+     "name": "GachaZ",
+     "liquidity": 1899,
+     "url": "https://dexscreener.com/solana/9yoka5xdzxcyj1g3xnmej1pt4tp2hmiyhcye26qpfybi"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x9CA686DA75F9C8E0c4952037D985CD18f3e4a8B0",
+     "name": "GachaZ",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xdcab95922a2751e0d7e2b722949567921fc02fb18486a5f194a87ef6e65098c6"
+    },
+    {
+     "chain": "solana",
+     "address": "8vF94DaUPqrrPDwXfmjqStXmoUZR5wvUg75xtow6pump",
+     "name": "GachaZ",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/3l45mvjea72sqvabj8dsbfxkb7c9jtk14vzguke8b4yg"
+    },
+    {
+     "chain": "bsc",
+     "address": "0x37a381b2cAecCAe5b5f69229cC53106825793e6b",
+     "name": "GachaZ",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/bsc/0x7749a218b6d03f618f84d93e8fe89d7534709139"
+    },
+    {
+     "chain": "solana",
+     "address": "YhM5MXV1FCdNx4HqRj7uDLoM7BRWo4zSfyUJKszMKd5",
+     "name": "GachaZ",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/dexbettoaujbjyrf4ohz7tz8t5nd3rrzuffdpdf4cqwl"
+    }
+   ]
+  },
+  {
+   "symbol": "ELYOS",
+   "chain": "elysium",
+   "address": "0x766F575A1aB2eAe9014B639761F80365fa0C94Fe",
+   "url": "https://dexscreener.com/elysium/0x766f575a1ab2eae9014b639761f80365fa0c94fe",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=ELYOS",
+   "pairsReturned": 6,
+   "tokens": [
+    {
+     "chain": "elysium",
+     "address": "0x766F575A1aB2eAe9014B639761F80365fa0C94Fe",
+     "name": "Elyos Privacy",
+     "liquidity": 4892,
+     "url": "https://dexscreener.com/elysium/0xaa3e012779e32f071d70b5bc633e23de651ac19f2d630213793c0f60053b8323"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x1ec60Dfd99bc32Ef6A782D9a98A058b4c772dD12",
+     "name": "Elyos Privacy",
+     "liquidity": 2983,
+     "url": "https://dexscreener.com/elysium/0x14e3dda4d55c1a2310e12cbe90a333d094943830721f3f067c78e20479dc2fd7"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x6106314156B74B644F2302c00980A00A4c57e3B6",
+     "name": "Elyos Privacy",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0xc9046d1b11856c2d1baa304d3de1bd1ef58fa56165c0b4863724eeb87640e96e"
+    },
+    {
+     "chain": "elysium",
+     "address": "0x13744e267ff4d972b21d13b18D1916975B054cdF",
+     "name": "Elyos Privacy",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/elysium/0x3d06a8a9f229e27f498eea4779f59522472bc7f27c456b761dde18b42eb391e2"
+    }
+   ]
+  },
+  {
+   "symbol": "网贷人生",
+   "chain": "bsc",
+   "address": "0xfaB7c96661531B944cb787AD28D2Ab4d9f9d4444",
+   "url": "https://dexscreener.com/bsc/0xfab7c96661531b944cb787ad28d2ab4d9f9d4444",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=%E7%BD%91%E8%B4%B7%E4%BA%BA%E7%94%9F",
+   "pairsReturned": 3,
+   "tokens": [
+    {
+     "chain": "bsc",
+     "address": "0xfaB7c96661531B944cb787AD28D2Ab4d9f9d4444",
+     "name": "网贷人生",
+     "liquidity": 15469,
+     "url": "https://dexscreener.com/bsc/0xcaa07376efbc8d958945931a4172bacec0092c3a"
+    },
+    {
+     "chain": "bsc",
+     "address": "0xb249Cd4D1b5F8858345631ebC63806E036B3FfFf",
+     "name": "网贷人生",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/bsc/0xb249cd4d1b5f8858345631ebc63806e036b3ffff:4meme"
+    },
+    {
+     "chain": "bsc",
+     "address": "0x3663D7203c6EE54CdAA56283Fb77dddDC84bfFFf",
+     "name": "网贷人生",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/bsc/0x3663d7203c6ee54cdaa56283fb77ddddc84bffff:4meme"
+    }
+   ]
+  },
+  {
+   "symbol": "ray",
+   "chain": "solana",
+   "address": "GNeL8vepuzWCdormGWDV3EQc8h9s7yNPjoFjTB23iUYN",
+   "url": "https://dexscreener.com/solana/gnel8vepuzwcdormgwdv3eqc8h9s7ynpjofjtb23iuyn",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=ray",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "FJkTpy5rTZYCAUn3FXDzz9hgJYHYwBsxGm5ee75rAZNC",
+     "name": "Raydium",
+     "liquidity": 2069709604,
+     "url": "https://dexscreener.com/solana/exxdoqe28ahrrsa4zrgqzehjulz96fajumlyktzo1kzt"
+    },
+    {
+     "chain": "solana",
+     "address": "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R",
+     "name": "Raydium",
+     "liquidity": 15698128,
+     "url": "https://dexscreener.com/solana/6ummuiyobjsrhakaobjw8bvkmjtdvxaebtbt7rxwo1mg"
+    }
+   ]
+  },
+  {
+   "symbol": "USDEM",
+   "chain": "solana",
+   "address": "9L9XBcrRaMWLb18T837fB1JP73MCD7ANdRrdkdSqpump",
+   "url": "https://dexscreener.com/solana/9l9xbcrramwlb18t837fb1jp73mcd7andrrdkdsqpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=USDEM",
+   "pairsReturned": 3,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "9L9XBcrRaMWLb18T837fB1JP73MCD7ANdRrdkdSqpump",
+     "name": "US DEMOCRATIC",
+     "liquidity": 235,
+     "url": "https://dexscreener.com/solana/3i2ybdjvchortse5nn7nkxjifox8jjao5xo42hqfcwn5"
+    },
+    {
+     "chain": "ton",
+     "address": "EQBlvVPFFJJU26JnNUTBdUcwpuFju7gqwh_XsS67e318e19Z",
+     "name": "US DEMOCRATIC",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/ton/eqdv0kn-kt8ujopx6o_kf0l2afblsf2nbkbxer9spidirjfe"
+    }
+   ]
+  },
+  {
+   "symbol": "$Chew",
+   "chain": "solana",
+   "address": "HrvF3KLc2Q5P6pHbsJBNn6pPoUvb3jGBBKzVkSripump",
+   "url": "https://dexscreener.com/solana/hrvf3klc2q5p6phbsjbnn6ppouvb3jgbbkzvksripump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=%24Chew",
+   "pairsReturned": 1,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "HrvF3KLc2Q5P6pHbsJBNn6pPoUvb3jGBBKzVkSripump",
+     "name": "Chew",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/7eaaem9zhjpk28qbqk4aqsfbszp5ex9zusx4qguykhbq"
+    }
+   ]
+  },
+  {
+   "symbol": "AUTDOG",
+   "chain": "solana",
+   "address": "CLRScyywR3CQSZBTrQpvyy3U5FwajnR4Xa3h9Wisdoge",
+   "url": "https://dexscreener.com/solana/clrscyywr3cqszbtrqpvyy3u5fwajnr4xa3h9wisdoge",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=AUTDOG",
+   "pairsReturned": 1,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "CLRScyywR3CQSZBTrQpvyy3U5FwajnR4Xa3h9Wisdoge",
+     "name": "Autistic Dog",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/cateh4zhruludcbyvu3pifbrgbjeilgs4aputzuqtjfc"
+    }
+   ]
+  },
+  {
+   "symbol": "Charl",
+   "chain": "solana",
+   "address": "4BmPe8LGK72S1yULdD5HG7aUYHHi8okboS2Nkufrpump",
+   "url": "https://dexscreener.com/solana/4bmpe8lgk72s1yuldd5hg7auyhhi8okbos2nkufrpump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=Charl",
+   "pairsReturned": 30,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "4BmPe8LGK72S1yULdD5HG7aUYHHi8okboS2Nkufrpump",
+     "name": "XwifHat",
+     "liquidity": 0,
+     "url": "https://dexscreener.com/solana/bp9tj3qshn7l8j9cel2zupwcuymueexz9tfr6mxbmiht"
+    }
+   ]
+  },
+  {
+   "symbol": "CLMFND",
+   "chain": "solana",
+   "address": "wbcE7iMmWN1XGEa6mtgRS3FoLgc936rMJYjeujapump",
+   "url": "https://dexscreener.com/solana/wbce7immwn1xgea6mtgrs3folgc936rmjyjeujapump",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=CLMFND",
+   "pairsReturned": 2,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "wbcE7iMmWN1XGEa6mtgRS3FoLgc936rMJYjeujapump",
+     "name": "CLMFND",
+     "liquidity": 6795,
+     "url": "https://dexscreener.com/solana/7lanrqamvd2vuaauvuckju19iwqlc3debwvhp18xsnmh"
+    }
+   ]
+  },
+  {
+   "symbol": "FOBMAS",
+   "chain": "robinhood",
+   "address": "0x944307de478Dbf305575D87F1493473c292771e2",
+   "url": "https://dexscreener.com/robinhood/0x944307de478dbf305575d87f1493473c292771e2",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=FOBMAS",
+   "pairsReturned": 1,
+   "tokens": [
+    {
+     "chain": "robinhood",
+     "address": "0x944307de478Dbf305575D87F1493473c292771e2",
+     "name": "FOBMAS",
+     "liquidity": 20525,
+     "url": "https://dexscreener.com/robinhood/0x276782ac0abddcf6f6da1f4f33ea5ecf87d1e13c46567a253a25b57f20e1ed56"
+    }
+   ]
+  },
+  {
+   "symbol": "ZAGL",
+   "chain": "solana",
+   "address": "13Cb7SGfxqrtMDU1JNANyTnTmQtbmH55QWXXzdwBmoon",
+   "url": "https://dexscreener.com/solana/13cb7sgfxqrtmdu1jnanytntmqtbmh55qwxxzdwbmoon",
+   "search": "https://api.dexscreener.com/latest/dex/search?q=ZAGL",
+   "pairsReturned": 10,
+   "tokens": [
+    {
+     "chain": "solana",
+     "address": "13Cb7SGfxqrtMDU1JNANyTnTmQtbmH55QWXXzdwBmoon",
+     "name": "ZAGL",
+     "liquidity": 11044,
+     "url": "https://dexscreener.com/solana/5rii3mwnsl7e5rtwcsvgyrtygd48rj55x3bn2ip9ez7u"
+    }
+   ]
+  }
+ ]
+}

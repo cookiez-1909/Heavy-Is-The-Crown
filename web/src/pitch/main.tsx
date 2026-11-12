@@ -1,63 +1,233 @@
-import { StrictMode, useEffect, useMemo, useState } from "react";
+import { Fragment, StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "../styles.css";
 import "./pitch.css";
-import { DupRows, listingUrl, radarSnapshot as radar } from "../Radar";
+import { DupRows, radarSnapshot as radar } from "../Radar";
+import { dex, DexRows, isSelf, when } from "../Dex";
 import Chart from "../Chart";
 import { DEFAULTS, scenarios } from "../../../sim/duel-sim.ts";
 import { ARENA } from "../config";
 
-const pct = Math.round((radar.sharing / radar.visible) * 100);
-const top = radar.top[0];
+const ARENA_ID = ARENA || "arena-82872.memeduel-4a2d2e.testnet";
+const still = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const topDex = dex.rows[0];
 
-function Coin({ c, label, dead }: { c: string; label?: string; dead?: boolean }) {
+// ------------------------------------------------------------ motion pieces
+
+/** Headline that rises word by word. Parts wrapped in [] are gold. */
+function H({ parts, small }: { parts: (string | [string])[]; small?: boolean }) {
+  let k = 0;
   return (
-    <span className={`pc ${dead ? "dead" : ""}`} style={{ background: c }}>
-      🐸{label && <small>{label}</small>}
-    </span>
+    <h1 className={small ? "small" : ""}>
+      {parts.map((p, i) => {
+        const gold = Array.isArray(p);
+        const text = gold ? p[0] : p;
+        return (
+          <Fragment key={i}>
+            {text.split(" ").map((w, j) => (
+              <Fragment key={j}>
+                <span className={`w ${gold ? "g" : ""}`} style={{ animationDelay: `${k++ * 70}ms` }}>
+                  {w}
+                </span>{" "}
+              </Fragment>
+            ))}
+          </Fragment>
+        );
+      })}
+    </h1>
   );
 }
 
-const COPIES = ["#2f9e62", "#1f7ae0", "#7a4fd6", "#c2452f"];
+function Count({ to, ms = 1300 }: { to: number; ms?: number }) {
+  const [v, setV] = useState(still ? to : 0);
+  useEffect(() => {
+    if (still) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / ms);
+      setV(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, ms]);
+  return <>{v.toLocaleString("en-US")}</>;
+}
 
-function MiniBracket() {
+const COPIES = ["#2f9e62", "#1f7ae0", "#7a4fd6", "#c2452f"];
+const LOOP = 9; // seconds
+
+/** Looping bracket: liquidity runs along the lines from each loser into its winner. */
+function HeroBracket() {
+  const flows: { d: string; from: number; to: number }[] = [
+    { d: "M40 45 H125 V80 H210", from: 1.3, to: 2.5 },
+    { d: "M40 115 H125 V80 H210", from: 1.3, to: 2.5 },
+    { d: "M40 185 H125 V220 H210", from: 1.3, to: 2.5 },
+    { d: "M40 255 H125 V220 H210", from: 1.3, to: 2.5 },
+    { d: "M210 80 H295 V150 H380", from: 3.7, to: 4.9 },
+    { d: "M210 220 H295 V150 H380", from: 3.7, to: 4.9 },
+  ];
+  const coin = (x: number, y: number, r: number, c: string, cls: string) => (
+    <g className={`node ${cls}`} style={{ transformOrigin: `${x}px ${y}px` }}>
+      <circle cx={x} cy={y} r={r} fill={c} />
+      <text x={x} y={y + 1} fontSize={r * 1.05} textAnchor="middle" dominantBaseline="central">
+        🐸
+      </text>
+    </g>
+  );
   return (
-    <div className="minibracket" aria-hidden>
-      <div className="mbcol">
-        {COPIES.map((c, i) => (
-          <Coin key={c} c={c} dead={i === 0 || i === 2} />
-        ))}
+    <svg className="herobracket" viewBox="0 0 430 300" role="img" aria-label="Four copies of one ticker are paired off; each loser's liquidity flows into its winner until one coin is left">
+      {flows.map((f, i) => (
+        <path key={i} className="wire" d={f.d} />
+      ))}
+      {!still &&
+        flows.flatMap((f, i) =>
+          [0, 0.18, 0.36].map((lag) => {
+            const a = (f.from + lag) / LOOP;
+            const b = (f.to + lag) / LOOP;
+            return (
+              <circle key={`${i}-${lag}`} r="4.5" className="drop">
+                <animateMotion dur={`${LOOP}s`} repeatCount="indefinite" path={f.d} calcMode="linear" keyPoints="0;0;1;1" keyTimes={`0;${a};${b};1`} />
+                <animate attributeName="opacity" dur={`${LOOP}s`} repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes={`0;${a};${a + 0.01};${b - 0.01};${b};1`} />
+              </circle>
+            );
+          }),
+        )}
+      {coin(40, 45, 22, COPIES[0], "l1 loses1")}
+      {coin(40, 115, 22, COPIES[1], "l1")}
+      {coin(40, 185, 22, COPIES[2], "l1 loses1")}
+      {coin(40, 255, 22, COPIES[3], "l1")}
+      {coin(210, 80, 28, COPIES[1], "l2 loses2")}
+      {coin(210, 220, 28, COPIES[3], "l2")}
+      <circle className="halo" cx="380" cy="150" r="44" />
+      {coin(380, 150, 36, COPIES[3], "l3")}
+    </svg>
+  );
+}
+
+/** Four thin pools pour into one. */
+function MergeBars() {
+  return (
+    <div className="versus2">
+      <div className="box">
+        <h3>Any launchpad today</h3>
+        <div className="lanes">
+          {COPIES.map((c, i) => (
+            <div key={c}>
+              <span className="pc" style={{ background: c }}>
+                🐸
+              </span>
+              <i style={{ width: `${[38, 30, 18, 14][i]}%` }} />
+            </div>
+          ))}
+        </div>
+        <p>Four copies, four thin pools. Buyers guess which one is "the" coin.</p>
       </div>
-      <svg viewBox="0 0 60 200" preserveAspectRatio="none">
-        <path d="M0 25 H30 V75 H0 M30 50 H60 M0 125 H30 V175 H0 M30 150 H60" />
-      </svg>
-      <div className="mbcol two">
-        <Coin c={COPIES[1]} dead />
-        <Coin c={COPIES[3]} />
-      </div>
-      <svg viewBox="0 0 60 200" preserveAspectRatio="none">
-        <path d="M0 50 H30 V150 H0 M30 100 H60" />
-      </svg>
-      <div className="mbcol one">
-        <span className="crown">
-          <Coin c={COPIES[3]} />
-        </span>
+      <div className="arrow">→</div>
+      <div className="box hot">
+        <h3>Ticker Bracket</h3>
+        <div className="lanes pour">
+          {COPIES.map((c, i) => (
+            <div key={c} className={i === 3 ? "keep" : "drain"} style={{ ["--w" as string]: `${[38, 30, 18, 14][i]}%`, ["--d" as string]: `${i * 0.5}s` }}>
+              <span className="pc" style={{ background: c }}>
+                🐸
+              </span>
+              <i />
+            </div>
+          ))}
+        </div>
+        <p>Copies are paired off round by round. Each loser's liquidity and holders move into its winner, until one coin holds all of it.</p>
       </div>
     </div>
+  );
+}
+
+const STEPS: [string, string][] = [
+  ["Register", "The first coin of a ticker opens the bracket. Copies join during registration, each with a bonded seed. Then the ticker locks."],
+  ["Fight", "The contract pairs best against worst. Score = new NEAR this round × how long it stayed."],
+  ["Bell", "Trading freezes. Anyone settles and earns a bounty. The two tokens compare scores themselves."],
+  ["Merge", "15% of the loser's reserve becomes the winner's spoils. 85% buys winner tokens for the loser's holders."],
+];
+
+function Steps() {
+  const [on, setOn] = useState(still ? -1 : 0);
+  useEffect(() => {
+    if (still) return;
+    const id = setInterval(() => setOn((x) => (x + 1) % STEPS.length), 1700);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <>
+      <div className="rail">
+        <i style={{ width: `${on < 0 ? 100 : ((on + 1) / STEPS.length) * 100}%` }} />
+      </div>
+      <ol className="flow">
+        {STEPS.map(([t, d], i) => (
+          <li key={t} className={i === on ? "on" : ""}>
+            <b>{t}</b>
+            <span>{d}</span>
+          </li>
+        ))}
+      </ol>
+    </>
+  );
+}
+
+/** The sell tax over one round, a win, and the start of the next round. */
+function TaxCurve() {
+  const d = "M60 210 L300 60 L375.5 185.8 L560 60";
+  return (
+    <svg className="taxcurve" viewBox="0 0 620 270" role="img" aria-label="Sell tax rises from 0 to 15 percent over a round, restarts at 15 percent after a win and fades, then rises again in the next round">
+      <rect x="300" y="40" width="40" height="170" className="break" />
+      <line x1="60" y1="210" x2="580" y2="210" className="axis" />
+      <line x1="60" y1="60" x2="580" y2="60" className="guide" />
+      <text x="52" y="64" textAnchor="end" className="lbl">
+        15%
+      </text>
+      <text x="52" y="214" textAnchor="end" className="lbl">
+        0%
+      </text>
+      <text x="180" y="236" textAnchor="middle" className="lbl">
+        round 1
+      </text>
+      <text x="320" y="236" textAnchor="middle" className="lbl">
+        break
+      </text>
+      <text x="450" y="236" textAnchor="middle" className="lbl">
+        round 2
+      </text>
+      <path d={d} className="taxline" pathLength="1" />
+      <circle cx="300" cy="60" r="5" className="bell" />
+      <text x="300" y="34" textAnchor="middle" className="call">
+        bell: same as the loser's penalty
+      </text>
+      <text x="320" y="258" textAnchor="middle" className="lbl">
+        after a win it stays at the top, fades through the break, then climbs again
+      </text>
+      {!still && (
+        <circle r="7" className="rider">
+          <animateMotion dur="6s" repeatCount="indefinite" path={d} />
+        </circle>
+      )}
+    </svg>
   );
 }
 
 function ScoreSlide() {
   const r = useMemo(() => scenarios(DEFAULTS)[1], []);
+  const last = r.points[r.points.length - 1];
   return (
     <div className="chartwrap">
       <Chart result={r} metric="score" />
       <p className="cap">
-        Simulated 24 h round. A starts with 150 NEAR absorbed earlier and no new buyers; B starts with 5 NEAR and keeps attracting them. B wins {Math.round(r.points[r.points.length - 1].score[1])} to {Math.round(r.points[r.points.length - 1].score[0])} NEAR-hours. <code>node sim/run.ts</code>
+        Simulated 24 h round. A starts with 150 NEAR absorbed earlier and no new buyers; B starts with 5 NEAR and keeps attracting them. B wins {Math.round(last.score[1])} to {Math.round(last.score[0])} NEAR-hours. <code>node sim/run.ts</code>
       </p>
     </div>
   );
 }
+
+// -------------------------------------------------------------------- slides
 
 const SLIDES: { kicker: string; node: React.ReactNode }[] = [
   {
@@ -65,15 +235,11 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     node: (
       <div className="two">
         <div>
-          <h1>
-            One ticker.
-            <br />
-            One <em>survivor.</em>
-          </h1>
+          <H parts={["One ticker.", "One", ["survivor."]]} />
           <p className="sub">A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one.</p>
-          <p className="tag">live on NEAR testnet · {ARENA || "arena-82872.memeduel-4a2d2e.testnet"}</p>
+          <p className="tag">live on NEAR testnet · {ARENA_ID}</p>
         </div>
-        <MiniBracket />
+        <HeroBracket />
       </div>
     ),
   },
@@ -82,21 +248,17 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     node: (
       <div className="two">
         <div>
-          <h1>
-            {top.creators} accounts listed <em>${top.ticker}.</em>
-          </h1>
-          <p className="sub">One click to launch means every joke gets copied: same ticker, different deployer. Traders call it PVP. Each card is a real ${top.ticker} listing on meme.cooking; only {top.listings.filter((l) => l.launched).length} of the {top.listings.length} reached its soft cap. Click one to check.</p>
-          <p className="tag">source: api.meme.cooking · {radar.fetchedAt}</p>
+          <H parts={["One ticker.", [`${topDex.tokens.length}${topDex.pairsReturned >= 30 ? "+" : ""} tokens.`]]} />
+          <p className="sub">
+            ${topDex.symbol.toUpperCase()} is one of the most promoted tokens on DexScreener. Search the ticker and you get at least <b>{topDex.tokens.length} different token contracts</b> with that name. Launching takes one click, so every joke gets launched again and again, and buyers are split between them.
+          </p>
+          <p className="tag">every chip is a real token: click to open it · DexScreener, {when(dex)}</p>
         </div>
-        <div className="wall">
-          {top.listings.map((l, i) => (
-            <a key={l.id} href={listingUrl(l.id)} target="_blank" rel="noreferrer" className={l.launched ? "ok" : ""} style={{ animationDelay: `${i * 90}ms` }}>
-              <b>${top.ticker}</b>
-              <span>{l.name}</span>
-              <small>
-                by {l.owner.length > 22 ? l.owner.slice(0, 20) + "…" : l.owner} · {l.launched ? "launched" : "soft cap missed"}
-              </small>
-              <small>meme.cooking/meme/{l.id}</small>
+        <div className="swarm">
+          {topDex.tokens.map((t, i) => (
+            <a key={t.chain + t.address} href={t.url} target="_blank" rel="noreferrer" className={isSelf(topDex, t) ? "self" : ""} style={{ animationDelay: `${200 + i * 45}ms` }} title={`${t.name} · $${t.liquidity.toLocaleString("en-US")} liquidity`}>
+              <b>${topDex.symbol.toUpperCase()}</b>
+              <small>{t.chain}</small>
             </a>
           ))}
         </div>
@@ -104,16 +266,37 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     ),
   },
   {
-    kicker: "HOW COMMON",
+    kicker: "HOW COMMON · DEXSCREENER",
     node: (
       <div className="two wide">
         <div>
-          <div className="huge">{radar.tickers}</div>
+          <div className="huge">
+            <Count to={dex.shared} />
+            <small>/{dex.promoted}</small>
+          </div>
+          <h2>of the tokens promoted most on DexScreener share their ticker with another token.</h2>
+          <p className="sub">
+            {dex.ten} of them with nine or more others. At least <Count to={dex.totalTokens} /> token contracts on {dex.promoted} tickers. The list is DexScreener's own, not ours.
+          </p>
+          <p className="tag">one dot = one token, click it · counts with + hit the 30-result cap · node scripts/dexscreener.mjs</p>
+        </div>
+        <DexRows rows={9} />
+      </div>
+    ),
+  },
+  {
+    kicker: "AND ON NEAR · MEME.COOKING",
+    node: (
+      <div className="two wide">
+        <div>
+          <div className="huge">
+            <Count to={radar.tickers} />
+          </div>
           <h2>tickers on meme.cooking were listed by two or more different accounts.</h2>
           <p className="sub">
-            {radar.sharing} of the {radar.visible} listings the site displays ({pct}%). One dot is one listing and links to it; gold ones launched. Search any ticker on meme.cooking and you will count the same cards.
+            {radar.sharing} of the {radar.visible} listings the site displays. Smaller than on Solana, same pattern. Gold dots launched; red ones never reached their soft cap.
           </p>
-          <p className="tag">node scripts/radar.mjs</p>
+          <p className="tag">one dot = one listing, click it · node scripts/radar.mjs</p>
         </div>
         <DupRows data={radar} rows={9} />
       </div>
@@ -123,34 +306,8 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "THE MECHANIC",
     node: (
       <>
-        <h1>
-          Same ticker, <em>same bracket.</em>
-        </h1>
-        <div className="versus2">
-          <div className="box">
-            <h3>Any launchpad today</h3>
-            <div className="lanes">
-              {COPIES.map((c, i) => (
-                <div key={c}>
-                  <Coin c={c} />
-                  <i style={{ width: `${[38, 30, 18, 14][i]}%` }} />
-                </div>
-              ))}
-            </div>
-            <p>Four copies, four thin pools. Buyers guess which one is "the" coin.</p>
-          </div>
-          <div className="arrow">→</div>
-          <div className="box hot">
-            <h3>Ticker Bracket</h3>
-            <div className="lanes">
-              <div>
-                <Coin c={COPIES[3]} />
-                <i className="merged" style={{ width: "92%" }} />
-              </div>
-            </div>
-            <p>The copies are paired off round by round. Each loser's liquidity and holders move into its winner, until one coin holds all of it.</p>
-          </div>
-        </div>
+        <H parts={["Same ticker,", ["same bracket."]]} />
+        <MergeBars />
       </>
     ),
   },
@@ -158,27 +315,8 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "ONE ROUND",
     node: (
       <>
-        <h1>
-          Four steps, <em>all on-chain.</em>
-        </h1>
-        <ol className="flow">
-          <li>
-            <b>Register</b>
-            <span>The first coin of a ticker opens the bracket. Copies join during registration, each with a bonded seed. Then the ticker locks.</span>
-          </li>
-          <li>
-            <b>Fight</b>
-            <span>The contract pairs best against worst. Score = new NEAR this round × how long it stayed.</span>
-          </li>
-          <li>
-            <b>Bell</b>
-            <span>Trading freezes. Anyone settles and earns a bounty. The two tokens compare scores themselves.</span>
-          </li>
-          <li>
-            <b>Merge</b>
-            <span>15% of the loser's reserve becomes the winner's spoils. 85% buys winner tokens for the loser's holders.</span>
-          </li>
-        </ol>
+        <H parts={["Four steps,", ["all on-chain."]]} />
+        <Steps />
         <p className="tag">a later coin with the same ticker opens a new season against the champion</p>
       </>
     ),
@@ -188,9 +326,7 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     node: (
       <div className="two wide">
         <div>
-          <h1>
-            Old money <em>scores nothing.</em>
-          </h1>
+          <H small parts={["Old money", ["scores nothing."]]} />
           <p className="sub">Each round counts only the NEAR that arrived in that round, weighted by time. A coin cannot win round two on what it absorbed in round one, and a whale cannot win in the last minute.</p>
         </div>
         <ScoreSlide />
@@ -198,12 +334,22 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     ),
   },
   {
+    kicker: "WHY NOBODY RUNS AT THE BELL",
+    node: (
+      <div className="two wide">
+        <div>
+          <H small parts={["Leaving costs", ["what losing costs."]]} />
+          <p className="sub">The sell tax climbs to exactly the loser's penalty at the bell, so dodging the result is no cheaper than taking it. After a win it starts again at the top and fades, so winners cannot dump on the holders who were just converted in. The tax never leaves the coin's curve.</p>
+        </div>
+        <TaxCurve />
+      </div>
+    ),
+  },
+  {
     kicker: "EXPLOITS WE DESIGNED AGAINST",
     node: (
       <>
-        <h1>
-          Every cheap trick <em>has a price.</em>
-        </h1>
+        <H small parts={["Every cheap trick", ["has a price."]]} />
         <table className="exploits">
           <tbody>
             {[
@@ -215,8 +361,8 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
               ["Stuff the bracket with empty copies", "Launch fee plus a seed that is at stake"],
               ["Open a second bracket for the ticker", "One live tournament per ticker, enforced by the arena"],
               ["Nobody settles", "Settling and advancing pay a bounty to anyone"],
-            ].map(([a, c]) => (
-              <tr key={a}>
+            ].map(([a, c], i) => (
+              <tr key={a} style={{ animationDelay: `${250 + i * 90}ms` }}>
                 <td>{a}</td>
                 <td>{c}</td>
               </tr>
@@ -231,15 +377,13 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "WHO CAN CHANGE THE RULES",
     node: (
       <>
-        <h1>
-          <em>Nobody.</em> Check it yourself.
-        </h1>
+        <H parts={[["Nobody."], "Check it yourself."]} />
         <div className="facts">
           <div>
             <strong>0</strong>
             <b>access keys on the arena</b>
             <span>The deploy script deletes its only key. No owner, no admin method, no upgrade.</span>
-            <code>near account list-keys {ARENA || "arena-82872.memeduel-4a2d2e.testnet"}</code>
+            <code>near account list-keys {ARENA_ID}</code>
           </div>
           <div>
             <strong>1</strong>
@@ -261,44 +405,26 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "RECEIPTS",
     node: (
       <>
-        <h1>
-          Built, tested, <em>played.</em>
-        </h1>
+        <H small parts={["Built, tested,", ["played."]]} />
         <table className="receipts">
           <tbody>
-            <tr>
-              <td>Unit tests on the token</td>
-              <td>15 pass</td>
-              <td>cargo test -p duel-token</td>
-            </tr>
-            <tr>
-              <td>End-to-end brackets on a NEAR sandbox</td>
-              <td>3 pass</td>
-              <td>cargo test -p duel-tests</td>
-            </tr>
-            <tr>
-              <td>4 coins → semi-finals → final → season 2</td>
-              <td>covered</td>
-              <td>tests/tests/duel.rs</td>
-            </tr>
-            <tr>
-              <td>A $KEK bracket played to a champion on testnet</td>
-              <td>tournament 0</td>
-              <td>get_tournament {"{"}"id":0{"}"}</td>
-            </tr>
-            <tr>
-              <td>Match scenarios simulated before picking 15%</td>
-              <td>5 × 4</td>
-              <td>node sim/run.ts --sweep</td>
-            </tr>
-            <tr>
-              <td>Bracket UI against real contract state, no funds needed</td>
-              <td>local chain</td>
-              <td>cargo run -p duel-tests --example localnet</td>
-            </tr>
+            {[
+              ["Unit tests on the token", "15 pass", "cargo test -p duel-token"],
+              ["End-to-end brackets on a NEAR sandbox", "3 pass", "cargo test -p duel-tests"],
+              ["4 coins → semi-finals → final → season 2", "covered", "tests/tests/duel.rs"],
+              ["A $KEK bracket played to a champion on testnet", "tournament 0", 'get_tournament {"id":0}'],
+              ["Match scenarios simulated before picking 15%", "5 × 4", "node sim/run.ts --sweep"],
+              ["Bracket UI against real contract state, no funds needed", "local chain", "cargo run -p duel-tests --example localnet"],
+            ].map(([a, b, c], i) => (
+              <tr key={a} style={{ animationDelay: `${250 + i * 90}ms` }}>
+                <td>{a}</td>
+                <td>{b}</td>
+                <td>{c}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
-        <p className="tag">partner tech: meme.cooking API for the duplicate data · HOT near-connect for wallets</p>
+        <p className="tag">partner tech: meme.cooking API for the NEAR data · HOT near-connect for wallets</p>
       </>
     ),
   },
@@ -306,13 +432,11 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "TRY IT",
     node: (
       <>
-        <h1>
-          Launch a copy. <em>Then beat it.</em>
-        </h1>
+        <H parts={["Launch a copy.", ["Then beat it."]]} />
         <pre className="term">
           <span>$</span> scripts/build.sh && cargo test{"\n"}
           <span>$</span> cargo run -p duel-tests --example localnet{"\n"}
-          <span>$</span> cd web && pnpm install && pnpm dev
+          <span>$</span> cd web && pnpm install && pnpm dev<i className="caret" />
         </pre>
         <p className="sub">What it does not do: it cannot touch copies launched elsewhere, it counts NEAR rather than people, and the sell tax discourages running without preventing it. Not audited.</p>
         <p className="tag">
@@ -323,13 +447,15 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
   },
 ];
 
+const AUTO_MS = 9000;
+
 function Deck() {
   const read = () => Math.min(SLIDES.length, Math.max(1, parseInt(window.location.hash.slice(1)) || 1));
   const [n, setN] = useState(read);
+  const [playing, setPlaying] = useState(false);
   useEffect(() => {
     const go = (d: number) => {
-      const next = Math.min(SLIDES.length, Math.max(1, read() + d));
-      window.location.hash = String(next);
+      window.location.hash = String(Math.min(SLIDES.length, Math.max(1, read() + d)));
     };
     const onKey = (e: KeyboardEvent) => {
       if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) (e.preventDefault(), go(1));
@@ -337,6 +463,7 @@ function Deck() {
       if (e.key === "Home") window.location.hash = "1";
       if (e.key === "End") window.location.hash = String(SLIDES.length);
       if (e.key === "Escape") window.location.href = "../";
+      if (e.key.toLowerCase() === "p") setPlaying((x) => !x);
     };
     const onHash = () => setN(read());
     window.addEventListener("keydown", onKey);
@@ -346,10 +473,21 @@ function Deck() {
       window.removeEventListener("hashchange", onHash);
     };
   }, []);
+  useEffect(() => {
+    if (!playing) return;
+    if (n >= SLIDES.length) return setPlaying(false);
+    const id = setTimeout(() => (window.location.hash = String(n + 1)), AUTO_MS);
+    return () => clearTimeout(id);
+  }, [playing, n]);
+
   const s = SLIDES[n - 1];
   const pad = (x: number) => String(x).padStart(2, "0");
   return (
     <div className="deck">
+      <div className="bg" aria-hidden>
+        <i />
+        <i />
+      </div>
       <div className="progress" style={{ width: `${(n / SLIDES.length) * 100}%` }} />
       <a className="exit" href="../" title="Back to the app (Esc)">
         ✕ <span>Exit to app</span>
@@ -363,6 +501,10 @@ function Deck() {
           TICKER<span>BRACKET</span>
         </a>
         <nav>
+          <button className={playing ? "on" : ""} onClick={() => setPlaying((x) => !x)} title="Play the deck automatically (P)" aria-pressed={playing}>
+            {playing ? "❚❚ Pause" : "▶ Play"}
+            {playing && <i key={n} style={{ animationDuration: `${AUTO_MS}ms` }} />}
+          </button>
           <a className={n === 1 ? "off" : ""} href={`#${Math.max(1, n - 1)}`} aria-label="Previous slide">
             ←
           </a>
