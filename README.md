@@ -8,7 +8,7 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track.
 
 Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
 
-**Across chains (DexScreener).** We took DexScreener's own "top boosts" list, the tokens being promoted the most, and searched each ticker. On 2026-11-12 17:36 UTC, **23 of the 29 promoted tokens shared their ticker with at least one other token, 13 of them with nine or more others**: at least 331 distinct token contracts on 29 tickers (175 on Solana, 46 on Robinhood Chain, 12 on BNB Chain). HUANG alone returned 28 different tokens.
+**Across chains (DexScreener).** We took DexScreener's own "top boosts" list, the tokens being promoted the most, and searched each ticker. On 2026-11-12 17:36 UTC, **23 of the 29 promoted tokens shared their ticker with at least one other token, 13 of them with nine or more others**: at least 331 distinct token contracts on 29 tickers (175 on Solana, 46 on Robinhood Chain, 12 on BNB Chain). HUANG alone returned 28 different tokens. A second search on 2026-11-13 16:12 UTC, which also records when each pool was created, shows **at least 25 tokens called HUANG launched within 24 hours** (pools created between 12 Nov 14:33 and 13 Nov 11:42 UTC, on Robinhood Chain, Solana and Arc); the raw response is in `scripts/snapshots/dexscreener-search-huang-2026-11-13T1612Z.json`.
 
 - `node scripts/dexscreener.mjs` reruns it and prints, for each ticker, the search URL that returns those tokens. No API key.
 - On the home page and in the pitch deck each dot is one token contract and links to it on DexScreener.
@@ -87,11 +87,13 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 | Arena: 1 h registration, 4 h rounds, 2 NEAR score cap per account, 1% creator reward (the web app's default) | `arena-33881.memeduel-4a2d2e.testnet` |
 | Fast test arena, same code: 6 min registration, 9 min rounds | `arena-35900.memeduel-4a2d2e.testnet` |
 | Same timings, previous token code (no score cap, no creator reward) | `arena-32526.memeduel-4a2d2e.testnet` |
-| Earlier arena with 6 min / 9 min demo timings, where the demo video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
+| Demo arena, same code: 4 min registration, 6 min rounds. The demo video's $HUANG bracket was played here | `arena-86517.memeduel-4a2d2e.testnet` |
+| Same timings as the demo arena; an earlier take of the video | `arena-83503.memeduel-4a2d2e.testnet` |
+| Earlier arena with 6 min / 9 min timings, where an earlier video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
 | Token code used by arena-33881 (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
 | Token code used by the two older arenas | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
 
-All arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket, 1 h post-win tax decay on the new one. No arena account has access keys.
+All arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket. Post-win tax decay: 1 h on arena-33881, 3 min on arena-35900, 2 min on arena-83503 and arena-86517. No arena account has access keys.
 
 ## Simulation
 
@@ -189,3 +191,7 @@ sim                  parameter simulation
 web                  Vite + React front end
 scripts              build, deploy, meme.cooking snapshot
 ```
+
+## Credits
+
+Demo video music: Jacques Offenbach, can-can from the overture to "Orpheus in the Underworld", recording by Musopen, public domain (https://commons.wikimedia.org/wiki/File:Offenbach_-_Orpheus_in_the_Underworld_-_Overture,_Can_Can_section.ogg). Narration is synthesized.
