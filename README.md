@@ -32,7 +32,7 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track. Testnet prot
 
 | | |
 | --- | --- |
-| Hosted app and pitch deck | [cookiez-1909.github.io/Heavy-Is-The-Crown](https://cookiez-1909.github.io/Heavy-Is-The-Crown/), on the fast test arena (6 min registration, 9 min rounds) so a two-coin bracket finishes in about 15 minutes. Connect a NEAR testnet wallet to launch or trade |
+| Hosted app and pitch deck | [cookiez-1909.github.io/Heavy-Is-The-Crown](https://cookiez-1909.github.io/Heavy-Is-The-Crown/), on the fast test arena (6 min registration, 9 min rounds) so a two-coin bracket finishes in about 15 minutes. Connect a NEAR testnet wallet to launch or trade. Republish with `scripts/publish-pages.sh` |
 | Arena a local clone uses by default (1 h registration, 4 h rounds) | [`arena-33881.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet) |
 | Demo arena (4 min registration, 6 min rounds), where the demo video's $HUANG bracket was played | [`arena-86517.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-86517.memeduel-4a2d2e.testnet) |
 | The two $HUANG coins of that bracket: the champion and the copy it absorbed | [`huang-0.arena-86517…`](https://testnet.nearblocks.io/address/huang-0.arena-86517.memeduel-4a2d2e.testnet), [`huang-1.arena-86517…`](https://testnet.nearblocks.io/address/huang-1.arena-86517.memeduel-4a2d2e.testnet) |
@@ -247,7 +247,7 @@ contracts/publisher  helper that publishes a wasm as a global contract (tests on
 tests                sandbox end-to-end tests and the localnet example
 sim                  parameter simulation
 web                  Vite + React front end
-scripts              build, deploy, DexScreener and meme.cooking counts
+scripts              build, deploy, publish the site to gh-pages, DexScreener and meme.cooking counts
 scripts/snapshots    raw API responses behind the figures in this README
 docs/readme          banner, GIF and screenshots used here
 ```
