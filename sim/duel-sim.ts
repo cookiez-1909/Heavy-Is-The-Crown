@@ -10,7 +10,7 @@ export interface Params {
   sellTax: boolean;
 }
 
-export const DEFAULTS: Params = { hours: 4, virtualNear: 50, penaltyBps: 1500, stepMin: 5, sellTax: true };
+export const DEFAULTS: Params = { hours: 4, virtualNear: 5, penaltyBps: 1500, stepMin: 5, sellTax: true };
 const CURVE_SUPPLY = 1e9;
 
 export interface SideState {

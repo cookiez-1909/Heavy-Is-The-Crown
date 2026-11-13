@@ -1,14 +1,68 @@
-# Heavy Is The Crown (HITC)
+<div align="center">
 
-**A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one, until a single coin holds all of it.**
+<img src="docs/readme/logo.png" alt="The HITC crown" width="120" />
 
-Built at NEAR HACKATHON for the **Memecoins With Mechanics** track.
+# Heavy Is The Crown
+
+<img src="docs/readme/banner.png" alt="Heavy Is The Crown: one ticker, one survivor. Four $HUANG copies merge into one pool." width="100%" />
+
+<p>
+  <a href="https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet"><img alt="Live on NEAR testnet" src="https://img.shields.io/badge/Live-NEAR%20testnet-f5cf3d?style=for-the-badge&labelColor=242424" /></a>
+  <a href="#run-it"><img alt="cargo test" src="https://img.shields.io/badge/cargo%20test-17%20unit%20%2B%203%20sandbox-45b4ea?style=for-the-badge&labelColor=242424" /></a>
+  <a href="#where-the-rules-live"><img alt="No owner, no admin key" src="https://img.shields.io/badge/admin%20keys-none-fafafa?style=for-the-badge&labelColor=242424" /></a>
+  <a href="https://nearhackathon.com"><img alt="NEAR HACKATHON 2026" src="https://img.shields.io/badge/NEAR%20HACKATHON-Memecoins%20With%20Mechanics-7b61ff?style=for-the-badge&labelColor=242424" /></a>
+</p>
+
+</div>
+
+**Every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves into the stronger one, until a single coin holds all of it.** Heavy Is The Crown (HITC) is a memecoin launchpad on NEAR built around that one rule.
+
+Built at NEAR HACKATHON for the **Memecoins With Mechanics** track. Testnet prototype, not audited.
+
+## HITC in 60 seconds
+
+- **The problem.** Launching a memecoin takes one click, so anything that goes viral is launched again and again under the same ticker. On DexScreener, at least 25 tokens called HUANG were launched within 24 hours, and 23 of the 29 most promoted tokens shared their ticker with another token. The copies split the same buyers and every pool stays thin.
+- **What HITC does.** The first coin of a ticker opens a bracket; every copy launched during registration joins it. Copies are paired off round by round, scored on new money weighted by how long it stays. The loser's reserve moves into the winner and its holders are converted, so the bracket ends with one coin holding the liquidity of all of them. The champion has to defend the ticker against later copies.
+- **What NEAR does.** Every coin is its own NEP-141 running one token code pinned by hash (a global contract), so a launch costs 0.25 NEAR. Settling a match is a chain of cross-contract calls between the two tokens. The arena account has no access keys, so nobody can change the rules.
+- **What it does not do.** It only merges coins launched here, it counts NEAR rather than people, and the sell tax discourages running before the bell without preventing it. See [Known limits](#known-limits).
+- **Check it yourself.** Every figure links to its source: `node scripts/dexscreener.mjs` and `node scripts/radar.mjs` redo the counts, and `get_config` on the arena returns every rule.
+
+| | |
+| --- | --- |
+| Arena used by the web app (1 h registration, 4 h rounds) | [`arena-33881.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet) |
+| Demo arena (4 min registration, 6 min rounds), where the demo video's $HUANG bracket was played | [`arena-86517.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-86517.memeduel-4a2d2e.testnet) |
+| The two $HUANG coins of that bracket: the champion and the copy it absorbed | [`huang-0.arena-86517…`](https://testnet.nearblocks.io/address/huang-0.arena-86517.memeduel-4a2d2e.testnet), [`huang-1.arena-86517…`](https://testnet.nearblocks.io/address/huang-1.arena-86517.memeduel-4a2d2e.testnet) |
+| Token code every coin runs (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
+
+All test arenas are listed in [Live on testnet](#live-on-testnet).
+
+## One bracket, start to finish
+
+<div align="center">
+<img src="docs/readme/demo.gif" alt="The bell on the $HUANG bracket: the match is settled, then the champion is crowned" width="800" />
+<br /><sub>The bell on the $HUANG demo bracket: anyone settles the match, the copy's liquidity moves into the winner, and the crown drops. Real testnet transactions; the waits are sped up.</sub>
+</div>
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/readme/landing.png" alt="Landing page with the hand-drawn crown" /><br /><sub><b>Landing page.</b> The rule first, then the problem with numbers you can click through to their source.</sub></td>
+    <td width="50%"><img src="docs/readme/problem.png" alt="The problem section: 23 of 29 promoted tokens share a ticker, and $HUANG's liquidity split across 23 pools" /><br /><sub><b>The problem, measured.</b> DexScreener and meme.cooking counts; every block and dot links to the token or listing it stands for.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/bracket.png" alt="A finished $HUANG bracket with its champion" /><br /><sub><b>A bracket.</b> Rounds, scores, the champion, and a trade box with the live sell tax on every coin.</sub></td>
+    <td width="50%"><img src="docs/readme/launch.png" alt="Launch page: name, ticker, image, and which bracket the coin will join" /><br /><sub><b>Launch.</b> Upload an image or keep the default crown, and see which bracket your coin joins before you pay.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/rules.png" alt="Rules page: parameters read from the contract and the simulated match chart" /><br /><sub><b>Rules.</b> Every parameter read live from the arena, and the simulated match under five different crowds.</sub></td>
+    <td width="50%"><img src="docs/readme/pitch.png" alt="Pitch deck slide: same ticker, same bracket" /><br /><sub><b>Pitch deck.</b> 13 slides at <code>/pitch/</code>, built from the same data as the site.</sub></td>
+  </tr>
+</table>
 
 ## The problem
 
 Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
 
-**Across chains (DexScreener).** We took DexScreener's own "top boosts" list, the tokens being promoted the most, and searched each ticker. On 2026-11-12 17:36 UTC, **23 of the 29 promoted tokens shared their ticker with at least one other token, 13 of them with nine or more others**: at least 331 distinct token contracts on 29 tickers (175 on Solana, 46 on Robinhood Chain, 12 on BNB Chain). HUANG alone returned 28 different tokens. A second search on 2026-11-13 16:12 UTC, which also records when each pool was created, shows **at least 25 tokens called HUANG launched within 24 hours** (pools created between 12 Nov 14:33 and 13 Nov 11:42 UTC, on Robinhood Chain, Solana and Arc); the raw response is in `scripts/snapshots/dexscreener-search-huang-2026-11-13T1612Z.json`.
+**Across chains (DexScreener).** We took DexScreener's own "top boosts" list, the tokens being promoted the most, and searched each ticker. On 2026-11-12 17:36 UTC, **23 of the 29 promoted tokens shared their ticker with at least one other token, 13 of them with nine or more others**: at least 331 distinct token contracts on 29 tickers (175 on Solana, 46 on Robinhood Chain, 12 on BNB Chain). HUANG alone returned 28 different tokens. A second search on 2026-11-13 16:12 UTC, which also records when each pool was created, shows **at least 25 tokens called HUANG launched within 24 hours** (pools created between 12 Nov 14:33 and 13 Nov 11:42 UTC, on Robinhood Chain, Solana and Arc); the raw response is in `scripts/snapshots/dexscreener-search-huang-2026-11-13T1612Z.json` (`pairCreatedAt` on each pair; rerun with `curl 'https://api.dexscreener.com/latest/dex/search?q=Huang'`).
 
 - `node scripts/dexscreener.mjs` reruns it and prints, for each ticker, the search URL that returns those tokens. No API key.
 - On the home page and in the pitch deck each dot is one token contract and links to it on DexScreener.
@@ -82,30 +136,30 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 
 ## Live on testnet
 
-| | Account |
-|---|---|
-| Arena: 1 h registration, 4 h rounds, 2 NEAR score cap per account, 1% creator reward (the web app's default) | `arena-33881.memeduel-4a2d2e.testnet` |
-| Fast test arena, same code: 6 min registration, 9 min rounds | `arena-35900.memeduel-4a2d2e.testnet` |
-| Same timings, previous token code (no score cap, no creator reward) | `arena-32526.memeduel-4a2d2e.testnet` |
-| Demo arena, same code: 4 min registration, 6 min rounds. The demo video's $HUANG bracket was played here | `arena-86517.memeduel-4a2d2e.testnet` |
-| Same timings as the demo arena; an earlier take of the video | `arena-83503.memeduel-4a2d2e.testnet` |
-| Earlier arena with 6 min / 9 min timings, where an earlier video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
-| Token code used by arena-33881 (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
-| Token code used by the two older arenas | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
+Every arena below runs with a 15% penalty, 5 NEAR virtual liquidity, a 0.2 NEAR minimum seed and up to 8 coins per bracket. None of them has an access key.
 
-All arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket. Post-win tax decay: 1 h on arena-33881, 3 min on arena-35900, 2 min on arena-83503 and arena-86517. No arena account has access keys.
+| Arena | Registration / round / post-win tax decay | Score cap, creator reward | Token code | Used for |
+|---|---|---|---|---|
+| `arena-33881.memeduel-4a2d2e.testnet` | 1 h / 4 h / 1 h | 2 NEAR, 1% | `3wVfmE…` | the web app's default |
+| `arena-35900.memeduel-4a2d2e.testnet` | 6 min / 9 min / 3 min | 2 NEAR, 1% | `3wVfmE…` | fast testing |
+| `arena-86517.memeduel-4a2d2e.testnet` | 4 min / 6 min / 2 min | 2 NEAR, 1% | `3wVfmE…` | the demo video's $HUANG bracket |
+| `arena-83503.memeduel-4a2d2e.testnet` | 4 min / 6 min / 2 min | 2 NEAR, 1% | `3wVfmE…` | an earlier take of the video |
+| `arena-32526.memeduel-4a2d2e.testnet` | 1 h / 4 h / 1 h | none | `5LpgXe…` | previous token code |
+| `arena-82872.memeduel-4a2d2e.testnet` | 6 min / 9 min / 2.4 min | none | `5LpgXe…` | previous token code, an earlier video's $HOT and $KEK brackets |
+
+Token code hashes: `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` (current) and `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` (previous, without the per-wallet score cap and the creator reward).
 
 ## Simulation
 
-One 4-hour match between coin A and coin B, with the contract's formulas (`sim/duel-sim.ts`). 15% penalty, 50 NEAR virtual liquidity:
+One 4-hour match between coin A and coin B, with the contract's formulas (`sim/duel-sim.ts`). 15% penalty and 5 NEAR virtual liquidity, as on every arena above (the Rules page shows the same table):
 
 | Scenario | Reserve at start (A / B) | Net inflow at bell (A / B) | Score, NEAR-hours (A / B) | Winner | Total-reserve rule would pick | Loser's reserve moved | of which sell tax | Spoils | Winner price bump | Supply after |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Even match | 5 / 5 | 6.9 / 6.4 | 15 / 14 | **A** | A | 11.4 NEAR | 0.0 | 1.7 | +2.8% | 299M A |
-| Rich incumbent, live newcomer | 150 / 5 | 0.7 / 6.8 | 1 / 15 | **B** | A ⚠ | 150.7 NEAR | 0.0 | 22.6 | +36.6% | 679M B |
-| Last-minute whale | 5 / 5 | 6.9 / 21.6 | 15 / 7 | **A** | B ⚠ | 26.6 NEAR | 0.0 | 4.0 | +6.4% | 399M A |
-| Run for the exit | 20 / 20 | 6.4 / -17.7 | 18 / -16 | **A** | A | 2.3 NEAR | 2.3 | 0.4 | +0.5% | 362M A |
-| Sell in the break, buy back | 5 / 5 | 0.5 / 4.2 | -1 / 9 | **B** | A ⚠ | 25.5 NEAR | 0.0 | 3.8 | +6.5% | 372M B |
+| Even match | 5 / 5 | 6.9 / 6.4 | 15 / 14 | **A** | A | 11.4 NEAR | 0.0 | 1.7 | +10.1% | 806M A |
+| Rich incumbent, live newcomer | 150 / 5 | 0.7 / 6.8 | 1 / 15 | **B** | A ⚠ | 150.7 NEAR | 0.0 | 22.6 | +134.5% | 930M B |
+| Last-minute whale | 5 / 5 | 6.9 / 21.6 | 15 / 7 | **A** | B ⚠ | 26.6 NEAR | 0.0 | 4.0 | +23.6% | 858M A |
+| Run for the exit | 20 / 20 | 6.4 / -17.7 | 18 / -16 | **A** | A | 2.3 NEAR | 2.3 | 0.4 | +1.1% | 850M A |
+| Sell in the break, buy back | 5 / 5 | 0.5 / 4.2 | -1 / 9 | **B** | A ⚠ | 25.5 NEAR | 0.0 | 3.8 | +27.0% | 840M B |
 
 Shorter rounds make a late whale cheaper. In the whale row A collected 6.9 NEAR over the round and scored 14.8 NEAR-hours, so without a cap a single buy 30 minutes before the bell would beat it with about 30 NEAR. With the live arena's 2 NEAR per-wallet cap, one wallet adds at most 1 NEAR-hour that late, so overtaking A that way takes about 15 funded wallets. We chose 4-hour rounds so a bracket of 8 finishes in about 13 hours.
 
@@ -157,7 +211,7 @@ Wallets cannot sign on a sandbox, so the local chain is read-only from the brows
 scripts/deploy.sh <your-account.testnet> 1 4 1
 ```
 
-(registration, round and cooldown in hours; further arguments are penalty in bps, virtual NEAR, minimum seed, bracket size).
+(registration, round and cooldown in hours; further arguments are penalty in bps, virtual NEAR, minimum seed, bracket size, creator reward in bps and the per-wallet score cap in NEAR). The script publishes the token code as a global contract only if that code hash is not on chain yet, because publishing burns about 23 NEAR.
 
 ## Known limits
 
@@ -189,7 +243,9 @@ contracts/publisher  helper that publishes a wasm as a global contract (tests on
 tests                sandbox end-to-end tests and the localnet example
 sim                  parameter simulation
 web                  Vite + React front end
-scripts              build, deploy, meme.cooking snapshot
+scripts              build, deploy, DexScreener and meme.cooking counts
+scripts/snapshots    raw API responses behind the figures in this README
+docs/readme          banner, GIF and screenshots used here
 ```
 
 ## Credits

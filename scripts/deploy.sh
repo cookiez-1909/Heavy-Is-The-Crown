@@ -8,7 +8,7 @@
 #
 # <account> must have its key in the legacy keychain (~/.near-credentials).
 # Publishing the token code as a global contract burns ~23 NEAR once per code
-# version; each arena then needs 2.5 NEAR. A coin launch costs 0.25 NEAR.
+# version (skipped when that code hash is already published); each arena then needs 2.5 NEAR. A coin launch costs 0.25 NEAR.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -41,9 +41,17 @@ yocto() { python3 -c "from decimal import Decimal as D; print(int(D('$1') * 10**
 ARENA="arena-$(date +%s | tail -c 6).$ACCOUNT"
 ARGS="{\"registration_ns\":\"$(ns "$REG_H")\",\"round_ns\":\"$(ns "$ROUND_H")\",\"cooldown_ns\":\"$(ns "$COOL_H")\",\"penalty_bps\":$PENALTY,\"virtual_near\":\"$(yocto "$VIRTUAL")\",\"min_seed\":\"$(yocto "$MIN_SEED")\",\"max_entrants\":$MAX,\"creator_reward_bps\":$REWARD,\"score_cap\":\"$(yocto "$CAP")\",\"token_code_hash\":\"$HASH\"}"
 
-echo "1/4 publishing token code as an immutable global contract ($HASH)"
-near contract deploy-as-global use-file "$TOKEN" as-global-hash "$ACCOUNT" \
-  network-config "$NET" sign-with-legacy-keychain send
+RPC=${NEAR_RPC:-https://rpc.$NET.near.org}
+PUBLISHED=$(curl -s "$RPC" -H 'content-type: application/json' \
+  -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"query\",\"params\":{\"request_type\":\"view_global_contract_code\",\"finality\":\"final\",\"code_hash\":\"$HASH\"}}" \
+  | python3 -c "import sys, json; print('yes' if 'result' in json.load(sys.stdin) else 'no')" 2>/dev/null || echo no)
+if [ "$PUBLISHED" = yes ]; then
+  echo "1/4 token code $HASH is already published as a global contract: skipping (publishing again would burn ~23 NEAR)"
+else
+  echo "1/4 publishing token code as an immutable global contract ($HASH)"
+  near contract deploy-as-global use-file "$TOKEN" as-global-hash "$ACCOUNT" \
+    network-config "$NET" sign-with-legacy-keychain send
+fi
 
 echo "2/4 creating $ARENA"
 near account create-account fund-myself "$ARENA" '2.5 NEAR' autogenerate-new-keypair save-to-legacy-keychain \
