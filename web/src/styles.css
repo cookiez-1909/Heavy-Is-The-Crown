@@ -6,13 +6,13 @@
   --line: #2e2e3a;
   --ink: #f2efe6;
   --ink-2: #b5b2a8;
-  --ink-3: #85837c;
+  --ink-3: #97948b;
   --brand: #ffd23f;     /* gold: accents, links, the survivor */
   --on-brand: #14140f;
   --btn-bg: #ffd23f;
   --btn-ink: #14140f;
   --gold: #ffd23f;
-  --danger: #f0473c;    /* split pools, losing, errors */
+  --danger: #f6635a;    /* split pools, losing, errors */
   --ok: #45c486;        /* success, live */
   --a: #f0473c;         /* match side A */
   --b: #3d8bef;         /* match side B */
@@ -29,22 +29,23 @@
   --line: #e7dcc0;
   --ink: #16140f;
   --ink-2: #4f4a3d;
-  --ink-3: #7a735f;
-  --brand: #9a6700;     /* gold that still reads as text on paper */
+  --ink-3: #665f4d;
+  --brand: #835800;     /* gold that still reads as text on paper (5.4:1 or more) */
   --on-brand: #fffdf6;
   --btn-bg: #16140f;    /* black button, gold label */
   --btn-ink: #ffd23f;
   --gold: #c99400;
-  --danger: #d23a2f;
-  --ok: #138a5e;
+  --danger: #b9302a;
+  --ok: #0c7049;
   --a: #d9471e;
   --b: #2f6fe0;
   --body-bg: radial-gradient(900px 520px at 6% -8%, #fff0b8 0%, transparent 62%), radial-gradient(760px 520px at 96% 2%, #ffe0cc 0%, transparent 60%), radial-gradient(820px 560px at 84% 80%, #f7e3f0 0%, transparent 62%), radial-gradient(760px 520px at 4% 94%, #dff3e6 0%, transparent 60%), #fbf6e8;
 }
 
 * { box-sizing: border-box; }
-html { color-scheme: dark; }
-html[data-theme="light"] { color-scheme: light; }
+/* The page draws both themes itself: "only" keeps browser auto-dark modes from recoloring it. */
+html { color-scheme: only dark; }
+html[data-theme="light"] { color-scheme: only light; }
 body {
   margin: 0;
   background: var(--body-bg);

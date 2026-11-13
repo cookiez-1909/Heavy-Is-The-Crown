@@ -58,7 +58,7 @@ function formatExact(v: bigint): string {
 
 // ------------------------------------------------------------------ trading
 
-function TradeBox({ info, token, balance, color, account, refresh }: { info: Info; token: string; balance: bigint; color: string; account: string | null; refresh: () => void }) {
+function TradeBox({ info, token, balance, account, refresh }: { info: Info; token: string; balance: bigint; account: string | null; refresh: () => void }) {
   const [mode, setMode] = useState<"buy" | "sell">("buy");
   const [text, setText] = useState("");
   const { busy, run } = useAction(() => {
@@ -158,7 +158,7 @@ function TradeBox({ info, token, balance, color, account, refresh }: { info: Inf
               ? "Buying mints new supply and adds to this round's score."
               : `Selling burns supply. The tax stays in this coin's curve.`)}
       </p>
-      <button className="btn big" style={{ background: color, color: "#fff" }} disabled={!amount || !!problem || !!busy} onClick={go}>
+      <button className="btn big" disabled={!amount || !!problem || !!busy} onClick={go}>
         {busy ? "Waiting for wallet…" : mode === "buy" ? `Back ${info.name}` : `Sell ${info.name}`}
       </button>
     </div>
@@ -173,7 +173,6 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
   const claimable = mine?.claimable[idx] ?? 0n;
   const frozen = info.status === "Live" && msLeft(s, p.now) <= 0;
   const tradable = info.status === "Advanced" || (info.status === "Live" && !frozen);
-  const color = p.side === "b" ? "var(--b)" : "var(--a)";
   const champion = s.t.champion === idx;
   const absorber = info.absorbed_by ? s.t.entrants.find((x) => x.token === info.absorbed_by) : null;
   const inflow = BigInt(info.reserve) - BigInt(info.round_base);
@@ -228,7 +227,7 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
         </p>
       )}
 
-      {tradable && <TradeBox info={info} token={e.token} balance={balance} color={color} account={p.account} refresh={p.refresh} />}
+      {tradable && <TradeBox info={info} token={e.token} balance={balance} account={p.account} refresh={p.refresh} />}
       {frozen && info.rival && <p className="muted">Frozen until this match is settled.</p>}
 
       {info.status === "Lost" && (

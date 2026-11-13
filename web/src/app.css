@@ -220,3 +220,10 @@ code { background: var(--panel-2); }
 .pgrid dd { margin: 2px 0 0; font: 600 16px var(--mono); }
 @media (max-width: 960px) { .launchwrap { grid-template-columns: 1fr; } .boardcol { position: static; } }
 @media (max-width: 520px) { .pair { grid-template-columns: 1fr; } .wactions { flex-wrap: wrap; } .wactions .btn.big.go { width: 100%; } }
+
+/* Light theme: the bright gold is for fills and glows only; gold text uses the darker brand gold. */
+[data-theme="light"] .stamp.won, [data-theme="light"] .season, [data-theme="light"] .ttitle small,
+[data-theme="light"] .solution .eyebrow, [data-theme="light"] .solution h2 em { color: var(--brand); }
+[data-theme="light"] .season, [data-theme="light"] .ttitle small { border-color: var(--brand); }
+[data-theme="light"] .pill.bell { background: var(--brand); color: #fffdf6; }
+[data-theme="light"] .pill.live { background: var(--ok); color: #fffdf6; }
