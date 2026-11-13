@@ -387,7 +387,7 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
         <table className="receipts">
           <tbody>
             {[
-              ["Unit tests on the token", "15 pass", "cargo test -p duel-token"],
+              ["Unit tests on the token", "17 pass", "cargo test -p duel-token"],
               ["End-to-end brackets on a NEAR sandbox", "3 pass", "cargo test -p duel-tests"],
               ["4 coins → semi-finals → final → season 2", "covered", "tests/tests/duel.rs"],
               ["A $KEK bracket played to a champion on testnet", "tournament 0", 'get_tournament {"id":0}'],
