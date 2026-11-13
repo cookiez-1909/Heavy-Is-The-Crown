@@ -62,6 +62,9 @@ export default function App() {
           </a>
           <div className="topright">
             <ThemeToggle />
+            <a className="btn ghost pitchbtn" href="pitch/">
+              Pitch
+            </a>
             <a className="btn" href="#/app">
               Open app
             </a>
@@ -93,7 +96,6 @@ export default function App() {
             </button>
             {moreOpen && (
               <div className="moremenu" onClick={() => setMoreOpen(false)}>
-                <a href="pitch/">Pitch deck</a>
                 <a href="#/faq">FAQ</a>
                 <button onClick={openTour}>Take the tour again</button>
                 <a href="#/">About Ticker Bracket</a>
@@ -106,6 +108,9 @@ export default function App() {
             <i /> {NETWORK === "testnet" ? "Live on NEAR testnet" : "NEAR mainnet"}
           </span>
           <ThemeToggle />
+          <a className="btn ghost pitchbtn" href="pitch/">
+            Pitch
+          </a>
           <Wallet account={account} />
         </div>
       </header>

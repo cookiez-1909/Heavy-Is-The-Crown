@@ -10,7 +10,7 @@ code { background: var(--panel-2); }
 /* ----------------------------------------------------------------- top bar */
 .top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); max-width: none; }
 .top .topright { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.landingtop { margin: 0; width: 100%; max-width: none; padding-top: 14px; padding-bottom: 14px; padding-left: max(20px, calc((100vw - 1120px) / 2)); padding-right: max(20px, calc((100vw - 1120px) / 2)); }
+.landingtop { margin: 0; width: 100%; max-width: none; padding-top: 14px; padding-bottom: 14px; padding-left: 28px; padding-right: 28px; }
 .iconbtn { width: 38px; height: 38px; display: inline-grid; place-items: center; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-2); cursor: pointer; }
 .iconbtn:hover { color: var(--ink); border-color: var(--ink-3); }
 .envchip { width: auto; height: auto; display: inline-flex; align-items: center; gap: 8px; font: 500 13px var(--mono); color: var(--ink-2); border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 5px 12px; margin: 0; white-space: nowrap; }
@@ -30,7 +30,7 @@ code { background: var(--panel-2); }
 .moremenu a:hover, .moremenu button:hover { background: var(--panel-2); color: var(--ink); }
 .appmain { max-width: 1120px; margin: 0 auto; padding: 0 20px 40px; }
 .appmain .foot { padding-left: 0; padding-right: 0; margin-top: 48px; }
-.apptop { margin: 0; width: 100%; max-width: none; padding: 14px max(20px, calc((100vw - 1120px) / 2)); }
+.apptop { margin: 0; width: 100%; max-width: none; padding: 14px 28px; }
 
 .page { padding-top: 28px; }
 .pagehead h1 { font-size: clamp(32px, 4vw, 44px); margin: 0 0 6px; }
@@ -173,3 +173,7 @@ code { background: var(--panel-2); }
   .brand { font-size: 22px; }
   .whyhead { flex-direction: column; align-items: flex-start; }
 }
+
+.pitchbtn { padding: 9px 16px; font-weight: 650; }
+.pitchbtn::before { content: "▶"; font-size: 10px; color: var(--brand); }
+@media (max-width: 520px) { .pitchbtn { padding: 9px 12px; } }
