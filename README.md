@@ -255,3 +255,7 @@ docs/readme          banner, GIF and screenshots used here
 ## Credits
 
 Demo video music: Jacques Offenbach, can-can from the overture to "Orpheus in the Underworld", recording by Musopen, public domain (https://commons.wikimedia.org/wiki/File:Offenbach_-_Orpheus_in_the_Underworld_-_Overture,_Can_Can_section.ogg). Narration is synthesized.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

@@ -375,7 +375,7 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
             <strong>1</strong>
             <b>token code, pinned by hash</b>
             <span>Every coin is a sub-account running the same NEAR global contract. Launching costs 0.25 NEAR instead of ~2.3.</span>
-            <code>5LpgXeEt…pfAHsC</code>
+            <code>3wVfmENz…9jromEU</code>
           </div>
           <div>
             <strong>0</strong>
@@ -398,7 +398,7 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
               ["Unit tests on the token", "17 pass", "cargo test -p duel-token"],
               ["End-to-end brackets on a NEAR sandbox", "3 pass", "cargo test -p duel-tests"],
               ["4 coins → semi-finals → final → season 2", "covered", "tests/tests/duel.rs"],
-              ["A $KEK bracket played to a champion on testnet", "tournament 0", 'get_tournament {"id":0}'],
+              ["A $HUANG bracket played to a champion on testnet", "arena-35900, #0", 'get_tournament {"id":0}'],
               ["Match scenarios simulated before picking 15%", "5 × 4", "node sim/run.ts --sweep"],
               ["Bracket UI against real contract state, no funds needed", "local chain", "cargo run -p duel-tests --example localnet"],
             ].map(([a, b, c], i) => (
