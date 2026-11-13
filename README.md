@@ -7,11 +7,14 @@
 <img src="docs/readme/banner.png" alt="Heavy Is The Crown: one ticker, one survivor. Four $HUANG copies merge into one pool." width="100%" />
 
 <p>
+  <a href="https://cookiez-1909.github.io/Heavy-Is-The-Crown/"><img alt="Live demo" src="https://img.shields.io/badge/%E2%96%B6%20Live%20demo-in%20your%20browser-f5cf3d?style=for-the-badge&labelColor=242424" /></a>
   <a href="https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet"><img alt="Live on NEAR testnet" src="https://img.shields.io/badge/Live-NEAR%20testnet-f5cf3d?style=for-the-badge&labelColor=242424" /></a>
   <a href="#run-it"><img alt="cargo test" src="https://img.shields.io/badge/cargo%20test-17%20unit%20%2B%203%20sandbox-45b4ea?style=for-the-badge&labelColor=242424" /></a>
   <a href="#where-the-rules-live"><img alt="No owner, no admin key" src="https://img.shields.io/badge/admin%20keys-none-fafafa?style=for-the-badge&labelColor=242424" /></a>
   <a href="https://nearhackathon.com"><img alt="NEAR HACKATHON 2026" src="https://img.shields.io/badge/NEAR%20HACKATHON-Memecoins%20With%20Mechanics-7b61ff?style=for-the-badge&labelColor=242424" /></a>
 </p>
+
+<a href="https://github.com/cookiez-1909/Heavy-Is-The-Crown/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/cookiez-1909/Heavy-Is-The-Crown/actions/workflows/ci.yml/badge.svg" /></a>
 
 </div>
 
@@ -29,7 +32,8 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track. Testnet prot
 
 | | |
 | --- | --- |
-| Arena used by the web app (1 h registration, 4 h rounds) | [`arena-33881.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet) |
+| Hosted app and pitch deck | [cookiez-1909.github.io/Heavy-Is-The-Crown](https://cookiez-1909.github.io/Heavy-Is-The-Crown/), on the fast test arena (6 min registration, 9 min rounds) so a two-coin bracket finishes in about 15 minutes. Connect a NEAR testnet wallet to launch or trade |
+| Arena a local clone uses by default (1 h registration, 4 h rounds) | [`arena-33881.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet) |
 | Demo arena (4 min registration, 6 min rounds), where the demo video's $HUANG bracket was played | [`arena-86517.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-86517.memeduel-4a2d2e.testnet) |
 | The two $HUANG coins of that bracket: the champion and the copy it absorbed | [`huang-0.arena-86517…`](https://testnet.nearblocks.io/address/huang-0.arena-86517.memeduel-4a2d2e.testnet), [`huang-1.arena-86517…`](https://testnet.nearblocks.io/address/huang-1.arena-86517.memeduel-4a2d2e.testnet) |
 | Token code every coin runs (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
@@ -141,7 +145,7 @@ Every arena below runs with a 15% penalty, 5 NEAR virtual liquidity, a 0.2 NEAR 
 | Arena | Registration / round / post-win tax decay | Score cap, creator reward | Token code | Used for |
 |---|---|---|---|---|
 | `arena-33881.memeduel-4a2d2e.testnet` | 1 h / 4 h / 1 h | 2 NEAR, 1% | `3wVfmE…` | the web app's default |
-| `arena-35900.memeduel-4a2d2e.testnet` | 6 min / 9 min / 3 min | 2 NEAR, 1% | `3wVfmE…` | fast testing |
+| `arena-35900.memeduel-4a2d2e.testnet` | 6 min / 9 min / 3 min | 2 NEAR, 1% | `3wVfmE…` | the hosted app, fast testing |
 | `arena-86517.memeduel-4a2d2e.testnet` | 4 min / 6 min / 2 min | 2 NEAR, 1% | `3wVfmE…` | the demo video's $HUANG bracket |
 | `arena-83503.memeduel-4a2d2e.testnet` | 4 min / 6 min / 2 min | 2 NEAR, 1% | `3wVfmE…` | an earlier take of the video |
 | `arena-32526.memeduel-4a2d2e.testnet` | 1 h / 4 h / 1 h | none | `5LpgXe…` | previous token code |
@@ -191,7 +195,7 @@ scripts/build.sh
 cargo test
 ```
 
-`cargo test` runs 17 unit tests on the token and 3 end-to-end tests on a local NEAR sandbox (`tests/tests/duel.rs`): a 4-coin bracket through semi-finals and final, chained conversion of a holder through two lost coins, a second season against the champion, a 3-coin bracket with a bye, and the limits and access-control paths. The first run downloads the sandbox binary.
+`cargo test` runs 17 unit tests on the token and 3 end-to-end tests on a local NEAR sandbox (`tests/tests/duel.rs`): a 4-coin bracket through semi-finals and final, chained conversion of a holder through two lost coins, a second season against the champion, a 3-coin bracket with a bye, and the limits and access-control paths. The first run downloads the sandbox binary. If a sandbox test fails with "Failed to bind to available ports", the sandboxes raced for ports: run `cargo test -- --test-threads=1`.
 
 To look at the UI against real contract state without any testnet funds:
 
