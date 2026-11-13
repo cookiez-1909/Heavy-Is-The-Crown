@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { connector, errorText, view } from "./near";
+import { confetti } from "./ui";
 import type { Info, Tournament } from "./types";
 
 // ------------------------------------------------------------------ polling
@@ -66,12 +67,13 @@ export function Toasts() {
 /** Runs a wallet action with busy state and toasts. */
 export function useAction(after?: () => void) {
   const [busy, setBusy] = useState<string | null>(null);
-  const run = async (key: string, done: string, fn: () => Promise<unknown>) => {
+  const run = async (key: string, done: string, fn: () => Promise<unknown>, party = false) => {
     if (busy) return;
     setBusy(key);
     try {
       await fn();
       toast("ok", done);
+      if (party) confetti();
       after?.();
     } catch (e) {
       toast("err", errorText(e));

@@ -1,9 +1,22 @@
 import type { Config } from "./types";
 import { duration, near } from "./fmt";
 
+/** The question judges and traders ask first. Shared by the FAQ and the landing page. */
+export function WhyHereAnswer({ p }: { p: number }) {
+  return (
+    <>
+      Because holders choose where to buy, and here a lost round is not the end of their money. When a copy loses, its liquidity is not stranded: <b>about {100 - p}% of it comes back to its holders as tokens of the winner</b>. The other {p}% stays in the winner's curve, and whoever settles the match is paid at most 0.05 NEAR. The coin that wins ends up holding the liquidity of every copy, so the launcher whose copy people actually want gets all of it.
+      <span className="fine">
+        Selling right after a conversion is taxed while the post-win sell tax fades. Elsewhere a copy that loses the crowd just stays a separate, thinning pool; we do not claim its holders lose everything.
+      </span>
+    </>
+  );
+}
+
 export default function Faq({ config }: { config: Config | null }) {
   const p = config ? config.penalty_bps / 100 : 15;
-  const qa: [string, React.ReactNode][] = [
+  const qa: [string, React.ReactNode, boolean?][] = [
+    ["Why would anyone launch a copy here, if it can lose?", <WhyHereAnswer p={p} />, true],
     [
       "What problem does this solve?",
       <>When something goes viral it gets launched many times with the same ticker, and the copies split the same buyers. Here, copies launched with the same ticker are forced into one bracket, and the bracket merges their liquidity into a single coin.</>,
@@ -40,7 +53,7 @@ export default function Faq({ config }: { config: Config | null }) {
     ],
     [
       "Does it cover copies launched on other launchpads?",
-      <>No. A contract can only move liquidity it holds, so only coins launched here are in the bracket. The duplicate-ticker numbers above come from meme.cooking to show how common the problem is.</>,
+      <>No. A contract can only move liquidity it holds, so only coins launched here are in the bracket. The DexScreener and meme.cooking numbers on this page show how common the problem is; they are not coins we can merge.</>,
     ],
     [
       "What can still go wrong?",
@@ -50,9 +63,12 @@ export default function Faq({ config }: { config: Config | null }) {
   return (
     <section className="faq" id="faq">
       <h2>FAQ</h2>
-      {qa.map(([q, a]) => (
-        <details key={q}>
-          <summary>{q}</summary>
+      {qa.map(([q, a, hl]) => (
+        <details key={q} className={hl ? "hl" : ""} open={hl}>
+          <summary>
+            {hl && <span className="faqtag">Asked most</span>}
+            {q}
+          </summary>
           <p>{a}</p>
         </details>
       ))}

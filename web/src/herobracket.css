@@ -1,0 +1,20 @@
+/* Looping bracket: shared by the landing page and the pitch deck. */
+.herobracket { width: 100%; max-width: 560px; margin-left: auto; height: auto; overflow: visible; }
+.wire { fill: none; stroke: var(--line); stroke-width: 2; }
+.drop { fill: var(--gold); filter: drop-shadow(0 0 6px var(--gold)); }
+.node { animation: 9s infinite both; }
+.node.l1 { animation-name: n1; }
+.node.l1.loses1 { animation-name: n1lose; }
+.node.l2 { animation-name: n2; }
+.node.l2.loses2 { animation-name: n2lose; }
+.node.l3 { animation-name: n3; }
+.halo { fill: none; stroke: var(--gold); stroke-width: 3; transform-origin: 380px 150px; animation: halo 9s infinite both; }
+@keyframes n1 { 0% { opacity: 0; transform: scale(0); } 6%, 94% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes n1lose { 0% { opacity: 0; transform: scale(0); } 6%, 22% { opacity: 1; transform: scale(1); filter: none; } 30%, 94% { opacity: 0.28; transform: scale(0.8); filter: grayscale(1); } 100% { opacity: 0; } }
+@keyframes n2 { 0%, 26% { opacity: 0; transform: scale(0); } 31% { opacity: 1; transform: scale(1.15); } 34%, 94% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+@keyframes n2lose { 0%, 26% { opacity: 0; transform: scale(0); } 31% { opacity: 1; transform: scale(1.15); } 34%, 48% { opacity: 1; transform: scale(1); filter: none; } 57%, 94% { opacity: 0.28; transform: scale(0.8); filter: grayscale(1); } 100% { opacity: 0; } }
+@keyframes n3 { 0%, 53% { opacity: 0; transform: scale(0); } 58% { opacity: 1; transform: scale(1.2); } 62%, 94% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+@keyframes halo { 0%, 58% { opacity: 0; transform: scale(0.6); } 64% { opacity: 1; transform: scale(1); } 76% { opacity: 0.5; transform: scale(1.18); } 88% { opacity: 1; transform: scale(1); } 94% { opacity: 1; } 100% { opacity: 0; } }
+
+.svgcrown { transform-origin: 380px 118px; animation: svgcrown 9s infinite both; filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.5)); }
+@keyframes svgcrown { 0%, 62% { opacity: 0; transform: translateY(-150px) rotate(-50deg); } 68% { opacity: 1; transform: translateY(6px) rotate(4deg); } 71% { transform: translateY(-10px) rotate(-14deg); } 74%, 94% { opacity: 1; transform: translateY(0) rotate(-8deg); } 100% { opacity: 0; transform: translateY(0) rotate(-8deg); } }

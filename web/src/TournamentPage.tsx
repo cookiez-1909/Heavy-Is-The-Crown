@@ -4,6 +4,7 @@ import { call, TGAS, view } from "./near";
 import { ago, countdown, near, parseUnits, score, short, tokens } from "./fmt";
 import { alive, Coin, ensureWallet, loadTournament, msLeft, roundName, ScoreBar, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
 import type { Info, Match, Tournament, Trade } from "./types";
+import { confirmRisk } from "./ui";
 
 const LOG_FEE = 2n * 10n ** 21n;
 const REG_FEE = 125n * 10n ** 19n; // 0.00125 NEAR of NEP-145 storage, charged on a first buy
@@ -85,8 +86,39 @@ function TradeBox({ info, token, balance, color, account, refresh }: { info: Inf
   const go = async () => {
     if (!amount || problem) return;
     if (!(await ensureWallet(account))) return;
-    if (mode === "buy") run("t", `Bought ${tokens(out)} ${info.name}.`, () => call(token, "buy", { min_tokens_out: min.toString() }, { deposit: amount }));
-    else run("t", `Sold ${tokens(amount)} ${info.name}.`, () => call(token, "sell", { amount: amount.toString(), min_near_out: min.toString() }, { deposit: 1n }));
+    const p = info.penalty_bps / 100;
+    if (mode === "buy") {
+      const ok = await confirmRisk({
+        title: `Back ${info.name}`,
+        lines: [
+          { label: "Leaves your wallet", value: `${near(amount, 4)} NEAR`, tone: "out" },
+          { label: "You receive", value: `≈ ${tokens(out)} ${info.symbol} (newly minted)`, tone: "in" },
+          { label: "Fees, not refundable", value: `${near(fee, 5)} NEAR${fee > LOG_FEE ? " (includes one-time token storage)" : ""}`, tone: "lost" },
+        ],
+        risks: [
+          `If this coin loses its round, ${p}% of its liquidity goes to the winner. You keep the rest as winner tokens.`,
+          `Selling is taxed. Right now ${tax.toFixed(1)}%${info.status === "Live" ? `, rising to ${p}% at the bell` : ""}.`,
+          "NEAR testnet, contracts not audited. Price can fall like any memecoin.",
+        ],
+        confirm: `Back ${info.name}`,
+      });
+      if (!ok) return;
+      run("t", `Bought ${tokens(out)} ${info.name}.`, () => call(token, "buy", { min_tokens_out: min.toString() }, { deposit: amount }));
+    } else {
+      const gross = quoteSell({ ...info, sell_tax_bps: 0 }, amount);
+      const ok = await confirmRisk({
+        title: `Sell ${info.name}`,
+        lines: [
+          { label: "You sell", value: `${tokens(amount)} ${info.symbol} (burned)`, tone: "out" },
+          { label: "You receive", value: `≈ ${near(out, 4)} NEAR`, tone: "in" },
+          { label: `Sell tax ${tax.toFixed(1)}%, stays in the curve`, value: `≈ ${near(gross > out ? gross - out : 0n, 4)} NEAR`, tone: "lost" },
+        ],
+        risks: ["The tax is never refunded: it stays in this coin's curve for the remaining holders."],
+        confirm: `Sell ${info.name}`,
+      });
+      if (!ok) return;
+      run("t", `Sold ${tokens(amount)} ${info.name}.`, () => call(token, "sell", { amount: amount.toString(), min_near_out: min.toString() }, { deposit: 1n }));
+    }
   };
 
   return (
@@ -150,7 +182,7 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
   const claim = async () => {
     if (!(await ensureWallet(p.account))) return;
     const deposit = BigInt(await view<string>(e.token, "claim_deposit"));
-    run("claim", `Converted into ${tokens(claimable)} ${absorber?.name ?? "winner"} tokens.`, () => call(e.token, "claim", {}, { deposit, gas: 100n * TGAS }));
+    run("claim", `Converted into ${tokens(claimable)} ${absorber?.name ?? "winner"} tokens.`, () => call(e.token, "claim", {}, { deposit, gas: 100n * TGAS }), true);
   };
 
   return (
@@ -280,6 +312,31 @@ function Bracket({ s, selected, select }: { s: TState; selected: number[]; selec
   );
 }
 
+// --------------------------------------------------------------- milestones
+
+/** Registration → each round → Champion, with the current stage lit. */
+function Milestones({ t }: { t: Tournament }) {
+  const n = Math.max(2, t.entrants.length);
+  const rounds = Math.ceil(Math.log2(n));
+  const name = (r: number) => {
+    const left = Math.ceil(n / 2 ** (r - 1));
+    return left <= 2 ? "Final" : left <= 4 ? "Semi-final" : left <= 8 ? "Quarter-final" : `Round ${r}`;
+  };
+  const stages = ["Registration", ...Array.from({ length: rounds }, (_, i) => name(i + 1)), "Champion"];
+  // A finished bracket has completed every stage, the crown included.
+  const current = t.phase === "Finished" ? stages.length : t.round;
+  return (
+    <ol className="milestones" aria-label="Bracket progress">
+      {stages.map((st, i) => (
+        <li key={st + i} className={i < current ? "done" : i === current ? "now" : ""} aria-current={i === current ? "step" : undefined}>
+          <i>{i < current ? "✓" : i + 1}</i>
+          <span>{st}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 // --------------------------------------------------------------------- page
 
 const verb: Record<Trade["kind"], string> = { buy: "bought", sell: "sold", spoils: "paid spoils:", convert: "was converted:", claim: "burned to convert" };
@@ -314,6 +371,15 @@ export default function TournamentPage({ id, account }: { id: number; account: s
   const left = msLeft(s, now);
   const due = t.phase !== "Finished" && left <= 0;
   const pending = unsettled(s);
+  const roleOf = (acct: string): { kind: string; label: string } => {
+    if (account && acct === account) return { kind: "you", label: "You" };
+    const coin = t.entrants.find((e) => e.token === acct);
+    if (coin) return { kind: "contract", label: `${coin.name} contract` };
+    const made = t.entrants.find((e) => e.creator === acct);
+    if (made) return { kind: "creator", label: `Creator · ${made.name}` };
+    if (acct === ARENA) return { kind: "contract", label: "Arena" };
+    return { kind: "trader", label: "Trader" };
+  };
   const bags = mine ? t.entrants.map((_, i) => i).filter((i) => mine.claimable[i] > 0n && !selected.includes(i)) : [];
 
   const settleAll = async () => {
@@ -325,22 +391,23 @@ export default function TournamentPage({ id, account }: { id: number; account: s
         const fresh = await view<Info>(t.entrants[i].token, "get_info");
         if (fresh.status === "Live") await call(t.entrants[i].token, "settle", {}, { gas: 150n * TGAS });
       }
-    });
+    }, true);
   };
   const advance = async () => {
     if (!(await ensureWallet(account))) return;
-    run("advance", "Bracket advanced.", () => call(ARENA, "advance", { tournament_id: t.id }, { gas: 300n * TGAS }));
+    run("advance", "Bracket advanced.", () => call(ARENA, "advance", { tournament_id: t.id }, { gas: 300n * TGAS }), true);
   };
 
   return (
     <>
-      <a className="back" href="#/">
+      <a className="back" href="#/app">
         ← All brackets
       </a>
       <h1 className="ttitle">
         ${t.ticker}
         {t.season > 1 && <small>season {t.season}</small>}
       </h1>
+      <Milestones t={t} />
       <section className={`banner ${due ? "bell" : "live"}`}>
         {t.phase === "Finished" ? (
           <>
@@ -417,7 +484,10 @@ export default function TournamentPage({ id, account }: { id: number; account: s
               return (
                 <li key={k} className={selected.indexOf(x.coin) === 1 ? "b" : "a"}>
                   <span className="dot" />
-                  <span className="who">{short(x.account)}</span>
+                  <span className="who">
+                    <span className={`role ${roleOf(x.account).kind}`}>{roleOf(x.account).label}</span>
+                    {roleOf(x.account).kind === "you" ? null : short(x.account)}
+                  </span>
                   <span>
                     {verb[x.kind]}{" "}
                     {x.kind === "spoils" ? (
