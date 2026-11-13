@@ -77,7 +77,7 @@ export default function Chart({ result, metric }: { result: Result; metric: Metr
             );
           })}
           {min < 0 && <line className="zero" x1={M.left} x2={W - M.right} y1={y(0)} y2={y(0)} />}
-          {[0, 4, 8, 12, 16, 20, 24, 30, 36].filter((t) => t <= hours).map((t) => (
+          {[0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(f * hours * 10) / 10).map((t) => (
             <text key={t} className="tick" x={x(t)} y={H - 8} textAnchor="middle">
               {t}h
             </text>

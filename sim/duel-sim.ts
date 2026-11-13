@@ -10,7 +10,7 @@ export interface Params {
   sellTax: boolean;
 }
 
-export const DEFAULTS: Params = { hours: 24, virtualNear: 50, penaltyBps: 1500, stepMin: 10, sellTax: true };
+export const DEFAULTS: Params = { hours: 4, virtualNear: 50, penaltyBps: 1500, stepMin: 5, sellTax: true };
 const CURVE_SUPPLY = 1e9;
 
 export interface SideState {
@@ -152,23 +152,23 @@ export function scenarios(p: Params = DEFAULTS): Result[] {
     ),
     simulate(
       "Last-minute whale",
-      "A builds steadily. In the final 30 minutes a whale drops 60 NEAR on B.",
+      "A builds steadily. Ten minutes before the bell a whale drops 20 NEAR on B, three times what A collected all round.",
       [5, 5],
-      (t, r) => [noise(r, 0.5), noise(r, 0.12) + (t >= h - 0.5 ? 60 : 0)],
+      (t, r) => [noise(r, 0.5), noise(r, 0.12) + (t >= h - 1 / 6 && t < h - 1 / 6 + p.stepMin / 60 ? 20 : 0)],
       p,
     ),
     simulate(
       "Run for the exit",
-      "B is clearly losing by hour 16, so its holders try to pull everything out before the bell.",
+      "B is clearly losing two thirds of the way in, so its holders try to pull everything out before the bell.",
       [20, 20],
-      (t, r) => [noise(r, 0.6), t < 16 ? noise(r, 0.1) : -2.5],
+      (t, r) => [noise(r, 0.6), t < (h * 2) / 3 ? noise(r, 0.1) : -2.5],
       p,
     ),
     simulate(
       "Sell in the break, buy back",
-      "A's holders sold 20 NEAR in the break and buy it back in the first hour to fake inflow. The round starts from the reserve at the previous bell, so the buy-back only brings A back to zero.",
+      "A's holders sold 20 NEAR in the break and buy it back in the first 20 minutes to fake inflow. The round starts from the reserve at the previous bell, so the buy-back only brings A back to zero.",
       [25, 5],
-      (t, r) => [t < 1 ? 20 / 6 : noise(r, 0.05), noise(r, 0.3)],
+      (t, r) => [t < 1 / 3 ? 20 / 4 : noise(r, 0.05), noise(r, 0.3)],
       p,
       [20, 0],
     ),

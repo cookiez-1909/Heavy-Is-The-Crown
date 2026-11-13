@@ -76,22 +76,25 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 
 | | Account |
 |---|---|
-| Arena (demo timings: 6 min registration, 9 min rounds) | `arena-82872.memeduel-4a2d2e.testnet` |
+| Arena: 1 h registration, 4 h rounds (the web app's default) | `arena-32526.memeduel-4a2d2e.testnet` |
+| Earlier arena with 6 min / 9 min demo timings, where the demo video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
 | Token code (global contract hash) | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
 
-15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket. The arena account has no access keys.
+Both arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket, 1 h post-win tax decay on the new one. Neither arena account has access keys.
 
 ## Simulation
 
-One 24-hour match between coin A and coin B, with the contract's formulas (`sim/duel-sim.ts`). 15% penalty, 50 NEAR virtual liquidity:
+One 4-hour match between coin A and coin B, with the contract's formulas (`sim/duel-sim.ts`). 15% penalty, 50 NEAR virtual liquidity:
 
-| Scenario | Reserve at start (A / B) | Net inflow at bell (A / B) | Score, NEAR-hours (A / B) | Winner | Total-reserve rule would pick | Loser's reserve moved | of which sell tax | Spoils | Winner price bump |
-|---|---|---|---|---|---|---|---|---|---|
-| Even match | 5 / 5 | 26.3 / 26.9 | 292 / 319 | **B** | B | 31.3 NEAR | 0.1 | 4.7 | +5.7% |
-| Rich incumbent, live newcomer | 150 / 5 | 2.6 / 28.6 | 29 / 339 | **B** | A ⚠ | 152.6 NEAR | 0.0 | 22.9 | +27.4% |
-| Last-minute whale | 5 / 5 | 26.3 / 186.9 | 292 / 141 | **A** | B ⚠ | 191.9 NEAR | 0.0 | 28.8 | +35.4% |
-| Run for the exit | 20 / 20 | 30.0 / -17.5 | 355 / -93 | **A** | A | 2.5 NEAR | 2.5 | 0.4 | +0.4% |
-| Sell in the break, buy back | 5 / 5 | 6.1 / 15.5 | 98 / 179 | **B** | A ⚠ | 31.1 NEAR | 0.0 | 4.7 | +6.6% |
+| Scenario | Reserve at start (A / B) | Net inflow at bell (A / B) | Score, NEAR-hours (A / B) | Winner | Total-reserve rule would pick | Loser's reserve moved | of which sell tax | Spoils | Winner price bump | Supply after |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Even match | 5 / 5 | 6.9 / 6.4 | 15 / 14 | **A** | A | 11.4 NEAR | 0.0 | 1.7 | +2.8% | 299M A |
+| Rich incumbent, live newcomer | 150 / 5 | 0.7 / 6.8 | 1 / 15 | **B** | A ⚠ | 150.7 NEAR | 0.0 | 22.6 | +36.6% | 679M B |
+| Last-minute whale | 5 / 5 | 6.9 / 21.6 | 15 / 7 | **A** | B ⚠ | 26.6 NEAR | 0.0 | 4.0 | +6.4% | 399M A |
+| Run for the exit | 20 / 20 | 6.4 / -17.7 | 18 / -16 | **A** | A | 2.3 NEAR | 2.3 | 0.4 | +0.5% | 362M A |
+| Sell in the break, buy back | 5 / 5 | 0.5 / 4.2 | -1 / 9 | **B** | A ⚠ | 25.5 NEAR | 0.0 | 3.8 | +6.5% | 372M B |
+
+Shorter rounds make a late whale cheaper. In the whale row A collected 6.9 NEAR over the round and scored 14.8 NEAR-hours, so a single buy 30 minutes before the bell beats it with about 30 NEAR, and one 10 minutes before the bell needs about 89 NEAR. With 24-hour rounds the same crowd would have been several times harder to overtake. We chose 4-hour rounds so a bracket of 8 finishes in about 13 hours.
 
 What is left of a stake that keeps landing on the losing side:
 
@@ -138,7 +141,7 @@ cd web && pnpm install && pnpm dev
 Wallets cannot sign on a sandbox, so the local chain is read-only from the browser. `web/.env.example` shows how to point the app at the testnet arena above. To deploy your own:
 
 ```bash
-scripts/deploy.sh <your-account.testnet> 12 24 6
+scripts/deploy.sh <your-account.testnet> 1 4 1
 ```
 
 (registration, round and cooldown in hours; further arguments are penalty in bps, virtual NEAR, minimum seed, bracket size).

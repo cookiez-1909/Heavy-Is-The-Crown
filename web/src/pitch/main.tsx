@@ -11,7 +11,7 @@ import { DEFAULTS, scenarios } from "../../../sim/duel-sim.ts";
 import { ARENA } from "../config";
 import { COPIES, HeroBracket } from "../HeroBracket";
 
-const ARENA_ID = ARENA || "arena-82872.memeduel-4a2d2e.testnet";
+const ARENA_ID = ARENA || "arena-32526.memeduel-4a2d2e.testnet";
 const still = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const topDex = dex.rows[0];
 
@@ -173,7 +173,7 @@ function ScoreSlide() {
     <div className="chartwrap">
       <Chart result={r} metric="score" />
       <p className="cap">
-        Simulated 24 h round. A starts with 150 NEAR absorbed earlier and no new buyers; B starts with 5 NEAR and keeps attracting them. B wins {Math.round(last.score[1])} to {Math.round(last.score[0])} NEAR-hours. <code>node sim/run.ts</code>
+        Simulated {DEFAULTS.hours} h round. A starts with 150 NEAR absorbed earlier and no new buyers; B starts with 5 NEAR and keeps attracting them. B wins {Math.round(last.score[1])} to {Math.round(last.score[0])} NEAR-hours. <code>node sim/run.ts</code>
       </p>
     </div>
   );

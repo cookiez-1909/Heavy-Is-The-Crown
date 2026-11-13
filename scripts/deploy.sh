@@ -2,8 +2,8 @@
 # Deploys an arena to testnet and then deletes its access key, so nobody
 # (including the deployer) can change or upgrade it.
 #
-#   scripts/deploy.sh <account.testnet> [registration_h=12] [round_h=24] [cooldown_h=6] \
-#                     [penalty_bps=1500] [virtual_near=50] [min_seed_near=1] [max_entrants=8]
+#   scripts/deploy.sh <account.testnet> [registration_h=1] [round_h=4] [cooldown_h=1] \
+#                     [penalty_bps=1500] [virtual_near=5] [min_seed_near=0.2] [max_entrants=8]
 #
 # <account> must have its key in the legacy keychain (~/.near-credentials).
 # Publishing the token code as a global contract burns ~23 NEAR once per code
@@ -12,12 +12,12 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 ACCOUNT=${1:?usage: scripts/deploy.sh <account.testnet> [registration_h] [round_h] [cooldown_h] [penalty_bps] [virtual_near] [min_seed_near] [max_entrants]}
-REG_H=${2:-12}
-ROUND_H=${3:-24}
-COOL_H=${4:-6}
+REG_H=${2:-1}
+ROUND_H=${3:-4}
+COOL_H=${4:-1}
 PENALTY=${5:-1500}
-VIRTUAL=${6:-50}
-MIN_SEED=${7:-1}
+VIRTUAL=${6:-5}
+MIN_SEED=${7:-0.2}
 MAX=${8:-8}
 NET=${NEAR_NETWORK:-testnet}
 TOKEN=target/near/duel_token/duel_token.wasm

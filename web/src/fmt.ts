@@ -47,8 +47,11 @@ export function countdown(ms: number): string {
 
 export function duration(ns: bigint | string): string {
   const min = Number(BigInt(ns) / 60_000_000_000n);
-  if (min >= 60) return `${+(min / 60).toFixed(1)} hours`;
-  return `${min} minutes`;
+  if (min >= 60) {
+    const h = +(min / 60).toFixed(1);
+    return `${h} hour${h === 1 ? "" : "s"}`;
+  }
+  return `${min} minute${min === 1 ? "" : "s"}`;
 }
 
 export function ago(ns: string, nowMs: number): string {
