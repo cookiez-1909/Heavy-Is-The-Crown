@@ -138,8 +138,9 @@ body { overflow: hidden; }
 
 /* terminal */
 .term { background: #08080a; border: 1px solid var(--line); border-radius: 14px; padding: clamp(14px, 2vw, 24px); font: clamp(13px, 1.4vw, 18px)/1.9 var(--mono); margin: 0; max-width: 760px; overflow-x: auto; }
-.term span { color: var(--brand); }
-.caret { display: inline-block; width: 0.6em; height: 1.1em; background: var(--brand); margin-left: 6px; vertical-align: text-bottom; animation: blink 1s steps(2) infinite; }
+.term { color: #f2efe6; }
+.term span { color: #ffd23f; }
+.caret { display: inline-block; width: 0.6em; height: 1.1em; background: #ffd23f; margin-left: 6px; vertical-align: text-bottom; animation: blink 1s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
 @media (max-width: 860px) {
