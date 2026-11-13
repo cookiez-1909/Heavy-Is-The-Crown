@@ -85,6 +85,7 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 | | Account |
 |---|---|
 | Arena: 1 h registration, 4 h rounds, 2 NEAR score cap per account, 1% creator reward (the web app's default) | `arena-33881.memeduel-4a2d2e.testnet` |
+| Fast test arena, same code: 6 min registration, 9 min rounds | `arena-35900.memeduel-4a2d2e.testnet` |
 | Same timings, previous token code (no score cap, no creator reward) | `arena-32526.memeduel-4a2d2e.testnet` |
 | Earlier arena with 6 min / 9 min demo timings, where the demo video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
 | Token code used by arena-33881 (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
