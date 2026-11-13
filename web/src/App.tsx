@@ -5,6 +5,7 @@ import { short } from "./fmt";
 import { MeContext, Toasts } from "./shared";
 import { RiskDialog, ThemeToggle } from "./ui";
 import Landing from "./Landing";
+import { Wordmark } from "./Brand";
 import Brackets from "./Brackets";
 import Launch from "./Launch";
 import TournamentPage from "./TournamentPage";
@@ -65,10 +66,8 @@ export default function App() {
   if (landing) {
     return (
       <>
-        <header className="top landingtop">
-          <a className="brand" href="#/">
-            Ticker<span>Bracket</span>
-          </a>
+        <header className="top landingtop onhero">
+          <Wordmark short />
           <div className="topright">
             <ThemeToggle />
             <a className="btn ghost pitchbtn" href="pitch/">
@@ -79,7 +78,7 @@ export default function App() {
             </a>
           </div>
         </header>
-        <main>
+        <main className="lmain">
           <Landing />
         </main>
         <Toasts />
@@ -90,9 +89,7 @@ export default function App() {
   return (
     <MeContext.Provider value={account}>
       <header className="top apptop">
-        <a className="brand" href="#/">
-          Ticker<span>Bracket</span>
-        </a>
+        <Wordmark />
         <nav className="appnav" aria-label="App">
           {NAV.map((n) => (
             <a key={n.href} href={n.href} className={n.match(route) ? "on" : ""}>
@@ -106,7 +103,7 @@ export default function App() {
             {moreOpen && (
               <div className="moremenu" onClick={() => setMoreOpen(false)}>
                 <a href="#/faq">FAQ</a>
-                <a href="#/">About Ticker Bracket</a>
+                <a href="#/">About HITC</a>
               </div>
             )}
           </div>

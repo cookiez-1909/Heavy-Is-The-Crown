@@ -2,14 +2,15 @@ import { Fragment, StrictMode, useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "../styles.css";
 import "../extras.css";
-import "../herobracket.css";
 import "./pitch.css";
+import "../hitc.css";
 import { DupRows, radarSnapshot as radar } from "../Radar";
 import { dex, DexRows, isSelf, when } from "../Dex";
 import Chart from "../Chart";
 import { DEFAULTS, scenarios } from "../../../sim/duel-sim.ts";
 import { ARENA } from "../config";
-import { COPIES, HeroBracket } from "../HeroBracket";
+import { CrownArt, Wordmark } from "../Brand";
+import { ThemeToggle } from "../ui";
 
 const ARENA_ID = ARENA || "arena-33881.memeduel-4a2d2e.testnet";
 const still = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -17,7 +18,7 @@ const topDex = dex.rows[0];
 
 // ------------------------------------------------------------ motion pieces
 
-/** Headline that rises word by word. Parts wrapped in [] are gold. */
+/** Headline that rises word by word. Parts wrapped in [] are highlighted. */
 function H({ parts, small }: { parts: (string | [string])[]; small?: boolean }) {
   let k = 0;
   return (
@@ -58,6 +59,8 @@ function Count({ to, ms = 1300 }: { to: number; ms?: number }) {
   return <>{v.toLocaleString("en-US")}</>;
 }
 
+const COPIES = ["A", "B", "C", "D"];
+
 /** Four thin pools pour into one. */
 function MergeBars() {
   return (
@@ -67,9 +70,7 @@ function MergeBars() {
         <div className="lanes">
           {COPIES.map((c, i) => (
             <div key={c}>
-              <span className="pc" style={{ background: c }}>
-                🐸
-              </span>
+              <span className="pc">{c}</span>
               <i style={{ width: `${[38, 30, 18, 14][i]}%` }} />
             </div>
           ))}
@@ -78,13 +79,11 @@ function MergeBars() {
       </div>
       <div className="arrow">→</div>
       <div className="box hot">
-        <h3>Ticker Bracket</h3>
+        <h3>Heavy Is The Crown</h3>
         <div className="lanes pour">
           {COPIES.map((c, i) => (
             <div key={c} className={i === 3 ? "keep" : "drain"} style={{ ["--w" as string]: `${[38, 30, 18, 14][i]}%`, ["--d" as string]: `${i * 0.5}s` }}>
-              <span className="pc" style={{ background: c }}>
-                🐸
-              </span>
+              <span className="pc">{c}</span>
               <i />
             </div>
           ))}
@@ -185,13 +184,22 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
   {
     kicker: "NEAR HACKATHON · MEMECOINS WITH MECHANICS",
     node: (
-      <div className="two">
+      <div className="cover">
         <div>
-          <H parts={["One ticker.", "One", ["survivor."]]} />
-          <p className="sub">A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one.</p>
+          <h1 className="handtitle" aria-label="Heavy Is The Crown">
+            <span className="w">Heavy Is</span>
+            <span className="w" style={{ animationDelay: "160ms" }}>
+              The Crown
+            </span>
+          </h1>
+          <p className="lead2">
+            One ticker. One survivor. <span>A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one.</span>
+          </p>
           <p className="tag">live on NEAR testnet · {ARENA_ID}</p>
         </div>
-        <HeroBracket />
+        <div className="covercrown">
+          <CrownArt draw title="A crown, drawn line by line" />
+        </div>
       </div>
     ),
   },
@@ -246,7 +254,7 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
           </div>
           <h2>tickers on meme.cooking were listed by two or more different accounts.</h2>
           <p className="sub">
-            {radar.sharing} of the {radar.visible} listings the site displays. Smaller than on Solana, same pattern. Gold dots launched; red ones never reached their soft cap.
+            {radar.sharing} of the {radar.visible} listings the site displays. Smaller than on Solana, same pattern. Yellow dots launched; red ones never reached their soft cap.
           </p>
           <p className="tag">one dot = one listing, click it · node scripts/radar.mjs</p>
         </div>
@@ -410,13 +418,20 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     kicker: "TRY IT",
     node: (
       <>
-        <H parts={["Launch a copy.", ["Then beat it."]]} />
+        <h1 className="handtitle end">
+          <span className="w">Launch a copy.</span>
+          <span className="w" style={{ animationDelay: "160ms" }}>
+            Then beat it.
+          </span>
+        </h1>
+        <div className="endrow2">
         <pre className="term">
           <span>$</span> scripts/build.sh && cargo test{"\n"}
           <span>$</span> cargo run -p duel-tests --example localnet{"\n"}
           <span>$</span> cd web && pnpm install && pnpm dev<i className="caret" />
         </pre>
         <p className="sub">What it does not do: it cannot touch copies launched elsewhere, it counts NEAR rather than people, and the sell tax discourages running without preventing it. Not audited.</p>
+        </div>
         <p className="tag">
           <a href="../">open the app →</a>
         </p>
@@ -458,27 +473,28 @@ function Deck() {
     return () => clearTimeout(id);
   }, [playing, n]);
 
-  const s = SLIDES[n - 1];
+  const s_ = SLIDES[n - 1];
   const pad = (x: number) => String(x).padStart(2, "0");
   return (
     <div className="deck">
-      <div className="bg" aria-hidden>
-        <i />
-        <i />
-      </div>
       <div className="progress" style={{ width: `${(n / SLIDES.length) * 100}%` }} />
-      <a className="exit" href="../" title="Back to the app (Esc)">
-        ✕ <span>Exit to app</span>
-      </a>
+      <div className="deckhead">
+        <div className="secrule">
+          <span>{pad(n)}</span>
+          <i />
+          <span>/{s_.kicker}</span>
+        </div>
+        <a className="exit" href="../" title="Back to the app (Esc)">
+          ✕ <span>Exit</span>
+        </a>
+      </div>
       <section className="slide" key={n} aria-label={`Slide ${n} of ${SLIDES.length}`}>
-        <p className="kicker">{s.kicker}</p>
-        {s.node}
+        {s_.node}
       </section>
       <footer>
-        <a href="../">
-          TICKER<span>BRACKET</span>
-        </a>
+        <Wordmark href="../" />
         <nav>
+          <ThemeToggle />
           <button className={playing ? "on" : ""} onClick={() => setPlaying((x) => !x)} title="Play the deck automatically (P)" aria-pressed={playing}>
             {playing ? "❚❚ Pause" : "▶ Play"}
             {playing && <i key={n} style={{ animationDuration: `${AUTO_MS}ms` }} />}

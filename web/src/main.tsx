@@ -5,6 +5,7 @@ import "./styles.css";
 import "./extras.css";
 import "./herobracket.css";
 import "./app.css";
+import "./hitc.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

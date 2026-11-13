@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { ARENA } from "./config";
 import { call, TGAS, view } from "./near";
 import { duration, near, parseUnits } from "./fmt";
-import { COLORS, EMOJI, makeIcon } from "./icon";
+import { DEFAULT_ICON } from "./icon";
 import { ensureWallet, roundName, useAction, useNow, usePoll } from "./shared";
 import { confirmRisk } from "./ui";
 import type { Config, Tournament } from "./types";
+import { SectionHead } from "./Brand";
 
 const SUPPLY = 1_000_000_000n;
 const ICON_LIMIT = 4096; // bytes the arena accepts for an on-chain icon
@@ -40,8 +41,6 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
   const [name, setName] = useState("");
   const [upload, setUpload] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const [emoji, setEmoji] = useState(EMOJI[0]);
-  const [color, setColor] = useState(COLORS[0]);
   const [seedText, setSeedText] = useState("");
   const [existing, setExisting] = useState<Tournament | null | undefined>(undefined);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -74,7 +73,7 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
 
   if (!config) return <p className="muted page">Loading…</p>;
 
-  const icon = upload ?? makeIcon(emoji, color);
+  const icon = upload ?? DEFAULT_ICON;
   const fee = BigInt(config.launch_fee);
   const minSeed = BigInt(config.min_seed);
   const seed = parseUnits(seedText, 24);
@@ -134,11 +133,14 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
       confirm: "Launch",
     });
     if (!ok) return;
-    run("enter", `${name.trim()} is live in the $${sym} bracket.`, () => call(ARENA, "enter", { meme: { name: name.trim(), symbol: sym, icon } }, { deposit: fee + seed, gas: 100n * TGAS }), true);
+    run("enter", `${name.trim()} is live in the $${sym} bracket.${upload ? "" : " It was launched with no image, so it shows the default crown."}`, () => call(ARENA, "enter", { meme: { name: name.trim(), symbol: sym, icon } }, { deposit: fee + seed, gas: 100n * TGAS }), true);
   };
 
   return (
     <div className="page launchpage">
+      <SectionHead n="02" label="LAUNCH" title="launch a coin">
+        <p className="secsub">Pick a ticker. If nobody has it here you open its bracket; if one is open, your coin joins it.</p>
+      </SectionHead>
       <div className="launchwrap">
         <section className="card wizard">
           <ol className="stepper">
@@ -164,14 +166,14 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
                     <img src={icon} alt="" />
                   </button>
                   <div className="imgside">
-                    <span className="hint">Square works best. It is shrunk to fit on-chain (4 KB).</span>
+                    <span className="hint">{upload ? "Your image, shrunk to fit on-chain (4 KB)." : "Upload your own image, or launch with the default crown. Square works best; it is shrunk to fit on-chain (4 KB)."}</span>
                     <div className="row">
                       <button type="button" className="btn ghost" onClick={() => fileRef.current?.click()}>
                         {upload ? "Change image" : "Upload image"}
                       </button>
                       {upload && (
                         <button type="button" className="btn ghost" onClick={() => setUpload(null)}>
-                          Use a face instead
+                          Remove image
                         </button>
                       )}
                     </div>
@@ -180,20 +182,9 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
                   <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => pickFile(e.target.files?.[0])} />
                 </div>
                 {!upload && (
-                  <div className="faces2">
-                    <div className="chips">
-                      {EMOJI.map((e) => (
-                        <button type="button" key={e} className={e === emoji ? "chip on" : "chip"} onClick={() => setEmoji(e)} aria-label={`face ${e}`}>
-                          {e}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="chips">
-                      {COLORS.map((c) => (
-                        <button type="button" key={c} className={c === color ? "swatch on" : "swatch"} style={{ background: c }} onClick={() => setColor(c)} aria-label={`color ${c}`} />
-                      ))}
-                    </div>
-                  </div>
+                  <p className="noimgnote">
+                    <b>No image yet.</b> Without an upload your coin launches with the default crown and is labelled "no image" in its bracket. The image cannot be changed after launch.
+                  </p>
                 )}
               </div>
               <div className="pair">
@@ -264,6 +255,7 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
                 <div className="prow">
                   <span className="mono">${sym || "TICKER"}</span>
                   <span className="pchip">{badge}</span>
+                  {!upload && <span className="pchip noimg">No image</span>}
                 </div>
               </div>
             </div>

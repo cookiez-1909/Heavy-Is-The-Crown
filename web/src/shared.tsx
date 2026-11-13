@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState, createContext, useContext } from "react";
 import { connector, errorText, view } from "./near";
 import { confetti } from "./ui";
+import { CrownArt } from "./Brand";
+import { isDefaultIcon } from "./icon";
 import type { Info, Tournament } from "./types";
 
 // ------------------------------------------------------------------ polling
@@ -98,7 +100,7 @@ export async function ensureWallet(account: string | null): Promise<boolean> {
 
 const icons = new Map<string, Promise<string | null>>();
 /** Icons never change, so a successful read is kept. A failed read (the public RPC throttles) is forgotten and retried. */
-function iconOf(token: string): Promise<string | null> {
+export function iconOf(token: string): Promise<string | null> {
   const cached = icons.get(token);
   if (cached) return cached;
   const p = view<{ icon: string | null }>(token, "ft_metadata").then((m) => m.icon);
@@ -114,16 +116,9 @@ export const useMe = () => useContext(MeContext);
 /** Drops onto the overall winner of a bracket. */
 export function Crown({ size }: { size: number }) {
   return (
-    <svg className="crown" viewBox="0 0 64 42" width={size} height={(size * 42) / 64} aria-hidden>
-      <path d="M5 33 L8 11 L22 25 L32 5 L42 25 L56 11 L59 33 Z" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2.5" strokeLinejoin="round" />
-      <rect x="4" y="31" width="56" height="8" rx="2.5" fill="#f2b705" stroke="#7a5c00" strokeWidth="2.5" />
-      <circle cx="8" cy="10" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
-      <circle cx="32" cy="5" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
-      <circle cx="56" cy="10" r="4" fill="#ffd23f" stroke="#7a5c00" strokeWidth="2" />
-      <circle cx="19" cy="35" r="2.4" fill="#f0473c" />
-      <circle cx="32" cy="35" r="2.4" fill="#45c486" />
-      <circle cx="45" cy="35" r="2.4" fill="#f0473c" />
-    </svg>
+    <span className="crown" style={{ width: size, height: (size * 330) / 400 }} aria-hidden>
+      <CrownArt />
+    </span>
   );
 }
 
@@ -147,7 +142,7 @@ export function Coin({ token, icon, symbol, size = 56, crown }: { token?: string
   }, [token, icon]);
   const style = { width: size, height: size, fontSize: size * 0.36 };
   const coin = src ? (
-    <img className="coin" src={src} alt="" style={style} />
+    <img className="coin" src={src} alt="" style={style} title={isDefaultIcon(src) ? "No image uploaded: default crown" : undefined} />
   ) : (
     <span className="coin placeholder" style={style} aria-hidden>
       {symbol.slice(0, 2)}
@@ -160,6 +155,25 @@ export function Coin({ token, icon, symbol, size = 56, crown }: { token?: string
       <Crown size={size * 0.82} />
     </span>
   );
+}
+
+/** Says so when a coin was launched without a picture and wears the default crown. */
+export function NoImageTag({ token }: { token: string }) {
+  const [none, setNone] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    iconOf(token)
+      .then((v) => alive && setNone(isDefaultIcon(v)))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [token]);
+  return none ? (
+    <span className="pchip noimg" title="The creator uploaded no image, so this coin shows the default crown">
+      No image
+    </span>
+  ) : null;
 }
 
 // -------------------------------------------------------- tournament state

@@ -6,6 +6,7 @@ import { duration, near } from "./fmt";
 import { usePoll } from "./shared";
 import Chart, { METRICS, type Metric } from "./Chart";
 import type { Config } from "./types";
+import { SectionHead } from "./Brand";
 
 export default function Rules() {
   const { data: cfg } = usePoll(() => view<Config>(ARENA, "get_config"), [], 60_000);
@@ -20,10 +21,11 @@ export default function Rules() {
 
   return (
     <div className="rules">
-      <h1>The rules</h1>
-      <p className="lead">
+      <SectionHead n="03" label="RULES" title="the rules">
+        <p className="secsub">
         Everything on this page is enforced by the contracts. The arena has no owner and no access key, the tokens have no admin method, and the token code is pinned by hash. Nobody can change a number after launch.
-      </p>
+        </p>
+      </SectionHead>
 
       <div className="params">
         <div>

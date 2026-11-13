@@ -1,4 +1,4 @@
-# Ticker Bracket
+# Heavy Is The Crown (HITC)
 
 **A launchpad where every coin with the same ticker lands in the same bracket. Each round the weaker copy's liquidity moves to the stronger one, until a single coin holds all of it.**
 

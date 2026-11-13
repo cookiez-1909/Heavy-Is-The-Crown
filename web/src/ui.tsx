@@ -9,7 +9,7 @@ export function useTheme(): [Theme, () => void] {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     try {
-      localStorage.setItem("tb-theme", theme);
+      localStorage.setItem("hitc-theme", theme);
     } catch {
       /* private mode: the choice just isn't remembered */
     }

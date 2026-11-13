@@ -76,7 +76,6 @@ export default function Faq({ config }: { config: Config | null }) {
   ];
   return (
     <section className="faq" id="faq">
-      <h2>FAQ</h2>
       {qa.map(([q, a, hl]) => (
         <details key={q} className={hl ? "hl" : ""} open={hl}>
           <summary>

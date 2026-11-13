@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ARENA, EXPLORER } from "./config";
 import { call, TGAS, view } from "./near";
 import { ago, countdown, near, parseUnits, score, short, tokens } from "./fmt";
-import { useMe, alive, Coin, ensureWallet, loadTournament, msLeft, roundName, ScoreBar, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
+import { useMe, alive, Coin, ensureWallet, loadTournament, msLeft, roundName, ScoreBar, unsettled, useAction, useNow, usePoll, type TState, NoImageTag } from "./shared";
 import type { Info, Match, Tournament, Trade } from "./types";
 import { confirmRisk } from "./ui";
 
@@ -194,7 +194,8 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
           <h2>{info.name}</h2>
           <a href={`${EXPLORER}/address/${e.token}`} target="_blank" rel="noreferrer">
             ${info.symbol} · {short(e.token)}
-          </a>
+          </a>{" "}
+          <NoImageTag token={e.token} />
         </div>
         {champion && <span className="stamp won">CHAMPION</span>}
         {info.status === "Lost" && <span className="stamp lost">ABSORBED</span>}
@@ -404,6 +405,11 @@ export default function TournamentPage({ id, account }: { id: number; account: s
 
   return (
     <>
+      <div className="secrule tight">
+        <span>01</span>
+        <i />
+        <span>/BRACKET · {t.phase.toUpperCase()}</span>
+      </div>
       <a className="back" href="#/app">
         ← All brackets
       </a>

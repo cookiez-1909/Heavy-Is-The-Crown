@@ -4,6 +4,7 @@ import { connector, view } from "./near";
 import { countdown, near, short } from "./fmt";
 import { useMe, alive, Coin, loadTournament, msLeft, roundName, unsettled, useNow, usePoll, type TState } from "./shared";
 import type { Tournament } from "./types";
+import { SectionHead } from "./Brand";
 
 async function loadAll() {
   const count = await view<number>(ARENA, "tournament_count");
@@ -133,10 +134,9 @@ export default function Brackets({ account }: { account: string | null }) {
 
   return (
     <div className="page">
-      <header className="pagehead">
-        <h1>Brackets</h1>
-        <p>One bracket per ticker. Open one to back a coin, settle a finished round, or convert a losing bag.</p>
-      </header>
+      <SectionHead n="01" label="BRACKETS" title="brackets">
+        <p className="secsub">One bracket per ticker. Open one to back a coin, settle a finished round, or convert a losing bag.</p>
+      </SectionHead>
 
       {next && (
         <section className="next">

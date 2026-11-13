@@ -1,45 +1,48 @@
 :root {
-  /* dark (default): the original black and gold */
-  --bg: #101014;
-  --panel: #18181f;
-  --panel-2: #20202a;
-  --line: #2e2e3a;
-  --ink: #f2efe6;
-  --ink-2: #b5b2a8;
-  --ink-3: #97948b;
-  --brand: #ffd23f;     /* gold: accents, links, the survivor */
-  --on-brand: #14140f;
-  --btn-bg: #ffd23f;
-  --btn-ink: #14140f;
-  --gold: #ffd23f;
-  --danger: #f6635a;    /* split pools, losing, errors */
-  --ok: #45c486;        /* success, live */
-  --a: #f0473c;         /* match side A */
-  --b: #3d8bef;         /* match side B */
-  --display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --body: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* dark */
+  --bg: #0e0e0e;
+  --panel: #171717;
+  --panel-2: #212121;
+  --line: #303030;
+  --ink: #fafafa;
+  --ink-2: #b8b8b8;
+  --ink-3: #8f8f8f;
+  --brand: #f5cf3d;     /* crown yellow: readable as text on dark */
+  --on-brand: #141414;
+  --btn-bg: #fafafa;
+  --btn-ink: #0e0e0e;
+  --gold: #f5cf3d;      /* the crown */
+  --gem: #45b4ea;       /* the crown's gems */
+  --danger: #f6635a;
+  --ok: #45c486;
+  --a: #f0703c;         /* match side A */
+  --b: #45a4ea;         /* match side B */
+  --display: "Inter Tight", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --body: "Inter Tight", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --hand: "Gochi Hand", "Comic Sans MS", cursive;
   --body-bg: var(--bg);
 }
 :root[data-theme="light"] {
-  /* light: warm pastel paper, black ink, gold kept as the signature */
-  --bg: #fbf6e8;
-  --panel: #fffdf6;
-  --panel-2: #f5eedb;
-  --line: #e7dcc0;
-  --ink: #16140f;
-  --ink-2: #4f4a3d;
-  --ink-3: #665f4d;
-  --brand: #835800;     /* gold that still reads as text on paper (5.4:1 or more) */
-  --on-brand: #fffdf6;
-  --btn-bg: #16140f;    /* black button, gold label */
-  --btn-ink: #ffd23f;
-  --gold: #c99400;
-  --danger: #b9302a;
-  --ok: #0c7049;
-  --a: #d9471e;
-  --b: #2f6fe0;
-  --body-bg: radial-gradient(900px 520px at 6% -8%, #fff0b8 0%, transparent 62%), radial-gradient(760px 520px at 96% 2%, #ffe0cc 0%, transparent 60%), radial-gradient(820px 560px at 84% 80%, #f7e3f0 0%, transparent 62%), radial-gradient(760px 520px at 4% 94%, #dff3e6 0%, transparent 60%), #fbf6e8;
+  /* light (default): white paper, near-black ink, the crown's yellow as a highlighter */
+  --bg: #ffffff;
+  --panel: #fafafa;
+  --panel-2: #f0f0f0;
+  --line: #dedede;
+  --ink: #242424;
+  --ink-2: #555555;
+  --ink-3: #6f6f6f;
+  --brand: #242424;     /* text accents are ink; yellow is used as fill */
+  --on-brand: #ffffff;
+  --btn-bg: #242424;
+  --btn-ink: #ffffff;
+  --gold: #f2c230;
+  --gem: #2f9fd6;
+  --danger: #c2372d;
+  --ok: #157347;
+  --a: #d9531e;
+  --b: #1f7fc9;
+  --body-bg: var(--bg);
 }
 
 * { box-sizing: border-box; }
