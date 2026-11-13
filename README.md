@@ -166,6 +166,7 @@ scripts/deploy.sh <your-account.testnet> 1 4 1
 - **Bracket slots are finite.** Filling the remaining slots with copies from several wallets to shut a rival out costs one wallet, one fee and one seed per slot. It is made expensive, not prevented: those seeds flow to whoever beats the copies.
 - **The build is not reproducible.** Contracts are built with `cargo near build non-reproducible-wasm`, so rebuilding from this repo on another machine gives different bytes than the code hash deployed on testnet. You can check that the arena has no keys and which code hash every coin runs, but not, by rebuilding, that the hash matches this source. `cargo near build reproducible-wasm` (Docker) would fix this.
 - **The first coin of a ticker picks the timing.** Registration starts when it launches.
+- **Byes can repeat.** With an odd number of coins the top seed skips the round, and seeding uses each coin's score in the previous round, including a round it skipped. A coin that keeps drawing the most money can get a bye again; in a bracket of 5 it can reach the final without playing a match. Forbidding two byes in a row would fix it in the arena.
 - **A lost `start_round` message stalls a token** until anyone calls `resync` on the arena. Covered by a guard in `advance`, not by a sandbox test.
 - **Not audited.** Hackathon code.
 - Each trade pays a flat 0.002 NEAR that stays in the token contract to pay for the on-chain log; a first-time buyer also pays 0.00125 NEAR of NEP-145 storage.

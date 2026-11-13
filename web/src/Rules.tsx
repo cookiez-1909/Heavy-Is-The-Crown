@@ -182,6 +182,7 @@ export default function Rules() {
         <li>The sell tax makes running before the bell no cheaper than losing. It does not force anyone to stay: see "Run for the exit", where almost all of the loser's liquidity leaves and the winner receives only the tax.</li>
         <li>Spoils are locked liquidity. They lift the winner's price for every holder, but holders can only withdraw part of them; the rest stays in the curve as a floor.</li>
         <li>A bracket holds a fixed number of coins. Filling the remaining slots with copies from several wallets to shut a rival out is possible; it costs one wallet, one fee and one seed per slot, and those seeds flow to whoever beats them.</li>
+        <li>With an odd number of coins the top seed skips the round, and a coin can get a bye again if it keeps drawing the most money. In a bracket of 5 it can reach the final without playing a match.</li>
         <li>Only coins launched here are in the bracket. Copies launched on other launchpads are out of reach.</li>
         <li>Each trade pays a flat 0.002 NEAR that stays in the token contract to pay for the on-chain log.</li>
       </ul>
