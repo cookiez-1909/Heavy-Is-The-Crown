@@ -9,6 +9,19 @@ const toBase64 = (s: string) => {
   return btoa(bin);
 };
 
+let start = 0;
+const MAX_IN_FLIGHT = 6;
+let inFlight = 0;
+const waiting: (() => void)[] = [];
+const slot = () =>
+  inFlight < MAX_IN_FLIGHT
+    ? (inFlight++, Promise.resolve())
+    : new Promise<void>((r) => waiting.push(() => (inFlight++, r())));
+const release = () => {
+  inFlight--;
+  waiting.shift()?.();
+};
+
 /** Read-only contract call straight against the RPC. No wallet needed. */
 export async function view<T>(contract: string, method: string, args: object = {}): Promise<T> {
   const body = JSON.stringify({
@@ -23,21 +36,31 @@ export async function view<T>(contract: string, method: string, args: object = {
       args_base64: toBase64(JSON.stringify(args)),
     },
   });
-  // Public RPCs throttle. A refused or failed request is retried, alternating endpoints.
+  // Public RPCs throttle and blink. Each read goes through a small queue, and
+  // a failed attempt moves on to the next endpoint with a growing pause.
   let json: any;
   let last: unknown;
-  for (let attempt = 0; attempt < 4; attempt++) {
-    try {
-      const res = await fetch(RPCS[attempt % RPCS.length], { method: "POST", headers: { "content-type": "application/json" }, body });
-      if (res.status === 429 || res.status >= 500) throw new Error(`RPC answered ${res.status}`);
-      json = await res.json();
-      break;
-    } catch (e) {
-      last = e;
-      await new Promise((r) => setTimeout(r, 300 * (attempt + 1)));
+  await slot();
+  try {
+    for (let attempt = 0; attempt < 6; attempt++) {
+      const url = RPCS[(start + attempt) % RPCS.length];
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
+        const res = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body, signal: ctrl.signal }).finally(() => clearTimeout(timer));
+        if (res.status === 429 || res.status >= 500) throw new Error(`RPC answered ${res.status}`);
+        json = await res.json();
+        start = (start + attempt) % RPCS.length; // stick with the endpoint that worked
+        break;
+      } catch (e) {
+        last = e;
+        await new Promise((r) => setTimeout(r, 250 * 2 ** attempt));
+      }
     }
+  } finally {
+    release();
   }
-  if (!json) throw last instanceof Error ? last : new Error("RPC unreachable");
+  if (!json) throw new Error(`Could not reach NEAR ${NETWORK} (${last instanceof Error ? last.message : "network error"}). Retrying…`);
   const err = json.error?.data ?? json.error?.message ?? json.result?.error;
   if (err) throw new Error(typeof err === "string" ? err : JSON.stringify(err));
   return JSON.parse(new TextDecoder().decode(new Uint8Array(json.result.result)));

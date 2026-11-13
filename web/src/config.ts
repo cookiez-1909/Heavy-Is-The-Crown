@@ -4,5 +4,9 @@ export const ARENA: string = import.meta.env.VITE_ARENA || (NETWORK === "testnet
 export const RPC: string =
   import.meta.env.VITE_RPC ?? (NETWORK === "mainnet" ? "https://free.rpc.fastnear.com" : "https://test.rpc.fastnear.com");
 /** Primary endpoint first, then a fallback for when it throttles. A custom VITE_RPC is used alone. */
-export const RPCS: string[] = import.meta.env.VITE_RPC ? [RPC] : [RPC, NETWORK === "mainnet" ? "https://rpc.mainnet.near.org" : "https://rpc.testnet.near.org"];
+export const RPCS: string[] = import.meta.env.VITE_RPC
+  ? [RPC]
+  : NETWORK === "mainnet"
+    ? [RPC, "https://near.drpc.org", "https://rpc.mainnet.near.org"]
+    : [RPC, "https://near-testnet.drpc.org", "https://rpc.testnet.fastnear.com", "https://rpc.testnet.near.org"];
 export const EXPLORER = NETWORK === "mainnet" ? "https://nearblocks.io" : "https://testnet.nearblocks.io";
