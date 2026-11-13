@@ -41,6 +41,8 @@ impl World {
                 "virtual_near": NearToken::from_near(50).as_yoctonear().to_string(),
                 "min_seed": NearToken::from_near(1).as_yoctonear().to_string(),
                 "max_entrants": max_entrants,
+                "creator_reward_bps": 100,
+                "score_cap": NearToken::from_near(1000).as_yoctonear().to_string(),
                 "token_code_hash": bs58::encode(Sha256::digest(&token_wasm)).into_string(),
             }))
             .transact()
@@ -189,8 +191,14 @@ async fn four_coins_one_ticker_one_survivor() -> anyhow::Result<()> {
     assert_eq!(i3["status"], "Advanced");
     // Settle bounty (1%, capped at 0.05 NEAR), 15% of the rest as spoils, everything else into the winner's curve.
     let moved = c0_reserve - (c0_reserve / 100).min(mn(50).as_yoctonear());
-    assert_eq!(u(&i3["reserve"]), c3_before + moved);
-    assert_eq!(u(&i3["spoils"]), moved * 15 / 100);
+    // 1% of what moved goes to the winning coin's creator; 14% stays as spoils.
+    let reward = moved / 100;
+    assert_eq!(u(&i3["reserve"]), c3_before + moved - reward);
+    assert_eq!(u(&i3["spoils"]), moved * 15 / 100 - reward);
+    assert_eq!(u(&i3["creator_rewards"]), reward);
+    let log: Value = w.p[0].view(&c[3], "get_trades").args_json(json!({ "from_index": 0, "limit": 50 })).await?.json()?;
+    let r = log.as_array().unwrap().iter().find(|t| t["kind"] == "reward").expect("reward in the log");
+    assert_eq!(r["account"].as_str().unwrap(), w.p[3].id().as_str());
     assert_eq!(i3["sell_tax_bps"].as_u64().unwrap() / 100, 14, "post-win tax starts at the penalty");
     assert_eq!(w.info(&c[1]).await?["status"], "Advanced");
     assert_eq!(w.info(&c[2]).await?["status"], "Lost");
@@ -291,6 +299,9 @@ async fn limits_and_access_control() -> anyhow::Result<()> {
     assert!(w.enter(1, "Frog", "FROG", 1000).await?);
     assert!(w.enter(1, "Cat 2", "CAT", 1000).await?);
     assert!(!w.enter(2, "Cat 3", "CAT", 1000).await?, "tournament is full");
+    // The same account cannot launch a second copy in a bracket.
+    assert!(w.enter(3, "Dog", "DOGE", 1000).await?);
+    assert!(!w.enter(3, "Dog again", "DOGE", 1000).await?, "one coin per account per bracket");
     let cat = w.token(0, 0).await?;
     let frog = w.token(1, 0).await?;
 

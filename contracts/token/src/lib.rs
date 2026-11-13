@@ -6,10 +6,13 @@
 //!
 //! * Buy / sell against a built-in constant-product curve. Buying mints,
 //!   selling burns.
-//! * Each round the token scores **net inflow x time**: (NEAR in the curve
-//!   now - NEAR in the curve when the round started), integrated over the
-//!   round. Old liquidity, including liquidity absorbed from a previous
-//!   opponent, scores nothing.
+//! * Each round the token scores **net inflow x time**: the NEAR that came
+//!   into the curve during the round, integrated over the round. Old
+//!   liquidity, including liquidity absorbed from a previous opponent, scores
+//!   nothing. Each account's net inflow counts only up to `score_cap` per
+//!   round, so one wallet cannot carry a coin alone; flows during the break
+//!   between rounds count towards the next round, so selling in the break
+//!   and buying back does not fake inflow.
 //! * Selling is taxed. The tax ramps from 0 to `penalty_bps` over the round,
 //!   so leaving just before the bell costs the same as losing. After a win
 //!   the tax restarts at `penalty_bps` and decays over `cooldown_ns`, so
@@ -17,8 +20,9 @@
 //!   never leaves the curve.
 //! * At the bell trading freezes. Anyone may call `settle` and earns a small
 //!   bounty. The lower score loses: its reserve goes to the opponent,
-//!   `penalty_bps` of it as spoils (no mint) and the rest buys opponent
-//!   tokens that loser holders redeem pro rata with `claim`.
+//!   `penalty_bps` of it as spoils (no mint, `creator_reward_bps` of that
+//!   paid to the winning coin's creator) and the rest buys opponent tokens
+//!   that loser holders redeem pro rata with `claim`.
 
 use near_contract_standards::fungible_token::events::{FtBurn, FtMint};
 use near_contract_standards::fungible_token::metadata::{
@@ -31,7 +35,7 @@ use near_contract_standards::storage_management::{
     StorageBalance, StorageBalanceBounds, StorageManagement,
 };
 use near_sdk::json_types::{U128, U64};
-use near_sdk::store::Vector;
+use near_sdk::store::{LookupMap, Vector};
 use near_sdk::{
     assert_one_yocto, env, ext_contract, near, require, AccountId, BorshStorageKey, Gas,
     NearToken, PanicOnDefault, Promise, PromiseError, PromiseOrValue,
@@ -65,6 +69,7 @@ const GAS_ON_DELIVERED: Gas = Gas::from_tgas(8);
 enum Key {
     Token,
     Trades,
+    Flows,
 }
 
 #[near(serializers = [json, borsh])]
@@ -118,6 +123,11 @@ pub struct Info {
     pub reserve: U128,
     /// Reserve when the current round started.
     pub round_base: U128,
+    /// Net inflow that counts towards this round's score (signed, as a string).
+    pub scored_inflow: String,
+    pub score_cap: U128,
+    pub creator_reward_bps: u16,
+    pub creator_rewards: U128,
     pub pool_tokens: U128,
     pub total_supply: U128,
     /// yoctoNEAR for one whole token.
@@ -152,6 +162,9 @@ pub struct BracketToken {
     arena: AccountId,
     creator: AccountId,
     penalty_bps: u16,
+    creator_reward_bps: u16,
+    /// Most net inflow one account can add to a round's score.
+    score_cap: u128,
     cooldown_ns: u64,
     virtual_near: u128,
     /// Real NEAR backing the curve.
@@ -168,6 +181,15 @@ pub struct BracketToken {
     /// round's base never goes below it, so selling in the break and buying
     /// back after the start does not count as inflow.
     floor_reserve: u128,
+    /// Rounds started so far: registration is round 0.
+    round_no: u32,
+    /// Sum over accounts of min(net inflow this round, score_cap).
+    counted: i128,
+    /// The same for flows made during the break, which belong to the next round.
+    next_counted: i128,
+    /// (round, account) -> that account's net inflow in that round.
+    flows: LookupMap<(u32, AccountId), i128>,
+    creator_rewards: u128,
     score_acc: i128,
     score_ts: u64,
     /// When the last win was booked. Drives the post-win sell tax.
@@ -205,8 +227,12 @@ impl BracketToken {
         virtual_near: U128,
         penalty_bps: u16,
         cooldown_ns: U64,
+        creator_reward_bps: u16,
+        score_cap: U128,
     ) -> Self {
         require!(penalty_bps <= 5_000, "penalty_bps > 50%");
+        require!(creator_reward_bps <= penalty_bps, "creator reward comes out of the penalty");
+        require!(score_cap.0 > 0, "score_cap must be > 0");
         require!(virtual_near.0 > 0, "virtual_near must be > 0");
         require!(round_end_ns.0 > env::block_timestamp(), "round must end in the future");
         let now = env::block_timestamp();
@@ -224,6 +250,8 @@ impl BracketToken {
             arena: env::predecessor_account_id(),
             creator: creator.clone(),
             penalty_bps,
+            creator_reward_bps,
+            score_cap: score_cap.0,
             cooldown_ns: cooldown_ns.0,
             virtual_near: virtual_near.0,
             reserve: 0,
@@ -234,6 +262,11 @@ impl BracketToken {
             round_end_ns: round_end_ns.0,
             round_base: 0,
             floor_reserve: 0,
+            round_no: 0,
+            counted: 0,
+            next_counted: 0,
+            flows: LookupMap::new(Key::Flows),
+            creator_rewards: 0,
             score_acc: 0,
             score_ts: now,
             won_at_ns: 0,
@@ -254,6 +287,7 @@ impl BracketToken {
             let out = this.curve_buy(seed);
             this.token.internal_deposit(&creator, out);
             FtMint { owner_id: &creator, amount: U128(out), memo: Some("seed") }.emit();
+            this.record_flow(&creator, seed as i128);
             this.log_trade(&creator, "buy", seed, out);
         }
         this
@@ -273,6 +307,9 @@ impl BracketToken {
         self.round_start_ns = now;
         self.round_end_ns = round_end_ns.0;
         self.round_base = self.reserve.max(self.floor_reserve);
+        self.round_no += 1;
+        self.counted = self.next_counted;
+        self.next_counted = 0;
         self.score_acc = 0;
         self.score_ts = now;
         self.absorbed_this_round = false;
@@ -303,6 +340,7 @@ impl BracketToken {
         }
         self.token.internal_deposit(&account, out);
         FtMint { owner_id: &account, amount: U128(out), memo: Some("buy") }.emit();
+        self.record_flow(&account, near_in as i128);
         self.log_trade(&account, "buy", near_in, out);
         U128(out)
     }
@@ -330,6 +368,7 @@ impl BracketToken {
         self.token.internal_withdraw(&account, amount);
         self.pool_tokens += amount;
         self.reserve -= gross - tax;
+        self.record_flow(&account, -((gross - tax) as i128));
         FtBurn { owner_id: &account, amount: U128(amount), memo: Some("sell") }.emit();
         self.log_trade(&account, "sell", payout, amount);
         Promise::new(account).transfer(NearToken::from_yoctonear(payout))
@@ -450,12 +489,19 @@ impl BracketToken {
         self.book_win();
 
         let received = env::attached_deposit().as_yoctonear();
-        let spoils = mul_div(received, self.penalty_bps as u128, 10_000);
+        let penalty = mul_div(received, self.penalty_bps as u128, 10_000);
+        // Part of the penalty rewards whoever launched the coin that won.
+        let reward = mul_div(received, self.creator_reward_bps as u128, 10_000);
+        let spoils = penalty - reward;
+        if reward > 0 {
+            self.creator_rewards += reward;
+            Promise::new(self.creator.clone()).transfer(NearToken::from_yoctonear(reward)).detach();
+        }
         // Spoils: NEAR enters the curve and no token is minted.
         self.reserve += spoils;
         self.spoils += spoils;
         // The remainder buys winner tokens at the post-spoils price.
-        let rest = received - spoils;
+        let rest = received - penalty;
         let pool = if rest > 0 { self.curve_buy(rest) } else { 0 };
 
         if !self.token.accounts.contains_key(&rival) {
@@ -466,6 +512,10 @@ impl BracketToken {
             FtMint { owner_id: &rival, amount: U128(pool), memo: Some("conversion pool") }.emit();
         }
         self.floor_reserve = self.reserve;
+        if reward > 0 {
+            let creator = self.creator.clone();
+            self.log_trade(&creator, "reward", reward, 0);
+        }
         self.log_trade(&rival, "spoils", spoils, 0);
         self.log_trade(&rival, "convert", rest, pool);
         U128(pool)
@@ -577,6 +627,10 @@ impl BracketToken {
             virtual_near: U128(self.virtual_near),
             reserve: U128(self.reserve),
             round_base: U128(self.round_base),
+            scored_inflow: self.counted_now().to_string(),
+            score_cap: U128(self.score_cap),
+            creator_reward_bps: self.creator_reward_bps,
+            creator_rewards: U128(self.creator_rewards),
             pool_tokens: U128(self.pool_tokens),
             total_supply: U128(self.token.total_supply),
             price: U128(mul_div(
@@ -688,8 +742,34 @@ impl BracketToken {
             return self.score_acc;
         }
         let ms = ((now - self.score_ts) / NS_PER_MS) as i128;
-        let net = self.reserve as i128 - self.round_base as i128;
-        self.score_acc + (net / SCORE_UNIT) * ms
+        self.score_acc + (self.counted / SCORE_UNIT) * ms
+    }
+
+    /// The round that a flow made right now belongs to: the current round
+    /// while it runs, the next one during the break.
+    fn flow_round(&self) -> u32 {
+        if self.status_now() == Status::Live { self.round_no } else { self.round_no + 1 }
+    }
+
+    /// Records an account's net flow into (+) or out of (-) the curve and
+    /// updates the capped sum the score integrates. Call after `touch_score`.
+    fn record_flow(&mut self, account: &AccountId, delta: i128) {
+        let round = self.flow_round();
+        let key = (round, account.clone());
+        let old = self.flows.get(&key).copied().unwrap_or(0);
+        let new = old + delta;
+        self.flows.insert(key, new);
+        let cap = self.score_cap as i128;
+        let change = new.min(cap) - old.min(cap);
+        if round == self.round_no {
+            self.counted += change;
+        } else {
+            self.next_counted += change;
+        }
+    }
+
+    fn counted_now(&self) -> i128 {
+        if self.status_now() == Status::Live { self.counted } else { self.next_counted }
     }
 
     /// Must run before every change of `reserve`.

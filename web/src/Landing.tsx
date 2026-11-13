@@ -11,6 +11,7 @@ import type { Config } from "./types";
 export default function Landing() {
   const { data: config } = usePoll(() => view<Config>(ARENA, "get_config"), [], 60_000);
   const p = config ? config.penalty_bps / 100 : 15;
+  const r = config?.creator_reward_bps !== undefined ? config.creator_reward_bps / 100 : 1;
   const pick = (ticker: string) => (window.location.hash = `#/launch/${ticker}`);
   useEffect(() => {
     if (window.location.hash === "#/faq") setTimeout(() => document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" }), 300);
@@ -78,20 +79,20 @@ export default function Landing() {
           </div>
           <div className="whystats">
             <div>
-              <strong>≈{100 - p}%</strong>
-              <span>of a losing copy's liquidity comes back to its holders, as winner tokens</span>
+              <strong>A shield</strong>
+              <span>for the original: later copies must beat it first, and feed it when they lose</span>
             </div>
             <div>
-              <strong>1 pool</strong>
-              <span>at the end: buyers stop guessing which copy is "the" coin</span>
+              <strong>≈{100 - p}% back</strong>
+              <span>of a losing copy's liquidity, to its holders, as winner tokens</span>
             </div>
             <div>
-              <strong>All of it</strong>
-              <span>every copy's liquidity ends up in the coin people actually backed</span>
+              <strong>{r}% reward</strong>
+              <span>to the creator of the winning coin, from every coin it absorbs</span>
             </div>
           </div>
           <p className="whytext">
-            <WhyHereAnswer p={p} />
+            <WhyHereAnswer p={p} r={r} />
           </p>
         </section>
       </Reveal>

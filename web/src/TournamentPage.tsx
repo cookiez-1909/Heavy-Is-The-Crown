@@ -175,7 +175,8 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
   const tradable = info.status === "Advanced" || (info.status === "Live" && !frozen);
   const champion = s.t.champion === idx;
   const absorber = info.absorbed_by ? s.t.entrants.find((x) => x.token === info.absorbed_by) : null;
-  const inflow = BigInt(info.reserve) - BigInt(info.round_base);
+  // Newer tokens report the capped inflow the score actually uses.
+  const inflow = info.scored_inflow !== undefined ? BigInt(info.scored_inflow) : BigInt(info.reserve) - BigInt(info.round_base);
   const { busy, run } = useAction(p.refresh);
 
   const claim = async () => {
@@ -204,7 +205,7 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
           <dd>{score(info.score)}</dd>
         </div>
         <div>
-          <dt>New NEAR this round</dt>
+          <dt title={info.score_cap ? `Each wallet counts for at most ${near(info.score_cap)} NEAR per round` : undefined}>{info.score_cap ? "Scored inflow" : "New NEAR this round"}</dt>
           <dd>
             {inflow < 0n ? "-" : "+"}
             {near(inflow < 0n ? -inflow : inflow)}
@@ -246,7 +247,8 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
       )}
       {info.status !== "Lost" && BigInt(info.spoils) > 0n && (
         <p className="spoils">
-          {info.wins} win{info.wins === 1 ? "" : "s"}: +{near(info.spoils)} NEAR of spoils locked into this curve with no tokens minted.
+          {info.wins} win{info.wins === 1 ? "" : "s"}: +{near(info.spoils)} NEAR of spoils locked into this curve with no tokens minted
+          {info.creator_rewards && BigInt(info.creator_rewards) > 0n ? `, and ${near(info.creator_rewards, 3)} NEAR paid to its creator` : ""}.
         </p>
       )}
     </section>
@@ -338,7 +340,7 @@ function Milestones({ t }: { t: Tournament }) {
 
 // --------------------------------------------------------------------- page
 
-const verb: Record<Trade["kind"], string> = { buy: "bought", sell: "sold", spoils: "paid spoils:", convert: "was converted:", claim: "burned to convert" };
+const verb: Record<Trade["kind"], string> = { buy: "bought", sell: "sold", spoils: "paid spoils:", convert: "was converted:", claim: "burned to convert", reward: "earned the creator reward:" };
 
 function defaultSelection(t: Tournament): number[] {
   if (t.phase === "Finished") return t.champion !== null ? [t.champion] : [];
@@ -489,7 +491,11 @@ export default function TournamentPage({ id, account }: { id: number; account: s
                   </span>
                   <span>
                     {verb[x.kind]}{" "}
-                    {x.kind === "spoils" ? (
+                    {x.kind === "reward" ? (
+                      <>
+                        <b>{near(x.near, 3)} NEAR</b> for launching {name}
+                      </>
+                    ) : x.kind === "spoils" ? (
                       <>
                         <b>{near(x.near)} NEAR</b> into {name}, no mint
                       </>

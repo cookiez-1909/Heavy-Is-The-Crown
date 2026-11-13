@@ -15,6 +15,10 @@
 //! * A new season for a finished ticker automatically includes the reigning
 //!   champion, so there is never a second living coin with that ticker here.
 //!
+//! * One account can launch at most one coin per bracket (the reigning
+//!   champion's creator included). A second wallet gets around this; it
+//!   still has to pay its own fee and seed.
+//!
 //! The arena has no owner and no method that changes its parameters. Deploy
 //! it, call `new`, then delete the account's access keys.
 
@@ -105,6 +109,8 @@ pub struct Tournament {
     pub bounty_pool: U128,
     pub pending_launches: u8,
     pub advancing: bool,
+    /// Creators whose launch is still in flight, so they cannot launch twice.
+    pub pending_creators: Vec<AccountId>,
 }
 
 #[near(serializers = [json])]
@@ -116,6 +122,8 @@ pub struct Config {
     pub virtual_near: U128,
     pub min_seed: U128,
     pub max_entrants: u8,
+    pub creator_reward_bps: u16,
+    pub score_cap: U128,
     pub token_code_hash: Base58CryptoHash,
     pub launch_fee: U128,
 }
@@ -143,6 +151,8 @@ pub struct Arena {
     virtual_near: u128,
     min_seed: u128,
     max_entrants: u8,
+    creator_reward_bps: u16,
+    score_cap: u128,
     token_code_hash: CryptoHash,
     next_token: u32,
     tournaments: Vector<Tournament>,
@@ -161,8 +171,12 @@ impl Arena {
         virtual_near: U128,
         min_seed: U128,
         max_entrants: u8,
+        creator_reward_bps: u16,
+        score_cap: U128,
         token_code_hash: Base58CryptoHash,
     ) -> Self {
+        require!(creator_reward_bps <= penalty_bps, "creator reward comes out of the penalty");
+        require!(score_cap.0 > 0, "score_cap must be > 0");
         require!(registration_ns.0 > 0 && round_ns.0 > 0, "durations must be > 0");
         require!(penalty_bps <= 5_000, "penalty_bps > 50%");
         require!(virtual_near.0 > 0, "virtual_near must be > 0");
@@ -175,6 +189,8 @@ impl Arena {
             virtual_near: virtual_near.0,
             min_seed: min_seed.0,
             max_entrants,
+            creator_reward_bps,
+            score_cap: score_cap.0,
             token_code_hash: token_code_hash.into(),
             next_token: 0,
             tournaments: Vector::new(Key::Tournaments),
@@ -242,6 +258,7 @@ impl Arena {
                 bounty_pool: U128(0),
                 pending_launches: 0,
                 advancing: false,
+                pending_creators: Vec::new(),
             });
             self.by_ticker.insert(ticker.clone(), id);
             id
@@ -249,8 +266,9 @@ impl Arena {
             self.by_ticker[&ticker]
         };
 
-        let (penalty_bps, virtual_near, cooldown_ns, max) =
-            (self.penalty_bps, self.virtual_near, self.cooldown_ns, self.max_entrants);
+        let (penalty_bps, virtual_near, cooldown_ns, max, reward_bps, cap) =
+            (self.penalty_bps, self.virtual_near, self.cooldown_ns, self.max_entrants, self.creator_reward_bps, self.score_cap);
+        let creator = env::predecessor_account_id();
         let n = self.next_token;
         self.next_token += 1;
         let t = &mut self.tournaments[tid];
@@ -258,13 +276,17 @@ impl Arena {
             t.entrants.len() + (t.pending_launches as usize) < max as usize,
             "this tournament is full"
         );
+        require!(
+            !t.entrants.iter().any(|e| e.creator == creator) && !t.pending_creators.contains(&creator),
+            "you already have a coin in this bracket"
+        );
         t.pending_launches += 1;
+        t.pending_creators.push(creator.clone());
         let round_end_ns = t.round_end_ns;
 
         let token: AccountId = format!("{}-{}.{}", ticker.to_ascii_lowercase(), n, arena)
             .parse()
             .unwrap_or_else(|_| env::panic_str("arena account name too long for sub-accounts"));
-        let creator = env::predecessor_account_id();
         let args = json!({
             "name": meme.name,
             "symbol": ticker,
@@ -274,6 +296,8 @@ impl Arena {
             "virtual_near": U128(virtual_near),
             "penalty_bps": penalty_bps,
             "cooldown_ns": U64(cooldown_ns),
+            "creator_reward_bps": reward_bps,
+            "score_cap": U128(cap),
         });
         let entrant = Entrant {
             token: token.clone(),
@@ -299,6 +323,7 @@ impl Arena {
         let ok = env::promise_result_checked(0, 64).is_ok();
         let t = &mut self.tournaments[tournament_id];
         t.pending_launches -= 1;
+        t.pending_creators.retain(|c| c != &entrant.creator);
         if !ok {
             // A failed batch creates nothing and its funds bounce back here.
             Promise::new(entrant.creator).transfer(NearToken::from_yoctonear(deposit.0)).detach();
@@ -458,6 +483,8 @@ impl Arena {
             virtual_near: U128(self.virtual_near),
             min_seed: U128(self.min_seed),
             max_entrants: self.max_entrants,
+            creator_reward_bps: self.creator_reward_bps,
+            score_cap: U128(self.score_cap),
             token_code_hash: self.token_code_hash.into(),
             launch_fee: U128(LAUNCH_FEE.as_yoctonear()),
         }

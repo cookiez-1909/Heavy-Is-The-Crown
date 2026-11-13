@@ -2,12 +2,12 @@ import type { Config } from "./types";
 import { duration, near } from "./fmt";
 
 /** The question judges and traders ask first. Shared by the FAQ and the landing page. */
-export function WhyHereAnswer({ p }: { p: number }) {
+export function WhyHereAnswer({ p, r }: { p: number; r: number }) {
   return (
     <>
-      Because holders choose where to buy, and here a lost round is not the end of their money. When a copy loses, its liquidity is not stranded: <b>about {100 - p}% of it comes back to its holders as tokens of the winner</b>. The other {p}% stays in the winner's curve, and whoever settles the match is paid at most 0.05 NEAR. The coin that wins ends up holding the liquidity of every copy, so the launcher whose copy people actually want gets all of it.
+      It depends on who you are. <b>If you launched the original</b>, the bracket is a shield: once your coin is champion, every later copy of the ticker has to beat you first, and if it loses, its liquidity and holders move into your coin, with {r}% of what it brings paid to you as creator. Copies feed you instead of splitting your buyers. <b>If you hold a copy that loses</b>, about {100 - p}% of its liquidity comes back to you as the winner's tokens. <b>If you trade</b>, the ticker ends with one deep pool instead of a guessing game.
       <span className="fine">
-        Selling right after a conversion is taxed while the post-win sell tax fades. Elsewhere a copy that loses the crowd just stays a separate, thinning pool; we do not claim its holders lose everything.
+        Selling right after a conversion is taxed while the post-win sell tax fades. Elsewhere a copy that loses the crowd stays a separate, thinning pool; we do not claim its holders lose everything. Only coins launched here are in a bracket.
       </span>
     </>
   );
@@ -15,8 +15,10 @@ export function WhyHereAnswer({ p }: { p: number }) {
 
 export default function Faq({ config }: { config: Config | null }) {
   const p = config ? config.penalty_bps / 100 : 15;
+  const r = config?.creator_reward_bps !== undefined ? config.creator_reward_bps / 100 : 1;
+  const cap = config?.score_cap ? `${near(config.score_cap)} NEAR` : "a fixed amount of NEAR";
   const qa: [string, React.ReactNode, boolean?][] = [
-    ["Why would anyone launch a copy here, if it can lose?", <WhyHereAnswer p={p} />, true],
+    ["Why would anyone launch a copy here, if it can lose?", <WhyHereAnswer p={p} r={r} />, true],
     [
       "What problem does this solve?",
       <>When something goes viral it gets launched many times with the same ticker, and the copies split the same buyers. Here, copies launched with the same ticker are forced into one bracket, and the bracket merges their liquidity into a single coin.</>,
@@ -24,12 +26,12 @@ export default function Faq({ config }: { config: Config | null }) {
     [
       "What happens to my coin if it loses?",
       <>
-        Its whole reserve moves to the winner. {p}% is added to the winner's curve with no new tokens (the winners' spoils). The other {100 - p}% buys winner tokens, and you claim your share by burning your dead coin with the "Convert my bag" button. If that winner later loses too, you convert again.
+        Its whole reserve moves to the winner. {p}% is the penalty: {r}% of it goes to the winning coin's creator and the rest stays in the winner's curve with no new tokens (the winners' spoils). The other {100 - p}% buys winner tokens, and you claim your share by burning your dead coin with the "Convert my bag" button. If that winner later loses too, you convert again.
       </>,
     ],
     [
       "How is the winner of a round decided?",
-      <>By score: the NEAR that came into the coin's curve since the round started, multiplied by how long it stayed. Liquidity the coin already had scores nothing, and a buy in the last minutes scores almost nothing. The two token contracts compare scores themselves.</>,
+      <>By score: the NEAR that came into the coin's curve since the round started, multiplied by how long it stayed. Liquidity the coin already had scores nothing, a buy in the last minutes scores little, and each wallet counts for at most {cap} per round. The two token contracts compare scores themselves.</>,
     ],
     [
       "Why is there a sell tax?",
@@ -56,8 +58,20 @@ export default function Faq({ config }: { config: Config | null }) {
       <>No. A contract can only move liquidity it holds, so only coins launched here are in the bracket. The DexScreener and meme.cooking numbers on this page show how common the problem is; they are not coins we can merge.</>,
     ],
     [
+      "Can one wallet carry a coin through a round?",
+      <>Not alone: each wallet's net inflow counts for at most {cap} per round, however much it buys. Someone can split money across several wallets to get around the cap; each wallet then pays for its own token storage and fees. The cap limits a whale, it does not turn the score into one person, one vote.</>,
+    ],
+    [
+      "Can someone stuff a bracket with empty copies?",
+      <>One account can launch one coin per bracket, so stuffing takes one funded wallet per copy. Every copy also brings its seed, and when it loses, that seed flows into the coin that beat it. Stuffing a bracket mostly pays your rivals.</>,
+    ],
+    [
+      "Could another launchpad use this?",
+      <>In principle: the arena is just a contract, so a launchpad such as meme.cooking could route same-ticker launches into a bracket. That is an idea, not an agreement. Nobody has agreed to it.</>,
+    ],
+    [
       "What can still go wrong?",
-      <>A wallet with enough NEAR can carry a coin through a round on its own. Someone can pay to fill a bracket's remaining slots with seeded copies. The sell tax discourages running but cannot stop it. The contracts are hackathon code and have not been audited. The Rules page lists every known limit.</>,
+      <>A group of wallets can still pool money to carry a coin. A bracket's slots can be filled by copies from different wallets. The sell tax discourages running but cannot stop it. The contracts are hackathon code and have not been audited. The Rules page lists every known limit.</>,
     ],
   ];
   return (

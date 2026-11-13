@@ -17,6 +17,11 @@ export interface Info {
   virtual_near: string;
   reserve: string;
   round_base: string;
+  /** Older token code has no score cap and does not report these. */
+  scored_inflow?: string;
+  score_cap?: string;
+  creator_reward_bps?: number;
+  creator_rewards?: string;
   pool_tokens: string;
   total_supply: string;
   price: string;
@@ -32,7 +37,7 @@ export interface Info {
 
 export interface Trade {
   account: string;
-  kind: "buy" | "sell" | "spoils" | "convert" | "claim";
+  kind: "buy" | "sell" | "spoils" | "convert" | "claim" | "reward";
   near: string;
   tokens: string;
   ts: string;
@@ -83,6 +88,8 @@ export interface Config {
   virtual_near: string;
   min_seed: string;
   max_entrants: number;
+  creator_reward_bps?: number;
+  score_cap?: string;
   token_code_hash: string;
   launch_fee: string;
 }

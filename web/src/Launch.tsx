@@ -128,6 +128,7 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
       risks: [
         regOpen ? `Your coin enters the $${sym} bracket against ${existing!.entrants.length} other cop${existing!.entrants.length === 1 ? "y" : "ies"}.` : `Every copy of $${sym} launched in the next ${duration(config.registration_ns)} joins your bracket.`,
         `If your coin loses a round, ${p}% of its liquidity goes to the winner. Its holders, you included, get the rest back as winner tokens.`,
+        "One coin per account per bracket: this account cannot launch another copy of this ticker until the bracket ends.",
         "NEAR testnet, contracts not audited.",
       ],
       confirm: "Launch",
@@ -290,6 +291,14 @@ export default function Launch({ account, ticker: initialTicker }: { account: st
               <div>
                 <dt>Launch fee</dt>
                 <dd>{near(fee)} NEAR</dd>
+              </div>
+              <div>
+                <dt>If it wins, you earn</dt>
+                <dd>{config.creator_reward_bps !== undefined ? config.creator_reward_bps / 100 : 0}% of each absorbed coin</dd>
+              </div>
+              <div>
+                <dt>Score per wallet</dt>
+                <dd>{config.score_cap ? `≤ ${near(config.score_cap)} NEAR / round` : "no cap"}</dd>
               </div>
             </dl>
           </div>

@@ -93,6 +93,8 @@ async fn main() -> anyhow::Result<()> {
             "virtual_near": NearToken::from_near(50).as_yoctonear().to_string(),
             "min_seed": NearToken::from_near(1).as_yoctonear().to_string(),
             "max_entrants": 8,
+            "creator_reward_bps": 100,
+            "score_cap": NearToken::from_near(5).as_yoctonear().to_string(),
             "token_code_hash": bs58::encode(Sha256::digest(&token_wasm)).into_string(),
         }))
         .transact()

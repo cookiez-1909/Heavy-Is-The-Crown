@@ -35,15 +35,23 @@ What the count includes and leaves out:
 ## The mechanic
 
 1. **One bracket per ticker.** The first coin launched with a ticker opens its bracket and a registration window. Every coin launched with that ticker during registration joins it (up to 8). After registration the ticker is locked.
-2. **Creators post a seed.** The seed buys the creator's first tokens from the coin's own bonding curve, so it is at stake like everyone else's money.
+2. **Creators post a seed, one coin each.** The seed buys the creator's first tokens from the coin's own bonding curve, so it is at stake like everyone else's money. One account can launch only one coin per bracket.
 3. **Seeding by score.** When a round closes, the arena ranks the survivors by score and pairs best against worst. With an odd number the top seed gets a bye.
-4. **Score = new NEAR × time.** Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Net outflow scores negative.
+4. **Score = new NEAR × time.** Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Net outflow scores negative. Each wallet's net inflow counts for at most 2 NEAR per round on the live arena, and trades made between rounds count towards the next round.
 5. **Selling is taxed and the tax stays in the curve.** It ramps from 0 to the penalty over the round. After a win it restarts at the penalty and decays.
 6. **At the bell trading freezes.** Anyone settles a match and is paid 1% of the loser's reserve (at most 0.05 NEAR). The two tokens compare scores themselves.
-7. **The loser is absorbed.** 15% of its reserve enters the winner's curve with no tokens minted (spoils). The other 85% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
+7. **The loser is absorbed.** 15% of its reserve is the penalty: 1% is paid to the creator of the winning coin, and 14% enters the winner's curve with no tokens minted (spoils). The other 85% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
 8. **The champion defends.** A later coin with the same ticker opens a new season, and the reigning champion is entered in it automatically. There is never a second living coin with that ticker here.
 
 Each coin is its own NEP-141 token with its own constant-product curve: buying mints, selling burns.
+
+## Why launch here
+
+- **For the original, it is a shield.** Once a coin is champion, every later copy of its ticker has to beat it first. A copy that loses brings its liquidity and holders into the champion, and 1% of what it brings goes to the champion's creator. Copies feed the original instead of splitting its buyers.
+- **For holders of a losing copy, most of the money comes along.** About 85% of the losing coin's liquidity comes back to its holders as the winner's tokens.
+- **For traders, one pool.** A finished bracket leaves one coin per ticker, holding the liquidity of all of them.
+
+What this does not change: only coins launched here are in a bracket, and nothing forces anyone to launch here.
 
 ## Exploits considered, and what the contracts do about them
 
@@ -51,10 +59,10 @@ Each coin is its own NEP-141 token with its own constant-product curve: buying m
 |---|---|---|
 | Run before the bell to dodge the loser's penalty | Sell tax ramps to exactly the penalty at the bell; the tax stays in the curve and moves to the winner | `sell_tax_bps` in the token |
 | Winners dump on holders who were just converted in | Sell tax restarts at the penalty at the moment of the win and decays over the cooldown | `book_win`, `sell_tax_bps` |
-| Snowball: win round 2 on liquidity absorbed in round 1 | Score counts only inflow since the round started | `round_base`, `score_now` |
-| Sell in the break, buy back after the start to fake inflow | The round base never goes below the reserve at the previous bell | `floor_reserve` |
-| Last-minute whale | Inflow is weighted by how long it stayed | `touch_score` |
-| Stuff the bracket with empty copies | Launch fee plus a bonded seed per coin; pairing is computed by the contract from scores | `enter`, `on_results` in the arena |
+| Snowball: win round 2 on liquidity absorbed in round 1 | Score counts only inflow since the round started | `record_flow`, `start_round` |
+| Sell in the break, buy back after the start to fake inflow | Trades during the break count towards the next round, so the sale cancels the buy-back | `flow_round` |
+| One whale carries a coin | Inflow is weighted by how long it stayed, and each wallet's net inflow counts for at most `score_cap` per round | `record_flow`, `touch_score` |
+| Stuff the bracket with empty copies | One coin per account per bracket, a bonded seed per coin that flows to whoever beats it, pairing computed by the contract | `enter`, `on_results` in the arena |
 | Open a second bracket for the same ticker | Ticker is normalised and maps to one live tournament | `by_ticker` in the arena |
 | Nobody settles, bracket stalls | Settle and advance are open to anyone and pay a bounty | `settle`, `advance` |
 | Deployer swaps the arena code | The arena has no owner, and the deploy script deletes its only access key | `scripts/deploy.sh` |
@@ -76,11 +84,13 @@ There is no owner, no admin method and no upgrade path in either contract. All p
 
 | | Account |
 |---|---|
-| Arena: 1 h registration, 4 h rounds (the web app's default) | `arena-32526.memeduel-4a2d2e.testnet` |
+| Arena: 1 h registration, 4 h rounds, 2 NEAR score cap per account, 1% creator reward (the web app's default) | `arena-33881.memeduel-4a2d2e.testnet` |
+| Same timings, previous token code (no score cap, no creator reward) | `arena-32526.memeduel-4a2d2e.testnet` |
 | Earlier arena with 6 min / 9 min demo timings, where the demo video's $HOT and $KEK brackets were played | `arena-82872.memeduel-4a2d2e.testnet` |
-| Token code (global contract hash) | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
+| Token code used by arena-33881 (global contract hash) | `3wVfmENz9jKGRHTkskMQADqkyjjzbEPCvBkQi9jromEU` |
+| Token code used by the two older arenas | `5LpgXeEtrkB1QUWRU9Q8oeJwyL3Q8wBkDbQdK7pfAHsC` |
 
-Both arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket, 1 h post-win tax decay on the new one. Neither arena account has access keys.
+All arenas: 15% penalty, 5 NEAR virtual liquidity, 0.2 NEAR minimum seed, up to 8 coins per bracket, 1 h post-win tax decay on the new one. No arena account has access keys.
 
 ## Simulation
 
@@ -94,7 +104,7 @@ One 4-hour match between coin A and coin B, with the contract's formulas (`sim/d
 | Run for the exit | 20 / 20 | 6.4 / -17.7 | 18 / -16 | **A** | A | 2.3 NEAR | 2.3 | 0.4 | +0.5% | 362M A |
 | Sell in the break, buy back | 5 / 5 | 0.5 / 4.2 | -1 / 9 | **B** | A ⚠ | 25.5 NEAR | 0.0 | 3.8 | +6.5% | 372M B |
 
-Shorter rounds make a late whale cheaper. In the whale row A collected 6.9 NEAR over the round and scored 14.8 NEAR-hours, so a single buy 30 minutes before the bell beats it with about 30 NEAR, and one 10 minutes before the bell needs about 89 NEAR. With 24-hour rounds the same crowd would have been several times harder to overtake. We chose 4-hour rounds so a bracket of 8 finishes in about 13 hours.
+Shorter rounds make a late whale cheaper. In the whale row A collected 6.9 NEAR over the round and scored 14.8 NEAR-hours, so without a cap a single buy 30 minutes before the bell would beat it with about 30 NEAR. With the live arena's 2 NEAR per-wallet cap, one wallet adds at most 1 NEAR-hour that late, so overtaking A that way takes about 15 funded wallets. We chose 4-hour rounds so a bracket of 8 finishes in about 13 hours.
 
 What is left of a stake that keeps landing on the losing side:
 
@@ -149,16 +159,22 @@ scripts/deploy.sh <your-account.testnet> 1 4 1
 ## Known limits
 
 - **Only coins launched here are in the bracket.** Copies on other launchpads are out of reach.
-- **Score counts NEAR, not people.** A wallet with enough NEAR can carry a coin through a round alone. Splitting across wallets changes nothing, so there is nothing for a sybil check to do, and no "one person, one vote" either.
+- **Score counts NEAR, not people.** One wallet counts for at most 2 NEAR per round, but a group of wallets, or one person with several, can pool money to carry a coin. Each extra wallet pays its own storage and fees; nothing checks who is behind it.
 - **The sell tax does not force anyone to stay.** It makes leaving before the bell no cheaper than losing. In "Run for the exit" nearly all of the loser's liquidity still leaves and the winner receives only the tax.
 - **Spoils are locked liquidity, not a payout.** They lift the winner's price, but holders can withdraw only part of them; the rest stays in the curve as a floor.
-- **Bracket slots are finite.** Filling the remaining slots with seeded copies to shut a rival out costs one fee and one seed per slot, and is not prevented.
+- **Bracket slots are finite.** Filling the remaining slots with copies from several wallets to shut a rival out costs one wallet, one fee and one seed per slot. It is made expensive, not prevented: those seeds flow to whoever beats the copies.
+- **The build is not reproducible.** Contracts are built with `cargo near build non-reproducible-wasm`, so rebuilding from this repo on another machine gives different bytes than the code hash deployed on testnet. You can check that the arena has no keys and which code hash every coin runs, but not, by rebuilding, that the hash matches this source. `cargo near build reproducible-wasm` (Docker) would fix this.
 - **The first coin of a ticker picks the timing.** Registration starts when it launches.
 - **A lost `start_round` message stalls a token** until anyone calls `resync` on the arena. Covered by a guard in `advance`, not by a sandbox test.
 - **Not audited.** Hackathon code.
 - Each trade pays a flat 0.002 NEAR that stays in the token contract to pay for the on-chain log; a first-time buyer also pays 0.00125 NEAR of NEP-145 storage.
 - `storage_unregister(force=true)` is disabled, because burning outside the curve would break claim accounting.
 - Publishing a new token code version as a global contract burns about 23 NEAR.
+- The simulation models each side's crowd as one flow, so it does not show the per-wallet cap.
+
+## After the hackathon
+
+One possible path, nothing more: the arena is just a contract, so an existing launchpad such as meme.cooking could route launches that reuse a live ticker into a bracket instead of listing them side by side. Nobody has agreed to this. Before mainnet the contracts would need a reproducible build and an audit.
 
 ## Layout
 

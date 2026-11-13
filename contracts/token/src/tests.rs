@@ -22,9 +22,13 @@ fn ctx(who: &str, deposit: u128, ts: u64) {
         .build());
 }
 
-fn token(seed: u128) -> BracketToken {
+fn token_with_cap(seed: u128, cap: u128) -> BracketToken {
     ctx("arena.near", seed, T0);
-    BracketToken::new("Pepe".into(), "PEPE".into(), None, acc("dev.near"), U64(REG_END), U128(50 * NEAR), 1500, U64(COOLDOWN))
+    BracketToken::new("Pepe".into(), "PEPE".into(), None, acc("dev.near"), U64(REG_END), U128(50 * NEAR), 1500, U64(COOLDOWN), 100, U128(cap))
+}
+
+fn token(seed: u128) -> BracketToken {
+    token_with_cap(seed, 1_000 * NEAR)
 }
 
 /// A token that finished registration and is in round 1 against pepe-1.
@@ -177,7 +181,9 @@ fn absorb_pays_spoils_mints_the_pool_and_starts_the_cooldown_tax() {
     let pool = t.absorb().0;
     assert_eq!(t.status, Status::Advanced);
     assert_eq!(t.wins, 1);
-    assert_eq!(t.spoils, 3 * NEAR);
+    // 15% penalty: 1% of what moved goes to the creator, 14% stays as spoils.
+    assert_eq!(t.spoils, 28 * NEAR / 10);
+    assert_eq!(t.creator_rewards, 2 * NEAR / 10);
     assert_eq!(t.token.ft_balance_of(acc("pepe-1.arena.near")).0, pool);
     assert_eq!(t.token.total_supply, alice + pool);
     // Solvent: everyone selling never asks for more than the reserve.
@@ -195,6 +201,7 @@ fn absorb_pays_spoils_mints_the_pool_and_starts_the_cooldown_tax() {
     ctx("arena.near", 0, end + 2);
     t.start_round(None, U64(end + 24 * HOUR));
     assert_eq!(t.round_base, t.reserve);
+    assert_eq!(t.get_info().scored_inflow, "0");
     // In a new round the tax is the larger of the two schedules.
     ctx("x.near", 0, end + 3);
     assert!(t.sell_tax_bps() > 1490);
@@ -225,4 +232,38 @@ fn slippage_guard() {
     let mut t = token(0);
     ctx("alice.near", NEAR, T0 + 1);
     t.buy(Some(U128(CURVE_SUPPLY)));
+}
+
+#[test]
+fn one_account_counts_only_up_to_the_cap() {
+    // Cap of 1 NEAR per account per round.
+    let mut t = token_with_cap(0, NEAR);
+    let start = REG_END + HOUR;
+    ctx("arena.near", 0, start);
+    t.start_round(Some(acc("pepe-1.arena.near")), U64(start + 24 * HOUR));
+    // A whale brings 10 NEAR, two small buyers bring 0.5 NEAR each.
+    ctx("whale.near", 10 * NEAR, start);
+    t.buy(None);
+    let whale_only: i128 = t.get_info().scored_inflow.parse().unwrap();
+    assert_eq!(whale_only, NEAR as i128);
+    for who in ["a.near", "b.near"] {
+        ctx(who, NEAR / 2 + LOG_FEE + t.registration_fee(), start);
+        t.buy(None);
+    }
+    let all: i128 = t.get_info().scored_inflow.parse().unwrap();
+    assert_eq!(all, 2 * NEAR as i128);
+    // The whale selling part of a position above the cap changes nothing.
+    let bal = t.token.ft_balance_of(acc("whale.near")).0;
+    ctx("whale.near", 1, start + 1);
+    let _ = t.sell(U128(bal / 4), None);
+    assert_eq!(t.get_info().scored_inflow.parse::<i128>().unwrap(), 2 * NEAR as i128);
+}
+
+#[test]
+fn creator_reward_comes_out_of_the_penalty() {
+    ctx("arena.near", 0, T0);
+    let ok = std::panic::catch_unwind(|| {
+        BracketToken::new("P".into(), "P".into(), None, acc("dev.near"), U64(REG_END), U128(NEAR), 1000, U64(COOLDOWN), 1001, U128(NEAR))
+    });
+    assert!(ok.is_err(), "a reward above the penalty is refused");
 }

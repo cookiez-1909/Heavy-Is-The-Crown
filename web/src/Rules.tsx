@@ -72,13 +72,13 @@ export default function Rules() {
           <b>One bracket per ticker.</b> The first coin launched with a ticker opens its bracket. Every coin launched with that ticker during registration joins it. After registration the ticker is locked until one coin is left.
         </li>
         <li>
-          <b>Creators post a seed.</b> The seed buys the creator's first tokens from the coin's own curve, so an empty copy cannot take a slot for free.
+          <b>Creators post a seed, one coin each.</b> The seed buys the creator's first tokens from the coin's own curve, so an empty copy cannot take a slot for free. One account can launch only one coin per bracket.
         </li>
         <li>
           <b>Seeding is by score.</b> When a round closes the arena ranks the survivors by their score and pairs best against worst. With an odd number, the top seed sits the round out.
         </li>
         <li>
-          <b>Score is new NEAR × time.</b> Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Liquidity it already had, including what it absorbed, scores nothing. Net outflow scores negative.
+          <b>Score is new NEAR × time.</b> Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Liquidity it already had, including what it absorbed, scores nothing. Net outflow scores negative. Each wallet's net inflow counts for at most {cfg?.score_cap ? `${near(cfg.score_cap)} NEAR` : "a fixed cap"} per round, and trades made between rounds count towards the next one.
         </li>
         <li>
           <b>Selling is taxed, and the tax stays in the curve.</b> It ramps from 0 to {pct}% over the round, so leaving just before the bell costs the same as losing. After a win it restarts at {pct}% and decays, so winners cannot dump on the holders who were just converted in.
@@ -87,7 +87,7 @@ export default function Rules() {
           <b>At the bell, trading freezes.</b> Anyone can settle a match and is paid 1% of the loser's reserve (at most 0.05 NEAR). The two tokens compare scores themselves.
         </li>
         <li>
-          <b>The loser is absorbed.</b> {pct}% of its reserve enters the winner's curve with no tokens minted. The other {100 - pct}% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
+          <b>The loser is absorbed.</b> {pct}% of its reserve is the penalty: {cfg?.creator_reward_bps !== undefined ? cfg.creator_reward_bps / 100 : 1}% goes to the creator of the winning coin and the rest enters the winner's curve with no tokens minted. The other {100 - pct}% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
         </li>
         <li>
           <b>The champion defends.</b> A later coin with the same ticker opens a new season, and the reigning champion is automatically entered in it.
@@ -178,10 +178,10 @@ export default function Rules() {
 
       <h2>Known limits</h2>
       <ul className="limits">
-        <li>Score counts NEAR, not people. A wallet with enough NEAR can carry a coin through a round alone. It has to bring that NEAR in during the round and leave it there, taxed on the way out. Splitting across wallets changes nothing, so there is no sybil angle, and no "one person, one vote" either.</li>
+        <li>Score counts NEAR, not people. One wallet counts for at most the per-wallet cap each round, but a group of wallets, or one person with several, can pool money to carry a coin. Each extra wallet pays its own storage and fees; nothing checks who is behind it.</li>
         <li>The sell tax makes running before the bell no cheaper than losing. It does not force anyone to stay: see "Run for the exit", where almost all of the loser's liquidity leaves and the winner receives only the tax.</li>
         <li>Spoils are locked liquidity. They lift the winner's price for every holder, but holders can only withdraw part of them; the rest stays in the curve as a floor.</li>
-        <li>A bracket holds a fixed number of coins. Filling the remaining slots with seeded copies to shut a rival out is possible; it costs one fee and one seed per slot, and those seeds are lost to whoever beats them.</li>
+        <li>A bracket holds a fixed number of coins. Filling the remaining slots with copies from several wallets to shut a rival out is possible; it costs one wallet, one fee and one seed per slot, and those seeds flow to whoever beats them.</li>
         <li>Only coins launched here are in the bracket. Copies launched on other launchpads are out of reach.</li>
         <li>Each trade pays a flat 0.002 NEAR that stays in the token contract to pay for the on-chain log.</li>
       </ul>

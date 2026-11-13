@@ -11,7 +11,7 @@ import { DEFAULTS, scenarios } from "../../../sim/duel-sim.ts";
 import { ARENA } from "../config";
 import { COPIES, HeroBracket } from "../HeroBracket";
 
-const ARENA_ID = ARENA || "arena-32526.memeduel-4a2d2e.testnet";
+const ARENA_ID = ARENA || "arena-33881.memeduel-4a2d2e.testnet";
 const still = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const topDex = dex.rows[0];
 
@@ -264,6 +264,32 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
     ),
   },
   {
+    kicker: "WHY LAUNCH HERE",
+    node: (
+      <>
+        <H parts={["Your ticker,", ["shielded."]]} />
+        <div className="facts">
+          <div>
+            <strong>1st</strong>
+            <b>The original defends</b>
+            <span>Once your coin is champion, every later copy of the ticker has to beat it first. A copy that loses brings you its liquidity and its holders.</span>
+          </div>
+          <div>
+            <strong>1%</strong>
+            <b>Paid to the winner's creator</b>
+            <span>Out of the 15% penalty, from every coin the winner absorbs. Launching the coin people back pays.</span>
+          </div>
+          <div>
+            <strong>≈85%</strong>
+            <b>Back to a loser's holders</b>
+            <span>As the winner's tokens. Backing the wrong copy costs part of the stake, not all of it.</span>
+          </div>
+        </div>
+        <p className="tag">only coins launched here are in a bracket · a launchpad such as meme.cooking could route its same-ticker launches here; nobody has agreed to that</p>
+      </>
+    ),
+  },
+  {
     kicker: "ONE ROUND",
     node: (
       <>
@@ -309,8 +335,8 @@ const SLIDES: { kicker: string; node: React.ReactNode }[] = [
               ["Winners dump on converted holders", "Sell tax restarts at the penalty on a win, then decays"],
               ["Win on absorbed liquidity", "Only inflow since the round started is scored"],
               ["Sell in the break, buy back to fake inflow", "Round base never drops below the reserve at the last bell"],
-              ["Last-minute whale", "Inflow is weighted by time held"],
-              ["Stuff the bracket with empty copies", "Launch fee plus a seed that is at stake"],
+              ["One whale carries a coin", "Inflow is weighted by time held, and one wallet counts for at most 2 NEAR a round"],
+              ["Stuff the bracket with empty copies", "One coin per account, and every empty copy's seed flows to whoever beats it"],
               ["Open a second bracket for the ticker", "One live tournament per ticker, enforced by the arena"],
               ["Nobody settles", "Settling and advancing pay a bounty to anyone"],
             ].map(([a, c], i) => (
