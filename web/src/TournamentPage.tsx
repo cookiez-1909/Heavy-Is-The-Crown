@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ARENA, EXPLORER } from "./config";
 import { call, TGAS, view } from "./near";
 import { ago, countdown, near, parseUnits, score, short, tokens } from "./fmt";
-import { alive, Coin, ensureWallet, loadTournament, msLeft, roundName, ScoreBar, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
+import { useMe, alive, Coin, ensureWallet, loadTournament, msLeft, roundName, ScoreBar, unsettled, useAction, useNow, usePoll, type TState } from "./shared";
 import type { Info, Match, Tournament, Trade } from "./types";
 import { confirmRisk } from "./ui";
 
@@ -123,12 +123,12 @@ function TradeBox({ info, token, balance, account, refresh }: { info: Info; toke
 
   return (
     <div className="tradebox">
-      <div className="tabs" role="tablist">
-        <button role="tab" aria-selected={mode === "buy"} className={mode === "buy" ? "on" : ""} onClick={() => (setMode("buy"), setText(""))}>
+      <div className="tabs tradetabs" role="tablist">
+        <button role="tab" aria-selected={mode === "buy"} className={`buytab ${mode === "buy" ? "on" : ""}`} onClick={() => (setMode("buy"), setText(""))}>
           Buy
         </button>
-        <button role="tab" aria-selected={mode === "sell"} className={mode === "sell" ? "on" : ""} onClick={() => (setMode("sell"), setText(""))}>
-          Sell · {tax.toFixed(1)}% tax
+        <button role="tab" aria-selected={mode === "sell"} className={`selltab ${mode === "sell" ? "on" : ""}`} onClick={() => (setMode("sell"), setText(""))}>
+          Sell <span className="taxpill" title="Sell tax right now. It stays in this coin's curve.">{tax.toFixed(1)}% tax</span>
         </button>
       </div>
       <div className="amount">
@@ -158,7 +158,7 @@ function TradeBox({ info, token, balance, account, refresh }: { info: Info; toke
               ? "Buying mints new supply and adds to this round's score."
               : `Selling burns supply. The tax stays in this coin's curve.`)}
       </p>
-      <button className="btn big" disabled={!amount || !!problem || !!busy} onClick={go}>
+      <button className={`btn big ${mode === "sell" ? "sellbtn" : "buybtn"}`} disabled={!amount || !!problem || !!busy} onClick={go}>
         {busy ? "Waiting for wallet…" : mode === "buy" ? `Back ${info.name}` : `Sell ${info.name}`}
       </button>
     </div>
@@ -186,7 +186,8 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
   };
 
   return (
-    <section className={`panel ${p.side} ${info.status.toLowerCase()}`}>
+    <section className={`panel ${p.side} ${info.status.toLowerCase()} ${p.account && p.account === e.creator ? "mine" : ""}`}>
+      {p.account && p.account === e.creator && <span className="minebadge">Your coin</span>}
       <header>
         <Coin token={e.token} symbol={info.symbol} size={64} crown={champion} />
         <div>
@@ -260,10 +261,12 @@ function CoinPanel(p: { s: TState; idx: number; side: "a" | "b" | "n"; mine: Min
 function Slot({ s, idx, sc, won, lost, crown }: { s: TState; idx: number | null; sc: string | null; won: boolean; lost: boolean; crown?: boolean }) {
   if (idx === null) return <div className="slot bye">bye</div>;
   const e = s.t.entrants[idx];
+  const mine = useMe() === e.creator;
   return (
-    <div className={`slot ${won ? "won" : ""} ${lost ? "lost" : ""}`}>
+    <div className={`slot ${won ? "won" : ""} ${lost ? "lost" : ""} ${mine ? "mine" : ""}`}>
       <Coin token={e.token} symbol={s.t.ticker} size={crown ? 34 : 28} crown={crown} />
       <span className="nm">{e.name}</span>
+      {mine && <span className="minetag">Yours</span>}
       <span className="sc mono">{sc !== null ? score(sc) : ""}</span>
     </div>
   );

@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { ARENA, NETWORK } from "./config";
 import { connector, useAccount } from "./near";
 import { short } from "./fmt";
-import { Toasts } from "./shared";
+import { MeContext, Toasts } from "./shared";
 import { RiskDialog, ThemeToggle } from "./ui";
 import Landing from "./Landing";
 import Brackets from "./Brackets";
 import Launch from "./Launch";
 import TournamentPage from "./TournamentPage";
 import Rules from "./Rules";
-import Tour, { openTour } from "./Tour";
 
 function useRoute(): string {
   const [hash, setHash] = useState(window.location.hash);
@@ -27,11 +26,21 @@ function useRoute(): string {
   return hash.replace(/^#\/?/, "");
 }
 
+/** The connected account. Disconnecting takes a second, deliberate click. */
 function Wallet({ account }: { account: string | null }) {
+  const [open, setOpen] = useState(false);
   return account ? (
-    <button className="btn ghost wallet" onClick={() => connector.disconnect()} title="Disconnect">
-      <span className="role you">You</span> {short(account)}
-    </button>
+    <div className="moreb walletb">
+      <button className="btn ghost wallet" onClick={() => setOpen((x) => !x)} aria-expanded={open} title={account}>
+        <span className="role you">You</span> {short(account)}
+      </button>
+      {open && (
+        <div className="moremenu right" onClick={() => setOpen(false)}>
+          <span className="menuacct">{account}</span>
+          <button onClick={() => connector.disconnect()}>Disconnect</button>
+        </div>
+      )}
+    </div>
   ) : (
     <button className="btn" onClick={() => connector.connect().catch(() => {})}>
       Connect wallet
@@ -79,7 +88,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <MeContext.Provider value={account}>
       <header className="top apptop">
         <a className="brand" href="#/">
           Ticker<span>Bracket</span>
@@ -97,7 +106,6 @@ export default function App() {
             {moreOpen && (
               <div className="moremenu" onClick={() => setMoreOpen(false)}>
                 <a href="#/faq">FAQ</a>
-                <button onClick={openTour}>Take the tour again</button>
                 <a href="#/">About Ticker Bracket</a>
               </div>
             )}
@@ -135,9 +143,8 @@ export default function App() {
           Rules live in the contracts. No owner, no admin key, no upgrade. <a href="#/rules">Read the rules</a>
         </footer>
       </main>
-      <Tour />
       <RiskDialog />
       <Toasts />
-    </>
+    </MeContext.Provider>
   );
 }

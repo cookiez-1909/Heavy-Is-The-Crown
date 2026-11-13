@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ARENA } from "./config";
 import { connector, view } from "./near";
 import { countdown, near, short } from "./fmt";
-import { alive, Coin, loadTournament, msLeft, roundName, unsettled, useNow, usePoll, type TState } from "./shared";
+import { useMe, alive, Coin, loadTournament, msLeft, roundName, unsettled, useNow, usePoll, type TState } from "./shared";
 import type { Tournament } from "./types";
 
 async function loadAll() {
@@ -25,8 +25,11 @@ export function TournamentCard({ s, now }: { s: TState; now: number }) {
   const left = msLeft(s, now);
   const total = s.info.reduce((n, i) => n + BigInt(i.reserve), 0n);
   const kind = kindOf(s, now);
+  const me = useMe();
+  const mine = !!me && t.entrants.some((e) => e.creator === me);
   return (
-    <a className={`card tcard ${t.phase.toLowerCase()}`} href={`#/t/${t.id}`}>
+    <a className={`card tcard ${t.phase.toLowerCase()} ${mine ? "mine" : ""}`} href={`#/t/${t.id}`}>
+      {mine && <span className="minebadge">Your coin is here</span>}
       <div className="thead">
         <h3>${t.ticker}</h3>
         {t.season > 1 && <span className="season">season {t.season}</span>}
@@ -34,7 +37,7 @@ export function TournamentCard({ s, now }: { s: TState; now: number }) {
       </div>
       <div className="faces">
         {t.entrants.map((e, i) => (
-          <span key={e.token} className={e.eliminated_in !== null ? "out" : ""} title={e.name}>
+          <span key={e.token} className={`${e.eliminated_in !== null ? "out" : ""} ${me === e.creator ? "minecoin" : ""}`} title={me === e.creator ? `${e.name} (yours)` : e.name}>
             <Coin token={e.token} symbol={t.ticker} size={40} crown={t.champion === i} />
           </span>
         ))}

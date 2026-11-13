@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, createContext, useContext } from "react";
 import { connector, errorText, view } from "./near";
 import { confetti } from "./ui";
 import type { Info, Tournament } from "./types";
@@ -97,17 +97,19 @@ export async function ensureWallet(account: string | null): Promise<boolean> {
 // -------------------------------------------------------------------- coins
 
 const icons = new Map<string, Promise<string | null>>();
-function iconOf(token: string) {
-  if (!icons.has(token)) {
-    icons.set(
-      token,
-      view<{ icon: string | null }>(token, "ft_metadata")
-        .then((m) => m.icon)
-        .catch(() => null),
-    );
-  }
-  return icons.get(token)!;
+/** Icons never change, so a successful read is kept. A failed read (the public RPC throttles) is forgotten and retried. */
+function iconOf(token: string): Promise<string | null> {
+  const cached = icons.get(token);
+  if (cached) return cached;
+  const p = view<{ icon: string | null }>(token, "ft_metadata").then((m) => m.icon);
+  icons.set(token, p);
+  p.catch(() => icons.delete(token));
+  return p;
 }
+
+/** The connected account, for marking the viewer's own coins anywhere in the tree. */
+export const MeContext = createContext<string | null>(null);
+export const useMe = () => useContext(MeContext);
 
 /** Drops onto the overall winner of a bracket. */
 export function Crown({ size }: { size: number }) {
@@ -129,7 +131,19 @@ export function Coin({ token, icon, symbol, size = 56, crown }: { token?: string
   const [src, setSrc] = useState<string | null>(icon ?? null);
   useEffect(() => {
     if (icon !== undefined) return setSrc(icon);
-    if (token) iconOf(token).then(setSrc);
+    if (!token) return;
+    let alive = true;
+    let tries = 0;
+    const load = () =>
+      iconOf(token)
+        .then((v) => alive && setSrc(v))
+        .catch(() => {
+          if (alive && ++tries < 5) setTimeout(load, 1500 * tries);
+        });
+    load();
+    return () => {
+      alive = false;
+    };
   }, [token, icon]);
   const style = { width: size, height: size, fontSize: size * 0.36 };
   const coin = src ? (

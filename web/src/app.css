@@ -227,3 +227,25 @@ code { background: var(--panel-2); }
 [data-theme="light"] .season, [data-theme="light"] .ttitle small { border-color: var(--brand); }
 [data-theme="light"] .pill.bell { background: var(--brand); color: #fffdf6; }
 [data-theme="light"] .pill.live { background: var(--ok); color: #fffdf6; }
+
+/* ------------------------------------------------------- your own coin */
+.panel.mine, .tcard.mine { position: relative; box-shadow: 0 0 0 2px var(--brand), 0 14px 40px color-mix(in srgb, var(--brand) 16%, transparent); }
+.minebadge { position: absolute; top: -11px; right: 16px; z-index: 2; font: 700 11px var(--body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--btn-ink); background: var(--btn-bg); border-radius: 999px; padding: 3px 10px; }
+.slot.mine { box-shadow: inset 3px 0 0 var(--brand); background: color-mix(in srgb, var(--brand) 10%, transparent); }
+.minetag { font: 700 10px var(--body); text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); border: 1px solid var(--brand); border-radius: 999px; padding: 0 6px; }
+.faces .minecoin { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+/* ------------------------------------------------------ buy / sell tabs */
+:root { --buy: #45c486; --sell: #ff8a5c; --buy-bg: rgba(69, 196, 134, 0.14); --sell-bg: rgba(255, 138, 92, 0.14); }
+:root[data-theme="light"] { --buy: #0c7049; --sell: #a93f1b; --buy-bg: #e3f3e8; --sell-bg: #fbe5d8; }
+.tradetabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; }
+.tradetabs button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 12px; font-weight: 600; color: var(--ink-2); border-radius: 9px; }
+.tradetabs .buytab.on { background: var(--buy-bg); color: var(--buy); box-shadow: inset 0 0 0 1.5px var(--buy); }
+.tradetabs .selltab.on { background: var(--sell-bg); color: var(--sell); box-shadow: inset 0 0 0 1.5px var(--sell); }
+.taxpill { font: 700 12px var(--mono); padding: 2px 8px; border-radius: 999px; background: var(--sell-bg); color: var(--sell); border: 1px solid color-mix(in srgb, var(--sell) 45%, transparent); }
+.selltab.on .taxpill { background: var(--sell); color: var(--panel); border-color: var(--sell); }
+.btn.big.buybtn { background: var(--buy); color: #08130d; }
+.btn.big.sellbtn { background: var(--sell); color: #1a0b05; }
+[data-theme="light"] .btn.big.buybtn, [data-theme="light"] .btn.big.sellbtn { color: #fffdf6; }
+.moremenu.right { left: auto; right: 0; }
+.menuacct { display: block; padding: 8px 12px 10px; font: 500 12px var(--mono); color: var(--ink-3); border-bottom: 1px solid var(--line); margin-bottom: 4px; overflow-wrap: anywhere; max-width: 260px; }
