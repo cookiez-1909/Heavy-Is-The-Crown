@@ -6,3 +6,4 @@ dist/
 *.log
 demo/
 STYLE_PLAYBOOK.md
+.secrets/
