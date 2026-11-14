@@ -259,6 +259,8 @@ scripts/deploy.sh <your-account.testnet> 1 4 1
 
 One possible path, nothing more: the arena is just a contract, so an existing launchpad such as meme.cooking could route launches that reuse a live ticker into a bracket instead of listing them side by side. Nobody has agreed to this. Before mainnet the contracts would need a reproducible build and an audit.
 
+**Cross-chain brackets, a spike.** On the [`crosschain`](https://github.com/cookiez-1909/Heavy-Is-The-Crown/tree/crosschain) branch, a keyless NEAR contract judges a match between a NEAR copy of a ticker and a Base copy. It uses NEAR Chain Signatures to carry out the verdict on Base. Two full matches ran on NEAR testnet and Base Sepolia, one for each outcome. Moving the loser's liquidity is priced with live NEAR Intents quotes (dry run: nothing is swapped, test USDC stands in for the delivery), and the Base score reaches NEAR through reporters, 2 of 3 of whom must agree. It is a separate experiment, not part of the rules above. See [`crosschain/README.md`](https://github.com/cookiez-1909/Heavy-Is-The-Crown/blob/crosschain/crosschain/README.md).
+
 ## Layout
 
 ```
