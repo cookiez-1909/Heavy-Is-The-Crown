@@ -62,6 +62,27 @@ All test arenas are listed in [Live on testnet](#live-on-testnet).
   </tr>
 </table>
 
+## Try it in 3 minutes
+
+Nothing to install or clone: open **[cookiez-1909.github.io/Heavy-Is-The-Crown](https://cookiez-1909.github.io/Heavy-Is-The-Crown/)**. The hosted app runs on the fast test arena (6 min registration, 9 min rounds).
+
+**Without a wallet.** Open **Brackets → $HUANG** to see a finished bracket: the final, the champion, the copy it absorbed, and every trade in the on-chain log. **Rules** shows every parameter read live from the arena. The pitch deck is at [`/pitch/`](https://cookiez-1909.github.io/Heavy-Is-The-Crown/pitch/).
+
+**With a testnet wallet, dethrone a champion on your own.** One wallet is enough, because a new coin with a ticker that already has a champion is matched against that champion.
+
+1. **Get a testnet account.** If your NEAR wallet supports testnet (Meteor, Intear), use it. Otherwise create one from a terminal; the faucet pays for the account:
+
+   ```bash
+   npm install -g near-cli-rs
+   near account create-account sponsor-by-faucet-service <your-name>.testnet autogenerate-new-keypair print-to-terminal network-config testnet create
+   ```
+
+   Then in Meteor switch the network to Testnet, choose **Import an existing wallet → Private key**, and paste the `ed25519:…` private key the command printed. More testnet NEAR: the [NEAR faucet](https://docs.near.org/getting-started/faucet) sends 5 NEAR per request.
+2. **Connect wallet** on the site.
+3. **Launch a coin with the ticker `HUANG`.** $HUANG already has a champion, so your coin opens season 2 and the champion is entered against it automatically. It costs 0.25 NEAR plus a seed of at least 0.2 NEAR; the risk dialog lists exactly what leaves your wallet. If someone else's $HUANG season is already past registration, the ticker is locked until it ends: pick another ticker that has a champion, such as `LION`, `CROWN` or `WAGMI`.
+4. **After the 6-minute registration, press Start the next round** (anyone can, and is paid a small bounty). Then **buy your own coin**: in a round only new money scores, so both coins start from zero.
+5. **At the bell, 9 minutes later, press Settle matches, then Crown the champion.** If your coin scored more, the old champion's liquidity is now in your curve and its holders hold your token.
+
 ## The problem
 
 Launching a memecoin is one click, so anything that goes viral gets launched many times: same name, same picture, same ticker. Traders call it PVP. The copies split the same buyers and most of them die with the liquidity still inside.
@@ -95,7 +116,7 @@ What the count includes and leaves out:
 1. **One bracket per ticker.** The first coin launched with a ticker opens its bracket and a registration window. Every coin launched with that ticker during registration joins it (up to 8). After registration the ticker is locked.
 2. **Creators post a seed, one coin each.** The seed buys the creator's first tokens from the coin's own bonding curve, so it is at stake like everyone else's money. One account can launch only one coin per bracket.
 3. **Seeding by score.** When a round closes, the arena ranks the survivors by score and pairs best against worst. With an odd number the top seed gets a bye.
-4. **Score = new NEAR × time.** Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Net outflow scores negative. Each wallet's net inflow counts for at most 2 NEAR per round on the live arena, and trades made between rounds count towards the next round.
+4. **Score = new NEAR × time.** Each round a coin scores only the NEAR that came in since the round started, for as long as it stays. Net outflow scores negative. Each wallet's net inflow counts for at most 2 NEAR per round on the live arena, and trades made between rounds count towards the next round. Buys during registration only decide the first pairing: every coin starts round 1 from zero.
 5. **Selling is taxed and the tax stays in the curve.** It ramps from 0 to the penalty over the round. After a win it restarts at the penalty and decays.
 6. **At the bell trading freezes.** Anyone settles a match and is paid 1% of the loser's reserve (at most 0.05 NEAR). The two tokens compare scores themselves.
 7. **The loser is absorbed.** 15% of its reserve is the penalty: 1% is paid to the creator of the winning coin, and 14% enters the winner's curve with no tokens minted (spoils). The other 85% buys winner tokens, which the loser's holders claim pro rata by burning their dead coin.
