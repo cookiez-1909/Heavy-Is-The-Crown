@@ -1,0 +1,11 @@
+{
+ "scenario": "evm-lost",
+ "xarena": "xarena-41572.memeduel-4a2d2e.testnet",
+ "pool": "0x96F1CeA84A7Ecc0003737709E6018cFcadb3Ad96",
+ "arena_evm_address": "0x1ace2ee5E438ccdc22F4caAD1eBF32d524ea4012",
+ "logs_from_block": 58598077,
+ "logs_to_block": 58600845,
+ "tusdc_near": "tusdc-40270.memeduel-4a2d2e.testnet",
+ "tusdc_base": "0xFBe38F4eCc4D3bb9AB0b66589DFD69CAAB76070a",
+ "finished_utc": "2026-11-14 07:40:33"
+}

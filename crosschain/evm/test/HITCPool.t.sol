@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
 import {HITCPool} from "../src/HITCPool.sol";
+import {MockUSDC} from "../src/MockUSDC.sol";
 
 contract HITCPoolTest is Test {
     uint256 internal arenaKey = 0xA11CE;
@@ -10,122 +11,148 @@ contract HITCPoolTest is Test {
     address internal escrow = address(0x2222222222222222222222222222222222222222);
     address internal alice = address(0xA1);
     address internal bob = address(0xB0);
+    MockUSDC internal usdc;
     HITCPool internal pool;
 
     function setUp() public {
         arena = vm.addr(arenaKey);
         vm.warp(1_000);
-        pool = new HITCPool(arena, 1_600, "HUANG", 0.01 ether, 1500);
-        vm.deal(alice, 10 ether);
-        vm.deal(bob, 10 ether);
+        usdc = new MockUSDC();
+        pool = new HITCPool(arena, 1_600, "HUANG", address(usdc), 10e6, 1500);
+        for (uint256 i = 0; i < 3; i++) {
+            address who = [alice, bob, address(this)][i];
+            usdc.mint(who, 1_000e6);
+            vm.prank(who);
+            usdc.approve(address(pool), type(uint256).max);
+        }
     }
 
-    function sign(uint256 key, bytes32 digest) internal pure returns (bytes memory) {
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(key, digest);
+    function sign(bytes32 digest) internal view returns (bytes memory) {
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(arenaKey, digest);
         return abi.encodePacked(r, s, v);
     }
 
-    function test_buyMintsOnTheCurveAndScores() public {
+    function test_buyMintsOnTheCurveAndScoresInUsdc() public {
         vm.warp(1_100);
         vm.prank(alice);
-        uint256 out = pool.buy{value: 0.01 ether}(0);
-        // x*y=k from 0.01 virtual ETH: half the curve for the first 0.01 ETH
-        assertEq(out, 500_000_000 ether);
-        assertEq(pool.balanceOf(alice), out);
-        assertEq(pool.totalSupply(), out);
-        assertEq(pool.reserve(), 0.01 ether);
-        assertEq(pool.score(), int256(0.01 ether * 500));
+        uint256 out = pool.buy(10e6, 0);
+        assertEq(out, 500_000_000 ether); // half the curve for the first 10 tUSDC of 10 virtual
+        assertEq(pool.reserve(), 10e6);
+        assertEq(usdc.balanceOf(address(pool)), 10e6);
+        assertEq(pool.score(), int256(10e6 * 500));
     }
 
-    function test_sellBurnsPaysLessTheTaxAndScoresNegative() public {
+    function test_sellPaysLessTheRampingTax() public {
         vm.prank(alice);
-        uint256 out = pool.buy{value: 0.01 ether}(0);
-        vm.warp(1_300); // half way: tax 7.5%
-        assertEq(pool.sellTaxBps(), 750);
-        uint256 before = alice.balance;
+        uint256 out = pool.buy(10e6, 0);
+        vm.warp(1_300);
         vm.prank(alice);
         uint256 paid = pool.sell(out, 0);
-        uint256 gross = 0.01 ether; // selling everything returns the whole reserve
-        assertEq(paid, gross - (gross * 750) / 10_000);
-        assertEq(alice.balance - before, paid);
-        assertEq(pool.totalSupply(), 0);
-        assertEq(pool.reserve(), gross - paid); // the tax stays
-        assertEq(pool.score(), int256(0.01 ether * 600) - int256(paid * 300));
+        assertEq(paid, 10e6 - (10e6 * 750) / 10_000);
+        assertEq(pool.reserve(), 10e6 - paid);
     }
 
-    function test_taxIsThePenaltyAtTheBell() public {
-        vm.warp(1_599);
-        assertLt(pool.sellTaxBps(), 1500);
-        vm.warp(1_600);
-        assertEq(pool.sellTaxBps(), 1500);
-    }
-
-    function test_tradingAndTransfersFreezeAtTheBell() public {
+    function test_frozenAtTheBell() public {
         vm.prank(alice);
-        pool.buy{value: 1 ether}(0);
+        pool.buy(10e6, 0);
         vm.warp(1_600);
         vm.prank(bob);
         vm.expectRevert(HITCPool.RoundOver.selector);
-        pool.buy{value: 1}(0);
-        vm.prank(alice);
-        vm.expectRevert(HITCPool.RoundOver.selector);
-        pool.sell(1, 0);
+        pool.buy(1e6, 0);
         vm.prank(alice);
         vm.expectRevert(HITCPool.Frozen.selector);
         pool.transfer(bob, 1);
     }
 
-    function test_slippageGuard() public {
+    function test_releaseSendsTheWholeReserveOnce() public {
         vm.prank(alice);
-        vm.expectRevert(HITCPool.TooLittleOut.selector);
-        pool.buy{value: 0.01 ether}(600_000_000 ether);
+        pool.buy(30e6, 0);
+        vm.warp(1_600);
+        pool.release(escrow, sign(pool.releaseDigest(escrow)));
+        assertEq(usdc.balanceOf(escrow), 30e6);
+        assertEq(usdc.balanceOf(address(pool)), 0);
+        bytes memory wonSig = sign(pool.wonDigest());
+        vm.expectRevert(HITCPool.AlreadyDone.selector);
+        pool.markWon(wonSig);
     }
 
-    function test_arenaSignatureReleasesTheWholeReserve() public {
+    function test_wonReopensTradingAbsorbsAndGrants() public {
         vm.prank(alice);
-        pool.buy{value: 1 ether}(0);
+        pool.buy(10e6, 0);
         vm.warp(1_600);
-        bytes memory sig = sign(arenaKey, pool.releaseDigest(escrow));
-        pool.release(escrow, sig);
-        assertEq(escrow.balance, 1 ether);
-        assertEq(address(pool).balance, 0);
-        assertEq(pool.reserve(), 0);
-        vm.expectRevert(HITCPool.AlreadyReleased.selector);
-        pool.release(escrow, sig);
+        pool.markWon(sign(pool.wonDigest()));
+        assertTrue(pool.open());
+
+        // the loser's reserve arrives: 15% spoils, 85% buys tokens held for its holders
+        pool.absorb(20e6);
+        assertEq(pool.absorbedStable(), 20e6);
+        assertEq(pool.reserve(), 10e6 + 20e6);
+        uint256 held = pool.absorbedTokens();
+        assertGt(held, 0);
+        assertEq(pool.balanceOf(address(pool)), held);
+
+        // two NEAR holders, 3/4 and 1/4
+        pool.grant(alice, 3, 4, 1, sign(pool.grantDigest(alice, 3, 4, 1)));
+        pool.grant(bob, 1, 4, 2, sign(pool.grantDigest(bob, 1, 4, 2)));
+        assertEq(pool.balanceOf(alice) - 500_000_000 ether, (held * 3) / 4);
+        assertEq(pool.balanceOf(bob), held / 4);
+
+        // after the first grant the base is fixed; no more absorbing, no replays
+        vm.expectRevert(HITCPool.AlreadyDone.selector);
+        pool.absorb(1e6);
+        bytes memory again = sign(pool.grantDigest(bob, 1, 4, 2));
+        vm.expectRevert(HITCPool.AlreadyDone.selector);
+        pool.grant(bob, 1, 4, 2, again);
+
+        // the winner trades again, tax free
+        vm.prank(bob);
+        pool.sell(held / 4, 0);
     }
 
-    function test_anyOtherSignerIsRejected() public {
-        vm.prank(alice);
-        pool.buy{value: 1 ether}(0);
+    function test_grantIsBoundToRecipientAndShare() public {
         vm.warp(1_600);
-        bytes memory sig = sign(0xBAD, pool.releaseDigest(escrow));
+        pool.markWon(sign(pool.wonDigest()));
+        pool.absorb(20e6);
+        bytes memory sig = sign(pool.grantDigest(alice, 1, 2, 7));
         vm.expectRevert(HITCPool.NotSignedByArena.selector);
-        pool.release(escrow, sig);
-    }
-
-    function test_signatureIsBoundToTheRecipient() public {
-        vm.prank(alice);
-        pool.buy{value: 1 ether}(0);
-        vm.warp(1_600);
-        bytes memory sig = sign(arenaKey, pool.releaseDigest(escrow));
+        pool.grant(bob, 1, 2, 7, sig);
         vm.expectRevert(HITCPool.NotSignedByArena.selector);
-        pool.release(address(0xBEEF), sig);
+        pool.grant(alice, 2, 2, 7, sig);
     }
 
-    function test_noReleaseBeforeTheBell() public {
-        bytes memory sig = sign(arenaKey, pool.releaseDigest(escrow));
+    function test_noGrantOrAbsorbBeforeWon() public {
+        vm.expectRevert(HITCPool.NotWon.selector);
+        pool.absorb(1e6);
+        bytes memory sig = sign(pool.grantDigest(alice, 1, 1, 1));
+        vm.expectRevert(HITCPool.NotWon.selector);
+        pool.grant(alice, 1, 1, 1, sig);
+    }
+
+    function test_onlyTheArenaSigns() public {
+        vm.warp(1_600);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(0xBAD, pool.wonDigest());
+        vm.expectRevert(HITCPool.NotSignedByArena.selector);
+        pool.markWon(abi.encodePacked(r, s, v));
+    }
+
+    function test_noVerdictBeforeTheBell() public {
+        bytes memory sig = sign(pool.wonDigest());
         vm.expectRevert(HITCPool.RoundNotOver.selector);
-        pool.release(escrow, sig);
+        pool.markWon(sig);
     }
 
-    /// Same inputs as `release_digest_vector` in the NEAR contract (crosschain/xarena).
-    function test_digestMatchesTheNearSide() public {
+    /// Vectors shared with crosschain/xarena: chain 84532, pool at 0x1111…, escrow 0x2222….
+    function test_digestsMatchTheNearSide() public {
         vm.chainId(84532);
         address at = address(0x1111111111111111111111111111111111111111);
-        deployCodeTo("HITCPool.sol:HITCPool", abi.encode(arena, uint64(1_600), "HUANG", uint256(0.01 ether), uint16(1500)), at);
-        assertEq(
-            HITCPool(at).releaseDigest(escrow),
-            0xb9bcdcb209dd26e4862a7265458b9d666c04403449db22b22b783b778868c096
+        deployCodeTo(
+            "HITCPool.sol:HITCPool",
+            abi.encode(arena, uint64(1_600), "HUANG", address(usdc), uint256(10e6), uint16(1500)),
+            at
         );
+        HITCPool p = HITCPool(at);
+        assertEq(p.releaseDigest(escrow), 0xb9bcdcb209dd26e4862a7265458b9d666c04403449db22b22b783b778868c096);
+        emit log_named_bytes32("won", p.wonDigest());
+        emit log_named_bytes32("grant(0x3333.., 3, 4, 9)", p.grantDigest(address(0x3333333333333333333333333333333333333333), 3, 4, 9));
     }
 }

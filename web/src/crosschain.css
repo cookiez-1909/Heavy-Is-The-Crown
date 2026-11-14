@@ -65,3 +65,10 @@
 .xquote { margin-top: 12px; display: grid; gap: 4px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 6px; background: var(--bg); max-width: 640px; }
 .xquote strong { font: 700 clamp(20px, 2.2vw, 28px)/1.1 var(--display); letter-spacing: -0.04em; color: var(--ink); }
 .xquote > span:last-child { color: var(--ink-3); font-size: 14px; }
+
+.xtabs { display: flex; gap: 6px; margin: 0 0 22px; flex-wrap: wrap; }
+.xtabs button { font: 500 12px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 9px 14px; border: 1px solid var(--line); border-radius: 2px; background: var(--panel); color: var(--ink-2); cursor: pointer; }
+.xtabs button.on { background: var(--btn-bg); color: var(--btn-ink); border-color: var(--btn-bg); }
+.xgrants { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
+.xgrants li { display: block; padding: 0; border: 0; margin: 0; }
+.xgrants code { font-size: 12px; }

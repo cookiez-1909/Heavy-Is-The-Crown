@@ -1,0 +1,11 @@
+{
+ "scenario": "near-lost",
+ "xarena": "xarena-40795.memeduel-4a2d2e.testnet",
+ "pool": "0x5186941a381a9155f45D437C15c471227C982483",
+ "arena_evm_address": "0xC572889232d762D7232b047aab992F6E71c920FA",
+ "logs_from_block": 58594178,
+ "logs_to_block": 58596901,
+ "tusdc_near": "tusdc-40270.memeduel-4a2d2e.testnet",
+ "tusdc_base": "0xFBe38F4eCc4D3bb9AB0b66589DFD69CAAB76070a",
+ "finished_utc": "2026-11-14 07:27:25"
+}

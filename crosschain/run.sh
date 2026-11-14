@@ -1,49 +1,54 @@
 #!/usr/bin/env bash
-# Plays one cross-chain match, end to end, on public testnets:
+# Plays one cross-chain match on public testnets, priced in test USDC on both sides (no price oracle):
 #   NEAR copy: a pool inside a keyless `xarena` contract on NEAR testnet
-#   EVM copy:  `HITCPool` on Base Sepolia, which only the arena's Chain Signatures address can drain
-# The NEAR copy is given the bigger score, so the EVM copy loses and its reserve is released by a
-# signature that NEAR's MPC network produces for the arena contract.
+#   EVM copy:  `HITCPool`, an ERC-20 on its own curve on Base Sepolia, which obeys only the arena's
+#              Chain Signatures address
+# Three reporters relay what they read on Base; a value counts once two agree.
 #
-#   EVM_KEY=<base sepolia private key with a little ETH> crosschain/run.sh
+#   SCENARIO=evm-lost  EVM_KEY=<key> crosschain/run.sh   # the Base copy loses; its holder claims on NEAR
+#   SCENARIO=near-lost EVM_KEY=<key> crosschain/run.sh   # the NEAR copy loses; its holders get Grants on Base
 #
-# Needs: near (near-cli-rs) with NEAR_SIGNER in the legacy keychain, cargo-near, foundry, python3.
+# Needs crosschain/stable.env from setup.sh, near (near-cli-rs) with the signer and reporters in the
+# legacy keychain, cargo-near, foundry, python3.
 set -euo pipefail
 cd "$(dirname "$0")"
+source ./stable.env
 
 : "${EVM_KEY:?set EVM_KEY to a Base Sepolia private key holding a little ETH}"
+SCENARIO=${SCENARIO:-evm-lost}
 NEAR_SIGNER=${NEAR_SIGNER:-memeduel-4a2d2e.testnet}
+REPORTERS=${REPORTERS:-memeduel-4a2d2e.testnet,duel-a.memeduel-4a2d2e.testnet,duel-b.memeduel-4a2d2e.testnet}
 NEAR_RPC=${NEAR_RPC:-https://rpc.testnet.fastnear.com}
 BASE_RPC=${BASE_RPC:-https://sepolia.base.org}
 CHAIN_ID=84532
 MPC=v1.signer-prod.testnet
-DERIVATION_PATH=${DERIVATION_PATH:-hitc-xarena-1}
-ROUND_S=${ROUND_S:-300}
-NEAR_BUY=${NEAR_BUY:-0.5}
-ETH_BUY=${ETH_BUY:-0.0005}
+ROUND_S=${ROUND_S:-240}
 TICKER=${TICKER:-HUANG}
-VIRTUAL_ETH=${VIRTUAL_ETH:-0.001}
-CLAIM_TO=${CLAIM_TO:-duel-a.memeduel-4a2d2e.testnet}   # the NEAR account the EVM holder claims to
+DERIVATION_PATH=${DERIVATION_PATH:-hitc-xarena-$SCENARIO-$(date +%s | tail -c 5)}
+A=duel-a.memeduel-4a2d2e.testnet
+B=duel-b.memeduel-4a2d2e.testnet
 
 say() { printf '\n== %s\n' "$*"; }
-nearview() { # contract method json-args
+nearview() {
   curl -s "$NEAR_RPC" -H 'content-type: application/json' -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"query\",\"params\":{\"request_type\":\"call_function\",\"finality\":\"optimistic\",\"account_id\":\"$1\",\"method_name\":\"$2\",\"args_base64\":\"$(printf '%s' "$3" | base64 -w0)\"}}" \
     | python3 -c "import sys,json; r=json.load(sys.stdin); print(bytes(r['result']['result']).decode())"
 }
-nearcall() { # contract method json-args deposit
-  near contract call-function as-transaction "$1" "$2" json-args "$3" prepaid-gas '300 Tgas' attached-deposit "$4" \
-    sign-as "$NEAR_SIGNER" network-config testnet sign-with-legacy-keychain send 2>&1 | grep -E "succeeded|panicked|Error" | head -2
+nearcall() { # signer contract method json-args deposit
+  near contract call-function as-transaction "$2" "$3" json-args "$4" prepaid-gas '300 Tgas' attached-deposit "$5" \
+    sign-as "$1" network-config testnet sign-with-legacy-keychain send 2>&1 | grep -E "succeeded|panicked|Error" | head -2
 }
-
-ESCROW_EVM=$(cast wallet address --private-key "$EVM_KEY")   # stands in for a NEAR Intents deposit address
+evmsend() { cast send "$@" --rpc-url "$BASE_RPC" --private-key "$EVM_KEY" --json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['transactionHash'], 'ok' if d['status'] in ('0x1', 1, '1') else 'FAILED')"; }
+units() { python3 -c "print('%.6f' % ($1/1e6))"; }
+quote() { # amount originAsset destinationAsset depositType recipient recipientType [refundTo, default recipient]
+  curl -s -X POST https://1click.chaindefuser.com/v0/quote -H 'content-type: application/json' -d "{\"dry\":true,\"swapType\":\"EXACT_INPUT\",\"slippageTolerance\":100,\"originAsset\":\"$2\",\"depositType\":\"$4\",\"destinationAsset\":\"$3\",\"amount\":\"$1\",\"refundTo\":\"${7:-$5}\",\"refundType\":\"$4\",\"recipient\":\"$5\",\"recipientType\":\"$6\",\"deadline\":\"$(date -u -d '+1 hour' +%Y-%m-%dT%H:%M:%SZ)\"}" \
+    | python3 -c "import sys,json; q=json.load(sys.stdin).get('quote') or {}; print(q.get('amountOut') or '')"
+}
+USDC_BASE=nep141:base-0x833589fcd6edb6e08f4c7c32d4f71b54bda02913.omft.near
+USDC_NEAR=nep141:17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1
+ME_EVM=$(cast wallet address --private-key "$EVM_KEY")
 XA="xarena-$(date +%s | tail -c 6).$NEAR_SIGNER"
 
-say "1/11 price: fixed NEAR-per-ETH rate for this match (a price oracle would replace it)"
-YOCTO_PER_WEI=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,near&vs_currencies=usd" \
-  | python3 -c "import sys,json; p=json.load(sys.stdin); print(int(p['ethereum']['usd']/p['near']['usd']*1e6))")
-echo "1 wei = $YOCTO_PER_WEI yoctoNEAR (1 ETH ≈ $(python3 -c "print(round($YOCTO_PER_WEI/1e6))") NEAR)"
-
-say "2/11 the EVM address that Chain Signatures derives for $XA, path $DERIVATION_PATH"
+say "1/9 [$SCENARIO] the EVM address Chain Signatures derives for $XA, path $DERIVATION_PATH"
 KEY=$(nearview "$MPC" derived_public_key "{\"path\":\"$DERIVATION_PATH\",\"predecessor\":\"$XA\",\"domain_id\":0}" | tr -d '"')
 RAW=$(python3 - "$KEY" <<'PY'
 import sys
@@ -57,121 +62,115 @@ ARENA_EVM=$(cast to-check-sum-address "0x$(cast keccak "$RAW" | cut -c27-)")
 echo "arena's EVM address: $ARENA_EVM"
 
 END=$(( $(date +%s) + ROUND_S + 150 ))
-say "3/11 deploy HITCPool on Base Sepolia (round ends $(date -u -d @$END +%H:%M:%S) UTC)"
+say "2/9 deploy HITCPool (test USDC, 10 tUSDC virtual, 15% penalty) on Base Sepolia; round ends $(date -u -d @$END +%H:%M:%S) UTC"
 POOL=$( (cd evm && forge create src/HITCPool.sol:HITCPool --rpc-url "$BASE_RPC" --private-key "$EVM_KEY" --broadcast \
-  --constructor-args "$ARENA_EVM" "$END" "$TICKER" "$(cast to-wei "$VIRTUAL_ETH")" 1500) | grep -oE 'Deployed to: 0x[0-9a-fA-F]{40}' | awk '{print $3}')
-echo "pool: $POOL"
-[ "$(cast call "$POOL" 'arena()(address)' --rpc-url "$BASE_RPC")" = "$ARENA_EVM" ] && echo "pool.arena() is the derived address"
+  --constructor-args "$ARENA_EVM" "$END" "$TICKER" "$MUSDC" 10000000 1500) | grep -oE 'Deployed to: 0x[0-9a-fA-F]{40}' | awk '{print $3}')
+echo "pool: $POOL (arena() = $(cast call "$POOL" 'arena()(address)' --rpc-url "$BASE_RPC"))"
 
-say "4/11 deploy xarena on NEAR testnet as $XA, then delete its only key"
+say "3/9 deploy xarena on NEAR testnet (3 reporters, 2 must agree), then delete its only key"
 near account create-account fund-myself "$XA" '2 NEAR' autogenerate-new-keypair save-to-legacy-keychain \
   sign-as "$NEAR_SIGNER" network-config testnet sign-with-legacy-keychain send 2>&1 | grep -E "successfully created|Error" | head -1
-ARGS=$(printf '{"ticker":"%s","round_end_ns":"%s","yocto_per_wei":"%s","chain_id":"%s","pool":"%s","evm_escrow":"%s","near_escrow":"%s","reporter":"%s","mpc":"%s","path":"%s"}' \
-  "$TICKER" "${END}000000000" "$YOCTO_PER_WEI" "$CHAIN_ID" "$(echo "$POOL" | tr A-F a-f)" "$(echo "$ESCROW_EVM" | tr A-F a-f)" "$NEAR_SIGNER" "$NEAR_SIGNER" "$MPC" "$DERIVATION_PATH")
+RLIST=$(python3 -c "import json,sys; print(json.dumps(sys.argv[1].split(',')))" "$REPORTERS")
+ARGS=$(printf '{"ticker":"%s","round_end_ns":"%s","stable":"%s","unit_scale":"1","chain_id":"%s","pool":"%s","evm_escrow":"%s","near_escrow":"%s","reporters":%s,"threshold":2,"mpc":"%s","path":"%s"}' \
+  "$TICKER" "${END}000000000" "$TUSDC" "$CHAIN_ID" "$(echo "$POOL" | tr A-F a-f)" "$(echo "$ME_EVM" | tr A-F a-f)" "$NEAR_SIGNER" "$RLIST" "$MPC" "$DERIVATION_PATH")
 near contract deploy "$XA" use-file xarena/target/near/xarena.wasm with-init-call new json-args "$ARGS" \
   prepaid-gas '30 Tgas' attached-deposit '0 NEAR' network-config testnet sign-with-legacy-keychain send 2>&1 | grep -E "successfully deployed|Error" | head -1
 PUB=$(python3 -c "import json,os; print(json.load(open(os.path.expanduser('~/.near-credentials/testnet/$XA.json')))['public_key'])")
 near account delete-keys "$XA" public-keys "$PUB" network-config testnet sign-with-legacy-keychain send 2>&1 | grep -E "successfully deleted|Error" | head -1
+nearcall "$NEAR_SIGNER" "$TUSDC" storage_deposit "{\"account_id\":\"$XA\"}" '0.01 NEAR'
 
-say "5/11 both copies are bought during the round"
-cast send "$POOL" 'buy(uint256)' 0 --value "${ETH_BUY}ether" --rpc-url "$BASE_RPC" --private-key "$EVM_KEY" 2>&1 | grep -E '^transactionHash|^status' | tr -s ' '
-nearcall "$XA" buy '{}' "$NEAR_BUY NEAR"
+say "4/9 buys during the round, in test USDC on both sides"
+if [ "$SCENARIO" = evm-lost ]; then NEAR_BUYS="$NEAR_SIGNER:5000000"; EVM_BUY=2000000; else NEAR_BUYS="$A:1000000 $B:500000"; EVM_BUY=3000000; fi
+evmsend "$MUSDC" 'mint(address,uint256)' "$ME_EVM" "$EVM_BUY" >/dev/null
+evmsend "$MUSDC" 'approve(address,uint256)' "$POOL" "$EVM_BUY" >/dev/null
+echo "Base buy $(units $EVM_BUY) tUSDC: $(evmsend "$POOL" 'buy(uint256,uint256)' "$EVM_BUY" 0)"
 BUY_BLOCK=$(cast block-number --rpc-url "$BASE_RPC")
+for nb in $NEAR_BUYS; do
+  who=${nb%%:*}; amt=${nb##*:}
+  nearcall "$NEAR_SIGNER" "$TUSDC" mint "{\"account_id\":\"$who\",\"amount\":\"$amt\"}" '0 NEAR' >/dev/null
+  echo "NEAR buy $(units "$amt") tUSDC by $who: $(nearcall "$who" "$TUSDC" ft_transfer_call "{\"receiver_id\":\"$XA\",\"amount\":\"$amt\",\"msg\":\"buy\"}" '1 yoctoNEAR' | head -1 | cut -c1-80)"
+done
 
-say "6/11 waiting for the bell"
+say "5/9 the bell; reporters read the pool's score on Base and report it (2 of 3 must agree)"
 while [ "$(date +%s)" -lt $((END + 5)) ]; do sleep 5; done
 EVM_SCORE=$(cast call "$POOL" 'score()(int256)' --rpc-url "$BASE_RPC" | awk '{print $1}')
-echo "EVM score (wei·s): $EVM_SCORE, reserve: $(cast balance "$POOL" --rpc-url "$BASE_RPC" --ether) ETH"
-nearcall "$XA" report_evm_score "{\"score\":\"$EVM_SCORE\"}" '0 NEAR'
+echo "pool score: $EVM_SCORE"
+IFS=, read -r R1 R2 R3 <<< "$REPORTERS"
+nearcall "$R1" "$XA" report "{\"kind\":\"score\",\"value\":\"$EVM_SCORE\"}" '0 NEAR'
+nearcall "$R3" "$XA" report "{\"kind\":\"score\",\"value\":\"$EVM_SCORE\"}" '0 NEAR'
 
-say "7/11 settle on NEAR: the arena compares the scores and asks the MPC network for the release signature"
-nearcall "$XA" settle '{}' '0 NEAR'
+say "6/9 settle on NEAR: compare the scores and ask the MPC network for the verdict signature"
+nearcall "$NEAR_SIGNER" "$XA" settle '{}' '0 NEAR'
 for _ in $(seq 1 40); do
   INFO=$(nearview "$XA" get_info '{}')
-  SIG=$(echo "$INFO" | python3 -c "import sys,json; print(json.load(sys.stdin).get('release_signature') or '')")
+  SIG=$(echo "$INFO" | python3 -c "import sys,json; print(json.load(sys.stdin).get('verdict_signature') or '')")
   [ -n "$SIG" ] && break; sleep 6
 done
-echo "$INFO" | python3 -m json.tool
-[ -n "$SIG" ] || { echo "no signature yet: call retry_signature on $XA"; exit 1; }
+PHASE=$(echo "$INFO" | python3 -c "import sys,json; print(json.load(sys.stdin)['phase'])")
+echo "phase: $PHASE; signature: ${SIG:0:20}..."
+[ -n "$SIG" ] || { echo "no signature yet: call retry_verdict on $XA"; exit 1; }
 
-say "8/11 anyone relays the signature to Base Sepolia"
-BEFORE=$(cast balance "$ESCROW_EVM" --rpc-url "$BASE_RPC")
-TX=$(cast send "$POOL" 'release(address,bytes)' "$ESCROW_EVM" "$SIG" --rpc-url "$BASE_RPC" --private-key "$EVM_KEY" --json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['transactionHash'], d['status'])")
-echo "release tx: $TX"
-echo "pool reserve now: $(cast balance "$POOL" --rpc-url "$BASE_RPC" --ether) ETH; released() = $(cast call "$POOL" 'released()(bool)' --rpc-url "$BASE_RPC")"
+if [ "$PHASE" = EvmLost ]; then
+  say "7/9 the Base copy lost: anyone relays Release; its whole reserve leaves the pool"
+  echo "release: $(evmsend "$POOL" 'release(address,bytes)' "$ME_EVM" "$SIG")"
+  echo "pool tUSDC left: $(cast call "$MUSDC" 'balanceOf(address)(uint256)' "$POOL" --rpc-url "$BASE_RPC" | awk '{print $1}')"
 
-RELEASED_WEI=$(cast call "$POOL" 'reserve()(uint256)' --rpc-url "$BASE_RPC" >/dev/null; cast receipt "${TX%% *}" --rpc-url "$BASE_RPC" --json | python3 -c "import sys,json; r=json.load(sys.stdin); print(int(r['logs'][-1]['data'],16))")
+  say "8/9 reporters post the pool's balances at the bell as a Merkle root (2 of 3)"
+  SUPPLY=$(cast call "$POOL" 'totalSupply()(uint256)' --rpc-url "$BASE_RPC" | awk '{print $1}')
+  BAL=$(cast call "$POOL" 'balanceOf(address)(uint256)' "$ME_EVM" --rpc-url "$BASE_RPC" | awk '{print $1}')
+  [ "$BAL" = "$SUPPLY" ] || { echo "this run expects one holder"; exit 1; }
+  ROOT=$(cast keccak "$(cast abi-encode 'f(address,uint256)' "$ME_EVM" "$BAL")")
+  nearcall "$R1" "$XA" report "{\"kind\":\"holders\",\"value\":\"$ROOT:$SUPPLY\"}" '0 NEAR'
+  nearcall "$R2" "$XA" report "{\"kind\":\"holders\",\"value\":\"$ROOT:$SUPPLY\"}" '0 NEAR'
 
-say "9/11 balances at the bell, as a Merkle root (leaves: keccak256(abi.encode(holder, balance)))"
-SUPPLY=$(cast call "$POOL" 'totalSupply()(uint256)' --rpc-url "$BASE_RPC" | awk '{print $1}')
-HOLDERS=$(python3 - "$POOL" "$BASE_RPC" "$BUY_BLOCK" <<'PY'
-import json, subprocess, sys
-pool, rpc, buy_block = sys.argv[1:]
-topic = subprocess.check_output(["cast", "sig-event", "Bought(address,uint256,uint256,int256)"]).decode().strip()
-logs = []
-start = int(buy_block) - 400   # the buy landed a few blocks before this number was read
-end = int(subprocess.check_output(["cast", "block-number", "--rpc-url", rpc]).decode())
-for frm in range(start, end + 1, 200):
-    out = subprocess.check_output(["cast", "logs", "--from-block", str(frm), "--to-block", str(frm + 199), "--address", pool, topic, "--rpc-url", rpc, "--json"]).decode()
-    logs += json.loads(out or "[]")
-holders = sorted({"0x" + l["topics"][1][-40:] for l in logs})
-rows = []
-for h in holders:
-    bal = int(subprocess.check_output(["cast", "call", pool, "balanceOf(address)(uint256)", h, "--rpc-url", rpc]).decode().split()[0])
-    if bal:
-        leaf = subprocess.check_output(["cast", "keccak", subprocess.check_output(["cast", "abi-encode", "f(address,uint256)", h, str(bal)]).decode().strip()]).decode().strip()
-        rows.append({"holder": h, "balance": bal, "leaf": leaf})
-def h2(a, b):
-    a, b = sorted([a, b])
-    return subprocess.check_output(["cast", "keccak", a + b[2:]]).decode().strip()
-level = [r["leaf"] for r in rows]
-proofs = {r["leaf"]: [] for r in rows}
-members = {r["leaf"]: [r["leaf"]] for r in rows}
-while len(level) > 1:
-    nxt = []
-    for i in range(0, len(level), 2):
-        if i + 1 == len(level):
-            nxt.append(level[i]); continue
-        a, b = level[i], level[i + 1]
-        p = h2(a, b)
-        for leaf in members[a]: proofs[leaf].append(b)
-        for leaf in members[b]: proofs[leaf].append(a)
-        members[p] = members.pop(a) + members.pop(b)
-        nxt.append(p)
-    level = nxt
-for r in rows: r["proof"] = proofs[r["leaf"]]
-print(json.dumps({"root": level[0] if level else None, "rows": rows}))
-PY
-)
-ROOT=$(echo "$HOLDERS" | python3 -c "import sys,json; print(json.load(sys.stdin)['root'])")
-echo "holders: $(echo "$HOLDERS" | python3 -c "import sys,json; print(len(json.load(sys.stdin)['rows']))"), supply $SUPPLY, root $ROOT"
-nearcall "$XA" report_evm_holders "{\"root\":\"$ROOT\",\"total_supply\":\"$SUPPLY\"}" '0 NEAR'
+  say "9/9 the swap (live Intents quote, delivered as test USDC on NEAR) and the EVM holder's claim on NEAR"
+  OUT=$(quote "$EVM_BUY" "$USDC_BASE" "$USDC_NEAR" ORIGIN_CHAIN hitc-winner.near INTENTS "$POOL" || true); OUT=${OUT:-$EVM_BUY}
+  echo "Intents quote (dry, mainnet): $(units $EVM_BUY) USDC on Base -> $(units "$OUT") USDC on NEAR"
+  nearcall "$NEAR_SIGNER" "$TUSDC" mint "{\"account_id\":\"$NEAR_SIGNER\",\"amount\":\"$OUT\"}" '0 NEAR' >/dev/null
+  nearcall "$NEAR_SIGNER" "$TUSDC" ft_transfer_call "{\"receiver_id\":\"$XA\",\"amount\":\"$OUT\",\"msg\":\"swap\"}" '1 yoctoNEAR'
+  CLAIM_SIG=$(cast wallet sign --private-key "$EVM_KEY" "HITC claim $TICKER copy on $CHAIN_ID to $A")
+  BEFORE=$(nearview "$TUSDC" ft_balance_of "{\"account_id\":\"$A\"}" | tr -d '"')
+  nearcall "$NEAR_SIGNER" "$TUSDC" storage_deposit "{\"account_id\":\"$A\"}" '0.01 NEAR' >/dev/null
+  nearcall "$NEAR_SIGNER" "$XA" claim_evm "{\"evm_address\":\"$(echo "$ME_EVM" | tr A-F a-f)\",\"balance\":\"$BAL\",\"proof\":[],\"signature\":\"$CLAIM_SIG\",\"near_account\":\"$A\"}" '0 NEAR'
+  sleep 4
+  AFTER=$(nearview "$TUSDC" ft_balance_of "{\"account_id\":\"$A\"}" | tr -d '"')
+  echo "$A received $(units $((AFTER - BEFORE))) tUSDC (85% of the swapped reserve)"
+else
+  say "7/9 the NEAR copy lost: its reserve left towards the winner; anyone relays Won to the pool"
+  echo "markWon: $(evmsend "$POOL" 'markWon(bytes)' "$SIG")"
 
-say "10/11 the swap: a live NEAR Intents quote for the released ETH (dry, mainnet), delivered here as testnet NEAR"
-QUOTE=$(curl -s -X POST https://1click.chaindefuser.com/v0/quote -H 'content-type: application/json' -d "{\"dry\":true,\"swapType\":\"EXACT_INPUT\",\"slippageTolerance\":100,\"originAsset\":\"nep141:base.omft.near\",\"depositType\":\"ORIGIN_CHAIN\",\"destinationAsset\":\"nep141:wrap.near\",\"amount\":\"$RELEASED_WEI\",\"refundTo\":\"$POOL\",\"refundType\":\"ORIGIN_CHAIN\",\"recipient\":\"hitc-winner.near\",\"recipientType\":\"INTENTS\",\"deadline\":\"$(date -u -d '+1 hour' +%Y-%m-%dT%H:%M:%SZ)\"}")
-SWAP_OUT=$(echo "$QUOTE" | python3 -c "import sys,json; print(json.load(sys.stdin)['quote']['amountOut'])")
-echo "quote: $(python3 -c "print($RELEASED_WEI/1e18)") ETH -> $(python3 -c "print($SWAP_OUT/1e24)") NEAR"
-nearcall "$XA" deliver_swap '{}' "$(python3 -c "print('%.6f' % ($SWAP_OUT/1e24))") NEAR"
+  say "8/9 the swap (live Intents quote, delivered as test USDC on Base) is absorbed by the winner"
+  NEAR_RES=$(echo "$INFO" | python3 -c "import sys,json; print(json.load(sys.stdin)['near_holdings'])")
+  OUT=$(quote "$NEAR_RES" "$USDC_NEAR" "$USDC_BASE" INTENTS "$POOL" DESTINATION_CHAIN hitc-winner.near || true); OUT=${OUT:-$NEAR_RES}
+  echo "Intents quote (dry, mainnet): $(units "$NEAR_RES") USDC on NEAR -> $(units "$OUT") USDC on Base"
+  evmsend "$MUSDC" 'mint(address,uint256)' "$ME_EVM" "$OUT" >/dev/null
+  evmsend "$MUSDC" 'approve(address,uint256)' "$POOL" "$OUT" >/dev/null
+  echo "absorb: $(evmsend "$POOL" 'absorb(uint256)' "$OUT")"
+  echo "tokens held for the NEAR holders: $(cast call "$POOL" 'absorbedTokens()(uint256)' --rpc-url "$BASE_RPC")"
 
-say "11/11 the EVM holder signs with their EVM key and claims on NEAR, to $CLAIM_TO"
-HOLDER=$(echo "$HOLDERS" | python3 -c "import sys,json; print(json.load(sys.stdin)['rows'][0]['holder'])")
-BAL=$(echo "$HOLDERS" | python3 -c "import sys,json; print(json.load(sys.stdin)['rows'][0]['balance'])")
-PROOF=$(echo "$HOLDERS" | python3 -c "import sys,json; print(json.dumps(json.load(sys.stdin)['rows'][0]['proof']))")
-CLAIM_SIG=$(cast wallet sign --private-key "$EVM_KEY" "HITC claim $TICKER copy on $CHAIN_ID to $CLAIM_TO")
-NEAR_BEFORE=$(curl -s "$NEAR_RPC" -H 'content-type: application/json' -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"query\",\"params\":{\"request_type\":\"view_account\",\"finality\":\"optimistic\",\"account_id\":\"$CLAIM_TO\"}}" | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['amount'])")
-nearcall "$XA" claim_evm "{\"evm_address\":\"$HOLDER\",\"balance\":\"$BAL\",\"proof\":$PROOF,\"signature\":\"$CLAIM_SIG\",\"near_account\":\"$CLAIM_TO\"}" '0 NEAR'
-sleep 4
-NEAR_AFTER=$(curl -s "$NEAR_RPC" -H 'content-type: application/json' -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"query\",\"params\":{\"request_type\":\"view_account\",\"finality\":\"optimistic\",\"account_id\":\"$CLAIM_TO\"}}" | python3 -c "import sys,json; print(json.load(sys.stdin)['result']['amount'])")
-echo "$CLAIM_TO received $(python3 -c "print(($NEAR_AFTER - $NEAR_BEFORE)/1e24)") NEAR (85% of the swapped reserve, pro rata)"
-nearview "$XA" get_info '{}' | python3 -m json.tool | grep -E '"(phase|holders_root|holders_supply|swapped_near|spoils_near|claimed_near|claims)"'
+  say "9/9 each NEAR holder asks the arena for a Grant; anyone relays it; the tokens arrive on Base"
+  for who in "$A" "$B"; do
+    TO=$(cast wallet new --json | python3 -c "import sys,json; print(json.load(sys.stdin)[0]['address'])")
+    nearcall "$who" "$XA" claim_on_evm "{\"evm_address\":\"$(echo "$TO" | tr A-F a-f)\"}" '0 NEAR'
+    for _ in $(seq 1 40); do
+      G=$(nearview "$XA" get_grant "{\"account_id\":\"$who\"}")
+      GSIG=$(echo "$G" | python3 -c "import sys,json; g=json.load(sys.stdin); print((g or {}).get('signature') or '')")
+      [ -n "$GSIG" ] && break; sleep 6
+    done
+    read -r NUM DEN NONCE <<< "$(echo "$G" | python3 -c "import sys,json; g=json.load(sys.stdin); print(g['num'], g['den'], g['nonce'])")"
+    echo "grant for $who: $NUM/$DEN to $TO: $(evmsend "$POOL" 'grant(address,uint256,uint256,uint256,bytes)' "$TO" "$NUM" "$DEN" "$NONCE" "$GSIG")"
+    echo "  $TO now holds $(cast call "$POOL" 'balanceOf(address)(uint256)' "$TO" --rpc-url "$BASE_RPC") winner tokens"
+  done
+fi
 
-python3 - "$XA" "$POOL" "$ARENA_EVM" "${TX%% *}" "$ESCROW_EVM" "$YOCTO_PER_WEI" <<'PY'
+nearview "$XA" get_info '{}' | python3 -c "
+import json,sys; i=json.load(sys.stdin)
+print(json.dumps({k: i[k] for k in ['phase','near_reserve','near_score','evm_score','threshold','holders_root','swapped','spoils','claimed','claims','grants','grants_signed']}, indent=1))"
+python3 - "$SCENARIO" "$XA" "$POOL" "$ARENA_EVM" "$BUY_BLOCK" "$(cast block-number --rpc-url "$BASE_RPC")" "$TUSDC" "$MUSDC" <<'PY'
 import json, sys, time
-xa, pool, arena, tx, escrow, rate = sys.argv[1:]
-out = {"xarena": xa, "nearblocks": f"https://testnet.nearblocks.io/address/{xa}",
-       "arena_evm_address": arena, "pool": pool, "pool_basescan": f"https://sepolia.basescan.org/address/{pool}",
-       "release_tx": f"https://sepolia.basescan.org/tx/{tx}", "escrow_stand_in": escrow, "yocto_per_wei": rate,
-       "finished_utc": time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())}
-open("last-run.json", "w").write(json.dumps(out, indent=1) + "\n")
+scenario, xa, pool, arena, b0, b1, tusdc, musdc = sys.argv[1:]
+out = {"scenario": scenario, "xarena": xa, "pool": pool, "arena_evm_address": arena, "logs_from_block": int(b0) - 600,
+       "logs_to_block": int(b1) + 20, "tusdc_near": tusdc, "tusdc_base": musdc, "finished_utc": time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())}
+open(f"last-run-{scenario}.json", "w").write(json.dumps(out, indent=1) + "\n")
 print(json.dumps(out, indent=1))
 PY
