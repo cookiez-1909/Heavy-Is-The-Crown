@@ -275,6 +275,16 @@ scripts/snapshots    raw API responses behind the figures in this README
 docs/readme          banner, GIF and screenshots used here
 ```
 
+## Disclosure
+
+All code in this repository was written during the hackathon window, from 2026-11-12. It reuses no earlier project and no code template. Much of the code was written with an AI coding tool.
+
+- **Other project by the same author:** [Pactum](https://github.com/cookiez-1909/Pactum), a separate NEAR HACKATHON submission (bounties for returning stolen funds). The two projects are independent and share no code.
+- **AI tools:** Claude Code.
+- **NEAR:** [near-sdk](https://crates.io/crates/near-sdk) and [near-contract-standards](https://crates.io/crates/near-contract-standards) 5.30.1, [uint](https://crates.io/crates/uint) 0.10, [cargo-near](https://crates.io/crates/cargo-near) 0.23.0, [near-workspaces](https://crates.io/crates/near-workspaces) 0.24.0 for the sandbox tests.
+- **Web:** React 19, Vite 7, TypeScript, [@hot-labs/near-connect](https://www.npmjs.com/package/@hot-labs/near-connect) 0.12.0 for wallets; Inter Tight, Gochi Hand and JetBrains Mono from Google Fonts.
+- **Design reference only:** the layout and type style of the site were inspired by the [Lurais](https://lurais.framer.website/) Framer template; no template code is used.
+
 ## Credits
 
 Demo video music: Jacques Offenbach, can-can from the overture to "Orpheus in the Underworld", recording by Musopen, public domain (https://commons.wikimedia.org/wiki/File:Offenbach_-_Orpheus_in_the_Underworld_-_Overture,_Can_Can_section.ogg). Narration is synthesized.
