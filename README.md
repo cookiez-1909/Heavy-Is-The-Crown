@@ -7,6 +7,7 @@
 <img src="docs/readme/banner.png" alt="Heavy Is The Crown: one ticker, one survivor. Four $HUANG copies merge into one pool." width="100%" />
 
 <p>
+  <a href="https://x.com/Cookiez1909/status/2121520164068020438"><img alt="Demo video on X" src="https://img.shields.io/badge/%E2%96%B6%20Demo%20video-on%20X-fafafa?style=for-the-badge&labelColor=242424" /></a>
   <a href="https://cookiez-1909.github.io/Heavy-Is-The-Crown/"><img alt="Live demo" src="https://img.shields.io/badge/%E2%96%B6%20Live%20demo-in%20your%20browser-f5cf3d?style=for-the-badge&labelColor=242424" /></a>
   <a href="https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet"><img alt="Live on NEAR testnet" src="https://img.shields.io/badge/Live-NEAR%20testnet-f5cf3d?style=for-the-badge&labelColor=242424" /></a>
   <a href="#run-it"><img alt="cargo test" src="https://img.shields.io/badge/cargo%20test-17%20unit%20%2B%203%20sandbox-45b4ea?style=for-the-badge&labelColor=242424" /></a>
@@ -32,6 +33,7 @@ Built at NEAR HACKATHON for the **Memecoins With Mechanics** track. Testnet prot
 
 | | |
 | --- | --- |
+| Demo video (2 min) | [the $HUANG bracket played start to finish, on X](https://x.com/Cookiez1909/status/2121520164068020438) |
 | Hosted app and pitch deck | [cookiez-1909.github.io/Heavy-Is-The-Crown](https://cookiez-1909.github.io/Heavy-Is-The-Crown/), on the fast test arena (6 min registration, 9 min rounds) so a two-coin bracket finishes in about 15 minutes. Connect a NEAR testnet wallet to launch or trade. Republish with `scripts/publish-pages.sh` |
 | Arena a local clone uses by default (1 h registration, 4 h rounds) | [`arena-33881.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-33881.memeduel-4a2d2e.testnet) |
 | Demo arena (4 min registration, 6 min rounds), where the demo video's $HUANG bracket was played | [`arena-86517.memeduel-4a2d2e.testnet`](https://testnet.nearblocks.io/address/arena-86517.memeduel-4a2d2e.testnet) |
