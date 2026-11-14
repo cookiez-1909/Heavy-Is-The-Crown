@@ -1,0 +1,11 @@
+{
+ "xarena": "xarena-37994.memeduel-4a2d2e.testnet",
+ "nearblocks": "https://testnet.nearblocks.io/address/xarena-37994.memeduel-4a2d2e.testnet",
+ "arena_evm_address": "0xF8BbADF96AF57F95d7840294AE3A3464c54fE562",
+ "pool": "0xfc22600959CD63AFA8fbcAeCe72234c1a58E8b27",
+ "pool_basescan": "https://sepolia.basescan.org/address/0xfc22600959CD63AFA8fbcAeCe72234c1a58E8b27",
+ "release_tx": "https://sepolia.basescan.org/tx/0x44c0f2ea39dc204a17dcec45db9a2d05e6d230f0c6c119387b4d7198455dc379",
+ "escrow_stand_in": "0x733F6b40cAE78c52b6a390a6bfb54af7562b4cAC",
+ "yocto_per_wei": "563902366",
+ "finished_utc": "2026-11-14 06:42:28"
+}

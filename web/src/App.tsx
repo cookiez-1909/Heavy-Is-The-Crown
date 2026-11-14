@@ -10,6 +10,7 @@ import Brackets from "./Brackets";
 import Launch from "./Launch";
 import TournamentPage from "./TournamentPage";
 import Rules from "./Rules";
+import CrossChain from "./CrossChain";
 
 function useRoute(): string {
   const [hash, setHash] = useState(window.location.hash);
@@ -53,6 +54,7 @@ const NAV = [
   { href: "#/app", label: "Brackets", match: (r: string) => r === "app" || r.startsWith("t/") },
   { href: "#/launch", label: "Launch a coin", match: (r: string) => r.startsWith("launch") },
   { href: "#/rules", label: "Rules", match: (r: string) => r === "rules" },
+  { href: "#/crosschain", label: "Cross-chain", match: (r: string) => r === "crosschain" },
 ];
 
 export default function App() {
@@ -133,6 +135,8 @@ export default function App() {
           <Launch account={account} ticker={launchTicker} />
         ) : route === "rules" ? (
           <Rules />
+        ) : route === "crosschain" ? (
+          <CrossChain />
         ) : (
           <Brackets account={account} />
         )}

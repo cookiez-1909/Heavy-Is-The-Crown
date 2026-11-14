@@ -238,3 +238,6 @@ input, .tabs, .tabs button, .presets button, .chip, .tradetabs button { border-r
   .crownart.draw .ca-line { stroke-dashoffset: 0; }
   .crownart.draw .ca-fill, .crownart.draw .ca-dots, .crownart.draw .ca-spark { opacity: 1; }
 }
+
+/* Nav items stay on one line; the bar scrolls sideways on small screens. */
+.top .appnav a, .appnav > .moreb button { white-space: nowrap; }
